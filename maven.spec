@@ -6,13 +6,13 @@
 %define		beta	beta-10
 
 Summary:	Java project management and project comprehension tool
-Summary(pl):	Narzêdzie do zarz±dzania projektami Javy u³atwiajêce ich zrozumienie 
+Summary(pl):	Narzêdzie do zarz±dzania projektami Javy u³atwiajêce ich zrozumienie
 Name:		maven
 Version:	1.0
 %define		buildname	%{version}-%{beta}
 Release:	0.%(echo %{beta}|tr - .)
-Group:		Development/Languages/Java
 License:	Apache
+Group:		Development/Languages/Java
 Source0:	http://maven.apache.org/builds/release/%{buildname}/maven-%{buildname}.tar.gz
 # Source0-md5:	4179bd3fdb5371f6c59424194447ecde
 Patch0:		%{name}-MAVEN_HOME.patch
@@ -33,8 +33,17 @@ development. You might call it cross-project pollination or the
 sharing of project development knowledge, this is what Maven
 attempts to encourage.
 
-# %description -l pl
-# maven
+%description -l pl
+Maven to narzêdzie do zarz±dzania projektami w Javie, u³atwiaj±ce ich
+zrozumienie. Jest oparty na idei obiektowego modelu projektu (POM -
+Project Object Model), w której wszystkie wytwory Mavena s± wynikiem
+konsultowania z dobrze zdefiniowanym modelem projektu.
+
+Intencj± Mavena jest uczyniæ rozwój wewn±trzprojektowy wysoko
+zarz±dzalnym w nadziei pozostawienia wiêkszej ilo¶ci czasu na rozwój
+miêdzyprojektowy. Mo¿na to nazwaæ zapylaniem miêdzyprojektowym lub
+dzieleniem wiedzy o rozwoju projektów - do tego Maven próbuje
+zachêciæ.
 
 %prep
 %setup -q -n %{name}-%{buildname}
@@ -44,9 +53,8 @@ attempts to encourage.
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_bindir}
-ln -s %{_datadir}/%{name}/bin/maven $RPM_BUILD_ROOT/%{_bindir}/maven
+ln -sf %{_datadir}/%{name}/bin/maven $RPM_BUILD_ROOT%{_bindir}/maven
 
-install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 install bin/maven $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 install bin/forehead.conf $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
@@ -60,11 +68,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%{_bindir}/maven
-
+%attr(755,root,root) %{_bindir}/maven
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/bin
 %attr(755,root,root) %{_datadir}/%{name}/bin/maven
 %{_datadir}/%{name}/bin/forehead.conf
-%dir %{_datadir}/%{name}/bin
 %{_datadir}/%{name}/lib
 %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/repository
