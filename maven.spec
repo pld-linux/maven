@@ -3,7 +3,7 @@
 #  - cleanups in lib directory -- replace jar files 
 #    with package dependencies
 
-%define		beta	beta-10
+%define		beta	rc2
 
 Summary:	Java project management and project comprehension tool
 Summary(pl):	Narzêdzie do zarz±dzania projektami Javy u³atwiajêce ich zrozumienie
@@ -13,8 +13,8 @@ Version:	1.0
 Release:	0.%(echo %{beta}|tr - .)
 License:	Apache
 Group:		Development/Languages/Java
-Source0:	http://maven.apache.org/builds/release/%{buildname}/maven-%{buildname}.tar.gz
-# Source0-md5:	4179bd3fdb5371f6c59424194447ecde
+Source0:	http://www.apache.org/dist/maven/binaries/maven-%{buildname}.tar.gz
+# Source0-md5:	2104228d1762413e35b80387f41db727
 Patch0:		%{name}-MAVEN_HOME.patch
 URL:		http://maven.apache.org/
 Requires:	jre
@@ -60,7 +60,7 @@ install bin/maven $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 install bin/forehead.conf $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 cp -r lib $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -r plugins $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp -r repository $RPM_BUILD_ROOT%{_datadir}/%{name}
+#cp -r repository $RPM_BUILD_ROOT%{_datadir}/%{name}
 install maven-project.xsd $RPM_BUILD_ROOT%{_datadir}/%{name}
 
 %clean
@@ -75,5 +75,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/bin/forehead.conf
 %{_datadir}/%{name}/lib
 %{_datadir}/%{name}/plugins
-%{_datadir}/%{name}/repository
+#%{_datadir}/%{name}/repository
 %{_datadir}/%{name}/maven-project.xsd
