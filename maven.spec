@@ -1,4 +1,3 @@
-# $Revision: 1.2 $
 
 # TODO:
 #  - cleanups in lib directory -- replace jar files 
