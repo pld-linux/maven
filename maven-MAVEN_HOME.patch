@@ -1,0 +1,25 @@
+diff -u -r maven-1.0-beta-10.org/bin/maven maven-1.0-beta-10/bin/maven
+--- maven-1.0-beta-10.org/bin/maven	Fri Aug 29 17:40:42 2003
++++ maven-1.0-beta-10/bin/maven	Fri Aug 29 17:44:17 2003
+@@ -21,7 +21,9 @@
+ 
+ if [ -z "$MAVEN_HOME" ] ; then
+   # try to find MAVEN
+-  if [ -d /opt/maven ] ; then
++  if [ -d /usr/share/maven ] ; then 
++    MAVEN_HOME=/usr/share/maven
++  elif [ -d /opt/maven ] ; then
+     MAVEN_HOME=/opt/maven
+   fi
+ 
+@@ -67,6 +69,10 @@
+     CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+ fi
+ 
++if [ -z "$JAVA_HOME" -a -x /usr/lib/java/bin/java ]; then
++  JAVA_HOME=/usr/lib/java
++fi
++
+ if [ -z "$JAVACMD" ] ; then
+   if [ -n "$JAVA_HOME"  ] ; then
+     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
