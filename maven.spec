@@ -43,7 +43,7 @@ dzieleniem wiedzy o rozwoju projektów - do tego Maven próbuje
 zachêciæ.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p1
 
 %install
