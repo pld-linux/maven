@@ -4,7 +4,7 @@
 #    with package dependencies
 
 Summary:	Java project management and project comprehension tool
-Summary(pl):	Narzêdzie do zarz±dzania projektami Javy u³atwiajêce ich zrozumienie
+Summary(pl.UTF-8):   NarzÄ™dzie do zarzÄ…dzania projektami Javy uÅ‚atwiajÄ™ce ich zrozumienie
 Name:		maven
 Version:	1.0.2
 Release:	0.1
@@ -30,17 +30,17 @@ development. You might call it cross-project pollination or the
 sharing of project development knowledge, this is what Maven
 attempts to encourage.
 
-%description -l pl
-Maven to narzêdzie do zarz±dzania projektami w Javie, u³atwiaj±ce ich
+%description -l pl.UTF-8
+Maven to narzÄ™dzie do zarzÄ…dzania projektami w Javie, uÅ‚atwiajÄ…ce ich
 zrozumienie. Jest oparty na idei obiektowego modelu projektu (POM -
-Project Object Model), w której wszystkie wytwory Mavena s± wynikiem
+Project Object Model), w ktÃ³rej wszystkie wytwory Mavena sÄ… wynikiem
 konsultowania z dobrze zdefiniowanym modelem projektu.
 
-Intencj± Mavena jest uczyniæ rozwój wewn±trzprojektowy wysoko
-zarz±dzalnym w nadziei pozostawienia wiêkszej ilo¶ci czasu na rozwój
-miêdzyprojektowy. Mo¿na to nazwaæ zapylaniem miêdzyprojektowym lub
-dzieleniem wiedzy o rozwoju projektów - do tego Maven próbuje
-zachêciæ.
+IntencjÄ… Mavena jest uczyniÄ‡ rozwÃ³j wewnÄ…trzprojektowy wysoko
+zarzÄ…dzalnym w nadziei pozostawienia wiÄ™kszej iloÅ›ci czasu na rozwÃ³j
+miÄ™dzyprojektowy. MoÅ¼na to nazwaÄ‡ zapylaniem miÄ™dzyprojektowym lub
+dzieleniem wiedzy o rozwoju projektÃ³w - do tego Maven prÃ³buje
+zachÄ™ciÄ‡.
 
 %prep
 %setup -q
