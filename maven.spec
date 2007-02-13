@@ -4,7 +4,7 @@
 #    with package dependencies
 
 Summary:	Java project management and project comprehension tool
-Summary(pl.UTF-8):   Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
+Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
 Name:		maven
 Version:	1.0.2
 Release:	0.1
