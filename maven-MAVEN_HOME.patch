@@ -1,7 +1,6 @@
-diff -u -r maven-1.0-beta-10.org/bin/maven maven-1.0-beta-10/bin/maven
---- maven-1.0-beta-10.org/bin/maven	Fri Aug 29 17:40:42 2003
-+++ maven-1.0-beta-10/bin/maven	Fri Aug 29 17:44:17 2003
-@@ -21,7 +21,9 @@
+--- maven-1.0.2/bin/maven~	2004-12-07 13:13:46.000000000 +0200
++++ maven-1.0.2/bin/maven	2007-04-20 00:03:14.620618599 +0300
+@@ -51,13 +51,13 @@
  
  if [ -z "$MAVEN_HOME" ] ; then
    # try to find MAVEN
@@ -10,9 +9,25 @@ diff -u -r maven-1.0-beta-10.org/bin/maven maven-1.0-beta-10/bin/maven
 +    MAVEN_HOME=/usr/share/maven
 +  elif [ -d /opt/maven ] ; then
      MAVEN_HOME=/opt/maven
-   fi
+-  fi
+-
+-  if [ -d "$HOME/maven" ] ; then
++  elif [ -d "$HOME/maven" ] ; then
+     MAVEN_HOME="$HOME/maven"
+-  fi
++  else
  
-@@ -67,6 +69,10 @@
+   ## resolve links - $0 may be a link to maven's home
+   PRG=$0
+@@ -83,6 +83,7 @@
+   MAVEN_HOME=`cd "$MAVEN_HOME" && pwd`
+ 
+   cd "$saveddir"
++  fi
+ fi
+ 
+ # For Cygwin, ensure paths are in UNIX format before anything is touched
+@@ -97,6 +98,10 @@
      CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
  fi
  
