@@ -7,7 +7,7 @@ Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
 Name:		maven
 Version:	1.0.2
-Release:	0.1
+Release:	0.2
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/maven/binaries/%{name}-%{version}.tar.gz
