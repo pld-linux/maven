@@ -1,6 +1,6 @@
 
 # TODO:
-#  - cleanups in lib directory -- replace jar files 
+#  - cleanups in lib directory -- replace jar files
 #    with package dependencies
 
 Summary:	Java project management and project comprehension tool
@@ -14,7 +14,7 @@ Source0:	http://www.apache.org/dist/maven/binaries/%{name}-%{version}.tar.gz
 # Source0-md5:	47624c83b907fa16e8257bc5b351f84a
 Patch0:		%{name}-MAVEN_HOME.patch
 URL:		http://maven.apache.org/
-Requires:	jre
+Requires:	jdk
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
