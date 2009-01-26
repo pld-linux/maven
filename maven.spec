@@ -2,12 +2,14 @@
 # - cleanups in lib directory -- replace jar files
 #   with package dependencies
 # - use source package
+# - patch for --local-repository: http://codehaus01a.managed.contegix.com/browse/MNG-939
+# - jpp sync http://www.jpackage.org/cgi-bin/viewvc.cgi/rpms/free/maven2/?root=jpackage&pathrev=JPACKAGE-1_7
 
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
 Name:		maven
 Version:	2.0.9
-Release:	0.1
+Release:	1
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/maven/binaries/apache-%{name}-%{version}-bin.tar.bz2
