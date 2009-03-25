@@ -3,6 +3,11 @@
 # - jppize (offline-mode)
 # - patch build.xml to use system jars, it must not download anything
 # - package classworlds
+# - do not do that:
+#   [java] [INFO] Installing /home/users/z/rpm/BUILD/maven-2.0.10/apache-maven/target/apache-maven-2.0.10.jar to /home/users/z/.m2/repository/org/apache/maven/apache-maven/2.0.10/apache-maven-2.0.10.jar
+#   [java] [INFO] Installing /home/users/z/rpm/BUILD/maven-2.0.10/apache-maven/target/apache-maven-2.0.10-bin.tar.gz to /home/users/z/.m2/repository/org/apache/maven/apache-maven/2.0.10/apache-maven-2.0.10-bin.tar.gz
+#   [java] [INFO] Installing /home/users/z/rpm/BUILD/maven-2.0.10/apache-maven/target/apache-maven-2.0.10-bin.tar.bz2 to /home/users/z/.m2/repository/org/apache/maven/apache-maven/2.0.10/apache-maven-2.0.10-bin.tar.bz2
+#   [java] [INFO] Installing /home/users/z/rpm/BUILD/maven-2.0.10/apache-maven/target/apache-maven-2.0.10-bin.zip to /home/users/z/.m2/repository/org/apache/maven/apache-maven/2.0.10/apache-maven-2.0.10-bin.zip
 
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
