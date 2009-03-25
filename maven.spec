@@ -6,7 +6,7 @@
 # - jpp sync http://www.jpackage.org/cgi-bin/viewvc.cgi/rpms/free/maven2/?root=jpackage&pathrev=JPACKAGE-1_7
 
 Summary:	Java project management and project comprehension tool
-Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
+Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
 Version:	2.0.10
 Release:	1
