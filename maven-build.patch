@@ -1,0 +1,10 @@
+--- build.xml~	2009-03-25 20:30:34.000000000 +0100
++++ build.xml	2009-03-25 20:35:05.000000000 +0100
+@@ -158,6 +158,7 @@
+   <target name="maven-compile" depends="compile-boot" description="compiles Maven using the bootstrap Maven, skipping automated tests">
+     <java fork="true" classname="org.apache.maven.cli.MavenCli" failonerror="true">
+       <classpath refid="maven.classpath"/>
++      <arg value="-Djava.home=${env.JAVA_HOME}/jre"/>
+       <arg value="-B"/>
+       <arg value="-e"/>
+       <arg value="clean"/>
