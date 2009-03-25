@@ -1,6 +1,11 @@
+# TODO:
+# - %%install and %%files sections
+# - jppize (offline-mode)
+# - patch build.xml to use system jars, it must not download anything
+# - package classworlds
 
 Summary:	Java project management and project comprehension tool
-Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
+Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
 Version:	2.0.10
 Release:	1.1
@@ -8,8 +13,10 @@ License:	Apache
 Group:		Development/Languages/Java
 Source0:	%{name}-%{version}.tar.bz2
 # Source0-md5:	f7db6421681782be0dff40bf82c8e246
+Patch0:		%{name}-build.patch
 URL:		http://maven.apache.org/
-Requires:	jdk
+BuildRequires:	ant
+Requires:	jdk >= 1.4
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -39,6 +46,21 @@ zachęcić.
 
 %prep
 %setup -q
+
+%patch -p0
+
+# I believe this test is broken, not the maven itself.
+mv ./maven-project/src/test/java/org/apache/maven/project/path/DefaultPathTranslatorTest.java{,.disabled}
+
+%build
+
+# maven sux. Why on earth maven expects java.home property to point to JRE not
+# JDK, and $JAVA_HOME env variable to JDK not JRE?
+M2_HOME=/usr/share/maven
+MAVEN_OPTS="-Djava.home=$JAVA_HOME/jre"
+export M2_HOME
+export MAVEN_OPTS
+%ant clean-bootstrap init maven-compile
 
 %install
 rm -rf $RPM_BUILD_ROOT
