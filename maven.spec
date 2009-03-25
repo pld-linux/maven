@@ -1,19 +1,13 @@
-# TODO:
-# - cleanups in lib directory -- replace jar files
-#   with package dependencies
-# - use source package
-# - patch for --local-repository: http://codehaus01a.managed.contegix.com/browse/MNG-939
-# - jpp sync http://www.jpackage.org/cgi-bin/viewvc.cgi/rpms/free/maven2/?root=jpackage&pathrev=JPACKAGE-1_7
 
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiajęce ich zrozumienie
 Name:		maven
-Version:	2.0.9
-Release:	1
+Version:	2.0.10
+Release:	1.1
 License:	Apache
 Group:		Development/Languages/Java
-Source0:	http://www.apache.org/dist/maven/binaries/apache-%{name}-%{version}-bin.tar.bz2
-# Source0-md5:	77435fd52cc6bd8d4aee9a9242bae1df
+Source0:	%{name}-%{version}.tar.bz2
+# Source0-md5:	f7db6421681782be0dff40bf82c8e246
 URL:		http://maven.apache.org/
 Requires:	jdk
 BuildArch:	noarch
@@ -44,7 +38,7 @@ dzieleniem wiedzy o rozwoju projektów - do tego Maven próbuje
 zachęcić.
 
 %prep
-%setup -q -n apache-%{name}-%{version}
+%setup -q
 
 %install
 rm -rf $RPM_BUILD_ROOT
