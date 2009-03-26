@@ -8,3 +8,14 @@
        <arg value="-B"/>
        <arg value="-e"/>
        <arg value="clean"/>
+--- maven-2.0.10/build.xml~	2009-03-26 23:45:47.000000000 +0100
++++ maven-2.0.10/build.xml	2009-03-26 23:52:42.000000000 +0100
+@@ -85,7 +85,7 @@
+     </artifact:dependencies>          
+   </target>
+ 
+-  <target name="generate-sources" depends="pull" description="generates Java sources from Modello mdo model files">
++  <target name="generate-sources" description="generates Java sources from Modello mdo model files">
+     <mkdir dir="bootstrap/target"/>
+     <mkdir dir="bootstrap/target/generated-sources"/>
+ 
