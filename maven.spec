@@ -1,39 +1,3 @@
-# Copyright (c) 2000-2005, JPackage Project
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the
-#    distribution.
-# 3. Neither the name of the JPackage Project nor the names of its
-#    contributors may be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-
-%define with()          %{expand:%%{?with_%{1}:1}%%{!?with_%{1}:0}}
-%define without()       %{expand:%%{?with_%{1}:0}%%{!?with_%{1}:1}}
-%define bcond_with()    %{expand:%%{?_with_%{1}:%%global with_%{1} 1}}
-%define bcond_without() %{expand:%%{!?_without_%{1}:%%global with_%{1} 1}}
-
-%bcond_with gcj_support
 %bcond_with itests
 %bcond_without bootstrap
 %bcond_without repolib
@@ -42,14 +6,7 @@
 %define repodirlib %{repodir}/lib
 %define repodirsrc %{repodir}/src
 
-%if %with gcj_support
-%define gcj_support 1
-%else
-%define gcj_support 0
-%endif
-
 %define maven_version   2.0.8
-%define NONFREE 0
 
 %define base_name maven
 %define name maven2
@@ -159,9 +116,6 @@ BuildRequires:    bsh >= 1.3.0
 BuildRequires:    checkstyle4 >= 4.1
 BuildRequires:    checkstyle4-optional >= 4.1
 BuildRequires:    classworlds >= 1.1
-%if %{NONFREE}
-BuildRequires:    clover
-%endif
 BuildRequires:    dom4j >= 1.6.1
 #BuildRequires:    tomcat5-parent
 BuildRequires:    tomcat5-servlet-2.4-api
@@ -269,9 +223,6 @@ Requires:        bsh >= 1.3.0
 Requires:        checkstyle4 >= 4.1
 Requires:        classworlds >= 1.
 Requires(post):  classworlds >= 1.1
-%if %{NONFREE}
-Requires:        clover
-%endif
 Requires:        dom4j >= 1.6.1
 #Requires:        tomcat5-parent
 Requires:        tomcat5-servlet-2.4-api
@@ -354,15 +305,7 @@ Requires(postun):  jpackage-utils >= 0:1.7.2, /bin/rmdir
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
-%if ! %{gcj_support}
 BuildArch:      noarch
-%endif
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description
 Maven is a software project management and comprehension tool. Based on the 
@@ -400,12 +343,6 @@ Requires:	plexus-container-default
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-ant
 Generates an Ant build file for the project.
 
@@ -423,12 +360,6 @@ Requires:       plexus-utils >= 1.2
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-antlr
 Generates sources from an Antlr grammar.
 
@@ -440,12 +371,6 @@ Requires:    	maven-embedder
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:    	maven-shared-reporting-impl
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-antrun
 Runs a set of ant tasks from a phase of the build.
@@ -474,12 +399,6 @@ Requires:       jaxen >= 1.1
 Requires:    	saxpath
 Requires:       junit >= 3.8.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-assembly
 Builds an assembly (distribution) of sources and/or binaries.
 
@@ -495,12 +414,6 @@ Requires:       maven-doxia >= 1.0-0.a9
 Requires:       maven-doxia-sitetools >= 1.0
 Requires:       maven-scm >= 0:1.0-0.b3.2
 Requires:    	maven-shared-reporting-impl
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-changelog
 The Maven Changelog Plugin generates reports regarding the recent changes in
@@ -524,13 +437,6 @@ Requires:       jakarta-commons-lang
 Requires:       velocity
 Requires:    	maven-shared-reporting-impl
 
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-changes
 The Maven Changes Plugin is used to inform users of the changes that have 
 occured between different releases of your project.  
@@ -547,12 +453,6 @@ Requires:       plexus-velocity >= 1.1.2
 Requires:       plexus-resources
 Requires:    	maven-shared-reporting-impl
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-checkstyle
 Generates a checkstyle report.
 
@@ -565,39 +465,8 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-utils >= 1.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-clean
 Cleans up files generated during build.
-
-%if %{NONFREE}
-%package        plugin-clover
-Summary:        Clover plugin for maven
-Group:          Development/Build Tools
-Requires:       ant >= 1.6.5
-Requires:       jmock >= 1.0.1
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-compiler >= 1.5.1
-Requires:       plexus-resources
-Requires:       clover
-Requires:    	maven-shared-reporting-impl
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
-%description    plugin-clover
-Generates a Clover report.
-%endif
-
 
 %package        plugin-compiler
 Summary:        Compiler plugin for maven
@@ -607,15 +476,8 @@ Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-compiler >= 1.5.1
 Requires:       plexus-utils >= 1.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-compiler
 Compiles Java sources.
-
 
 %package        plugin-dependency
 Summary:        Dependency plugin for maven
@@ -630,12 +492,6 @@ Requires:       plexus-container-default
 Requires:       maven-shared-dependency-analyzer
 Requires:       maven-shared-dependency-tree
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-dependency
 The dependency plugin provides the capability to manipulate artifacts. It can
 copy and/or unpack artifacts from local or remote repositories to a specified
@@ -647,12 +503,6 @@ Group:          Development/Build Tools
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-deploy
 Deploys the built artifacts to a remote repository.
 
@@ -663,12 +513,6 @@ Group:          Development/Build Tools
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-utils
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-doap
 The Maven DOAP Plugin generates a Description of a Project (DOAP) file from
@@ -689,12 +533,6 @@ Requires:       maven-shared-file-management >= 1.0-4
 Requires:       maven-shared-plugin-tools-api
 Requires:    	maven-shared-reporting-impl
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-docck
 The Maven DOCCK Plugin checks that a project complies with the 
 Plugin Documentation Standard.
@@ -708,12 +546,6 @@ Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-utils >= 1.2
 Requires:       maven-shared-verifier
 Requires:       xmlunit
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-ear
 Generates an EAR from the current project.
@@ -735,12 +567,6 @@ Requires:	maven-shared-plugin-testing-tools
 Requires:	maven-shared-test-tools
 Requires:       aqute-bndlib
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-eclipse
 Generates an Eclipse project file for the current project.
 
@@ -750,12 +576,6 @@ Summary:        EJB plugin for maven
 Group:          Development/Build Tools
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-ejb
 Builds an EJB (and optional client) from the current project.
@@ -771,12 +591,6 @@ Requires:       plexus-utils
 Requires:       jakarta-commons-lang
 Requires:       junit >= 3.8.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-gpg
 The Maven GPG Plugin signs all of the project's attached artifacts with GnuPG.
 
@@ -787,12 +601,6 @@ Group:          Development/Build Tools
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       maven-shared-plugin-tools-api
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-help
 Gets information about the working environment for the project.
@@ -808,12 +616,6 @@ Requires:       maven-wagon >= 1.0-0.1.b2
 Requires:       plexus-utils >= 1.2
 Requires:       jmock >= 1.0.1
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-idea
 Creates/updates an IDEA workspace for the current project 
 (individual modules are created as IDEA modules).
@@ -825,12 +627,6 @@ Group:          Development/Build Tools
 Requires:       plexus-digest >= 1.0
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-install
 Installs the built artifact into the local repository.
@@ -848,12 +644,6 @@ Requires:	maven-shared-io
 %endif
 Requires:       bsh
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-invoker
 The Maven Invoker Plugin is used to run a set of Maven projects and makes 
 sure that each project execution is successful, and optionally verifies 
@@ -867,12 +657,6 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires:       maven-shared-archiver >= 2.3
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-utils >= 1.2
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-jar
 Builds a JAR from the current project.
@@ -891,12 +675,6 @@ Requires:       plexus-archiver >= 1.0
 Requires:       plexus-utils >= 1.2
 Requires:    	maven-shared-reporting-impl
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-javadoc
 Generates Javadoc for the project.
 
@@ -910,12 +688,6 @@ Requires:       plexus-archiver >= 1.0
 Requires:       plexus-utils >= 1.2
 Requires:       junit >= 3.8.2
 Requires:       maven-shared-model-converter
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-one
 A plugin for interacting with legacy Maven 1.x repositories and builds.
@@ -933,12 +705,6 @@ Requires:       maven-doxia >= 1.0-0.a9
 Requires:       plexus-utils >= 1.2
 Requires:       plexus-container-default
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-plugin
 Creates a Maven plugin descriptor for any Mojo's found in the source tree, 
 to include in the JAR.
@@ -955,12 +721,6 @@ Requires:       pmd >= 3.3
 Requires:       jaxen >= 1.1
 Requires:       xom
 Requires:    	maven-shared-reporting-impl
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-pmd
 Generates a PMD report.
@@ -982,12 +742,6 @@ Requires:       maven-scm >= 0:1.0-0.b3.2
 Requires:       maven-doxia >= 1.0-0.a9
 Requires:       maven-doxia-sitetools >= 1.0
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-project-info-reports
 Generates standard project reports.
 
@@ -996,12 +750,6 @@ Summary:        Rar plugin for maven
 Group:          Development/Build Tools
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-rar
 Builds a RAR from the current project.
@@ -1023,12 +771,6 @@ Requires:       maven-shared-downloader
 Requires:       plexus-resources
 %endif
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-remote-resources
 The Maven Remote Resources Plugin is used to retrieve JARs of resources
 from remote repositories, processes those resources, and incorporate them
@@ -1042,12 +784,6 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-archiver >= 1.0
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-repository
 Plugin to help with repository-based tasks.
 
@@ -1058,12 +794,6 @@ Group:          Development/Build Tools
 Requires:       plexus-utils >= 1.2
 Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-resources
 Copies the resources to the output directory for including in the JAR.
@@ -1079,12 +809,6 @@ Requires:       maven-doxia-sitetools >= 1.0
 %endif
 Requires:       plexus-utils >= 1.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-site
 Generates a site for the current project.
 
@@ -1098,12 +822,6 @@ Requires:       plexus-utils >= 1.2
 Requires:       plexus-container-default >= 1.0
 Requires:       junit >= 3.8.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-source
 Builds a JAR of sources for use in IDEs and distribution to the repository.
 
@@ -1116,12 +834,6 @@ Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       maven-wagon
 Requires:       plexus-utils
 Requires:       junit >= 3.8.2
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-stage
 Maven Stage Plugin copies artifacts from one repository to another.
@@ -1138,12 +850,6 @@ Requires:       modello >= 1.0-0.a8.3
 %endif
 Requires:       plexus-utils >= 1.2
 
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
-
 %description    plugin-verifier
 Useful for integration tests - verifies the existence of certain conditions.
 
@@ -1154,12 +860,6 @@ Requires:       %{name} = %{epoch}:%{version}-%{release}
 Requires(postun): %{name} = %{epoch}:%{version}-%{release}
 Requires:       plexus-utils >= 1.2
 Requires:       junit >= 3.8.2
-
-%if %{gcj_support}
-BuildRequires:       java-gcj-compat-devel
-Requires(post):      java-gcj-compat
-Requires(postun):    java-gcj-compat
-%endif
 
 %description    plugin-war
 Builds a WAR from the current project.
@@ -1409,10 +1109,8 @@ pushd maven2-plugins >& /dev/null
 $M2_HOME/bin/mvn -e --batch-mode -s %{maven_settings_file} $MAVEN_OPTS -npu --no-plugin-registry -fn clean install 
 )
 
-%if ! %{NONFREE}
 # Disable clover plugin. We don't have a clover package yet.
 sed -i -e s:"<module>maven-clover-plugin</module>"::g pom.xml
-%endif
 
 # Now build everything
 # FIXME: Need to build in two stages to get around gcj bug that causes plugin reload to fail
@@ -1489,11 +1187,9 @@ done
 (cd maven2-plugins
 for dir in `find -maxdepth 1 -type d`; do
 
-%if !%{NONFREE}
     if [ "$dir" == "./maven-clover-plugin" ]; then
         continue
     fi
-%endif
 
     if [ ! -f $dir/pom.xml ]; then
         continue
@@ -1733,10 +1429,6 @@ for jar in project.jar settings.jar model.jar profile.jar artifact-manager.jar r
 done
 %endif
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -1773,13 +1465,6 @@ build-jar-repository -s -p %{_datadir}/%{name}/lib \
 
 %update_maven_depmap
 
-%if %{gcj_support}
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
 # We create links in %post in the dir's below. rm -rf them.
 %preun -n %{name}
 [ $1 = 0 ] || exit 0
@@ -1792,591 +1477,6 @@ rm -rf %{_datadir}/%{name}/core/*
 # before some plugins are
 if [ -d %{_javadir}/%{name} ] ; then rmdir --ignore-fail-on-non-empty %{_javadir}/%{name} >& /dev/null; fi
 %update_maven_depmap
-
-%if %{gcj_support}
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-source
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-source
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{NONFREE}
-%if %{gcj_support}
-%post plugin-clover
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-clover
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-%endif
-
-%if %{gcj_support}
-%post plugin-ejb
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-ejb
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-repository
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-repository
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-pmd
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-pmd
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-idea
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-idea
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-site
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-site
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-plugin
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-plugin
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-one
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-one
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-eclipse
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-eclipse
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-ear
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-ear
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-project-info-reports
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-project-info-reports
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-antlr
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-antlr
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-clean
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-clean
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-rar
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-rar
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-jar
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-jar
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-checkstyle
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-checkstyle
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-ant
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-ant
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-antrun
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-antrun
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-help
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-help
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-verifier
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-verifier
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-compiler
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-compiler
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-install
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-install
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-javadoc
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-javadoc
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-assembly
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-assembly
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-deploy
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-deploy
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-resources
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-resources
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-dependency
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-dependency
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-changelog
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-changelog
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-changes
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-changes
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-doap
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-doap
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-docck
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-docck
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-gpg
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-gpg
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-invoker
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-invoker
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-remote-resources
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-remote-resources
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%post plugin-stage
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
-
-%if %{gcj_support}
-%postun plugin-stage
-if [ -x %{_bindir}/rebuild-gcj-db ]
-then
-  %{_bindir}/rebuild-gcj-db
-fi
-%endif
 
 %files -n %{name}
 %defattr(-,root,root,-)
@@ -2404,120 +1504,6 @@ fi
 %{_datadir}/%{name}/bootstrap_repo
 %endif
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/artifact-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/artifact-manager-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/artifact-test-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/core-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/error-diagnostics-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/maven-%{version}-uber.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/model-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/model-v3.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/monitor-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/plugin-api-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/plugin-descriptor-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/plugin-parameter-documenter-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/plugin-registry-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/profile-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/project-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/reporting-api-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/repository-metadata-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/script-ant-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/script-beanshell-%{version}.jar.*
-%attr(-,root,root) %{_libdir}/gcj/%{name}/settings-%{version}.jar.*
-
-%if %with bootstrap
-%attr(-,root,root) %{_libdir}/gcj/maven2/asm3.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/backport-util-concurrent.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/beanshell.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/bndlib.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/book.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/booter.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/cdc.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/classworlds.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/common-artifact-filters.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/decoration-model.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/digest.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/doc-renderer.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/file-management.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/geronimo-j2ee-1.4-apis.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/geronimo-javamail-1.3.1-api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/impl.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/io.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/jar.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/java.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/junit.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/mail-sender-api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/mail-sender-javamail.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/mail-sender-simple.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/manager-plexus.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-archiver.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-dependency-analyzer.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-dependency-tree.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-downloader.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-doxia_core.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-doxia_maven-plugin.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-embedder.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-invoker.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-model-converter.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-plugin-testing-harness.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-plugin-testing-tools.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-plugin-tools_api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-scm_api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-surefire_api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-surefire_maven-plugin.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-test-tools.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven-verifier.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/maven2-plugin-shade.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/modello_core.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/modello_maven-plugin.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-apt.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-confluence.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-docbook-simple.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-fml.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-itext.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-latex.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-rtf.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-twiki.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-xdoc.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/module-xhtml.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plexus_maven-plugin.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-jdom.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-jpox.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-prevayler.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-store.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-xdoc.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-xml.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-xpp3.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/plugin-xsd.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/pmd.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-bazaar.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-clearcase.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-cvs-commons.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-cvsexe.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-cvsjava.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-hg.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-local.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-perforce.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-starteam.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-svn-commons.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-svnexe.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-synergy.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/provider-vss.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/repository-builder.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/resources.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/saxpath.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/sink-api.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/site-renderer.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/utils.jar.*
-%attr(-,root,root) %{_libdir}/gcj/maven2/velocity.jar.*
-%endif
-
-%endif
-
-
-
 %files javadoc
 %defattr(-,root,root,-)
 %doc %{_javadocdir}/*
@@ -2531,394 +1517,180 @@ fi
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/ant-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/ant-plugin*.jar.*
-%endif
-
 %files plugin-antlr
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/antlr-plugin*.jar
-
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/antlr-plugin*.jar.*
-%endif
 
 %files plugin-antrun
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/antrun-plugin*.jar
 
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/antrun-plugin*.jar.*
-%endif
-
 %files plugin-assembly
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/assembly-plugin*.jar
-
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/assembly-plugin*.jar.*
-%endif
 
 %files plugin-changelog
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/changelog-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/changelog-plugin*.jar.*
-%endif
-
 %files plugin-changes
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/changes-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/changes-plugin*.jar.*
-%endif
 
 %files plugin-checkstyle
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/checkstyle-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/checkstyle-plugin*.jar.*
-%endif
-
 %files plugin-clean
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/clean-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/clean-plugin*.jar.*
-%endif
-
-%if %{NONFREE}
-%files plugin-clover
-%defattr(-,root,root,-)
-%dir %{_datadir}/%{name}/plugins
-%{_datadir}/%{name}/plugins/clover-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/clover-plugin*.jar.*
-%endif
-%endif
 
 %files plugin-compiler
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/compiler-plugin*.jar
 
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/compiler-plugin*.jar.*
-%endif
-
 %files plugin-dependency
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/dependency-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/dependency-plugin*.jar.*
-%endif
 
 %files plugin-deploy
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/deploy-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/deploy-plugin*.jar.*
-%endif
-
-
 %files plugin-doap
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/doap-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/doap-plugin*.jar.*
-%endif
-
 
 %files plugin-docck
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/docck-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/docck-plugin*.jar.*
-%endif
-
-
 %files plugin-ear
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/ear-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/ear-plugin*.jar.*
-%endif
 
 %files plugin-eclipse
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/eclipse-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/eclipse-plugin*.jar.*
-%endif
-
-
 %files plugin-ejb
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/ejb-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/ejb-plugin*.jar.*
-%endif
 
 %files plugin-gpg
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/gpg-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/gpg-plugin*.jar.*
-%endif
-
-
 %files plugin-help
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/help-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/help-plugin*.jar.*
-%endif
-
 
 %files plugin-idea
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/idea-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/idea-plugin*.jar.*
-%endif
-
-
 %files plugin-install
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/install-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/install-plugin*.jar.*
-%endif
-
 
 %files plugin-invoker
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/invoker-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/invoker-plugin*.jar.*
-%endif
-
-
 %files plugin-jar
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/jar-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/jar-plugin*.jar.*
-%endif
-
 
 %files plugin-javadoc
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/javadoc-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/javadoc-plugin*.jar.*
-%endif
-
-
 %files plugin-one
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/one-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/one-plugin*.jar.*
-%endif
-
 
 %files plugin-plugin
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/plugin-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/plugin-plugin*.jar.*
-%endif
-
-
 %files plugin-pmd
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/pmd-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/pmd-plugin*.jar.*
-%endif
-
 
 %files plugin-project-info-reports
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/project-info-reports-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/project-info-reports-plugin*.jar.*
-%endif
-
-
 %files plugin-rar
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/rar-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/rar-plugin*.jar.*
-%endif
 
 %files plugin-remote-resources
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/remote-resources-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/remote-resources-plugin*.jar.*
-%endif
-
 %files plugin-repository
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/repository-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/repository-plugin*.jar.*
-%endif
 
 %files plugin-resources
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/resources-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/resources-plugin*.jar.*
-%endif
-
-
 %files plugin-site
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/site-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/site-plugin*.jar.*
-%endif
-
 
 %files plugin-source
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/source-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/source-plugin*.jar.*
-%endif
-
 %files plugin-stage
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/stage-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/stage-plugin*.jar.*
-%endif
 
 %files plugin-verifier
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/verifier-plugin*.jar
 
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/verifier-plugin*.jar.*
-%endif
-
-
 %files plugin-war
 %defattr(-,root,root,-)
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/war-plugin*.jar
-
-%if %{gcj_support}
-%dir %attr(-,root,root) %{_libdir}/gcj/%{name}
-%attr(-,root,root) %{_libdir}/gcj/%{name}/war-plugin*.jar.*
-%endif
 
 %if %with repolib
 %files repolib
