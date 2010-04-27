@@ -9,298 +9,303 @@
 %define repo_dir m2_home_local/repository
 %define maven_settings_file %{_builddir}/%{name}/settings.xml
 
-Name:           maven
-Version:        2.0.8
-Release:        0.1
-Epoch:          0
-Summary:        Java project management and project comprehension tool
+Name:		maven
+Version:	2.0.8
+Release:	%{bootstrap_release %rel}
+Summary:	Java project management and project comprehension tool
 
-Group:          Development/Build Tools
-License:        Apache Software License
-URL:            http://maven.apache.org/
+Group:		Development/Languages/Java
+License:	Apache v2
+URL:		http://maven.apache.org/
 
 # svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-%{version} maven2
 # tar czf maven2-src.tar.gz maven2
-Source0:        %{name}-src.tar.gz
+Source0:		%{name}-src.tar.gz
 
 # svn export -r {2007-03-31} http://svn.apache.org/repos/asf/maven/plugins/trunk maven2-plugins
 # tar czf maven2-plugins-070331-src.tar.gz maven2-plugins
-Source2:        %{name}-plugins-070705-src.tar.gz
+Source2:		%{name}-plugins-070705-src.tar.gz
 
 # We need to replace the javadoc plugin as the 2.3-SNAPSHOT included above 
 # has several bugs
 # svn export http://svn.apache.org/repos/asf/maven/plugins/tags/maven-javadoc-plugin-2.4 maven-javadoc-plugin
-Source22: maven-javadoc-plugin-2.4-src.tar.gz
+Source22: 		maven-javadoc-plugin-2.4-src.tar.gz
 
 # No source location for these. They are ascii files generated from maven
 # repositories, and are not in cvs/svn
 # The files were originally aquired from: http://repo1.maven.org/maven2/
-Source3:        m2_pom_repo.tar.gz
+Source3:		m2_pom_repo.tar.gz
 
 # As with above, these files are from the maven repositories, and are not in 
 # cvs/svn
 # The files were originally aquired from: http://repo1.maven.org/maven2/
-Source4:        m2_jar_repo.tar.gz
-Source5:        %{name}-script
+Source4:		m2_jar_repo.tar.gz
+Source5:		%{name}-script
 
-Source6:        maven2-JPackageRepositoryLayout.java
-Source7:        maven2-settings.xml
+Source6:		maven2-JPackageRepositoryLayout.java
+Source7:		maven2-settings.xml
 
 # svn export -r '{2006-03-08}' http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-site-plugin maven-site-plugin
 # tar czf maven2-maven-site-plugin.tar.gz maven-site-plugin 
-Source8:        %{name}-maven-site-plugin.tar.gz
+Source8:	%{name}-maven-site-plugin.tar.gz
 
-Source9:          %{name}-run-it-tests.sh
+Source9:	%{name}-run-it-tests.sh
 
 # svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-2.0.8/maven-model
 # cd maven-model
 # mvn -P all-models package 
 # Find model jar in target/maven-model-2.0.8.jar
-Source10:       %{name}-model-v3.jar
-Source11:       %{name}-MavenJPackageDepmap.java
-Source12:       %{name}-addjdom-depmap.xml
-Source13:       %{name}-empty-dep.pom
+Source10:	%{name}-model-v3.jar
+Source11:	%{name}-MavenJPackageDepmap.java
+Source12:	%{name}-addjdom-depmap.xml
+Source13:	%{name}-empty-dep.pom
 
 # Empty jar file with just a manifest. No source destination to specify
-Source14:       %{name}-empty-dep.jar
-Source15:       %{name}-jpp-script
-Source16:       %{name}-jpp-readme.html
-Source17:       %{name}-versionless-depmap.xml
+Source14:	%{name}-empty-dep.jar
+Source15:	%{name}-jpp-script
+Source16:	%{name}-jpp-readme.html
+Source17:	%{name}-versionless-depmap.xml
 
-Source99:       maven-doxia-modules.pom
-Source100:      maven2-component-info.xml
+Source99:		maven-doxia-modules.pom
+Source100:		maven2-component-info.xml
 
-Patch0:         maven2-addjdomtobootstrappath.patch
-Patch1:         %{name}-jpprepolayout.patch
-Patch2:         %{name}-fastjar-manifest-fix.patch
-Patch3:         %{name}-plugins-doxiaupdatefix.patch
-Patch4:         %{name}-plugins-catch-uncaught-exceptions.patch
-Patch5:         %{name}-plugins-dependency-plugin-import-fix.patch
-Patch6:         %{name}-%{version}-excludeexternaljars.patch
-Patch7:         %{name}-site-plugin-addservletdep.patch
-Patch8:         %{name}-enable-bootstrap-repository.patch
-Patch9:         %{name}-use-unversioned-classworlds.patch
-Patch10:        %{name}-plugins-disablecobertura.patch
-Patch11:        %{name}-shade-plugin-replacement.patch
-Patch12:        %{name}-sourcetarget.patch
-Patch13:        %{name}-plugins-MJAVADOC-137-AbstractJavadocMojo.patch
+Patch0:		maven2-addjdomtobootstrappath.patch
+Patch1:		%{name}-jpprepolayout.patch
+Patch2:		%{name}-fastjar-manifest-fix.patch
+Patch3:		%{name}-plugins-doxiaupdatefix.patch
+Patch4:		%{name}-plugins-catch-uncaught-exceptions.patch
+Patch5:		%{name}-plugins-dependency-plugin-import-fix.patch
+Patch6:		%{name}-%{version}-excludeexternaljars.patch
+Patch7:		%{name}-site-plugin-addservletdep.patch
+Patch8:		%{name}-enable-bootstrap-repository.patch
+Patch9:		%{name}-use-unversioned-classworlds.patch
+Patch10:	%{name}-plugins-disablecobertura.patch
+Patch11:	%{name}-shade-plugin-replacement.patch
+Patch12:	%{name}-sourcetarget.patch
+Patch13:	%{name}-plugins-MJAVADOC-137-AbstractJavadocMojo.patch
 # The maven javadoc plugin 2.5 pre-reqs maven 2.0.9, we lower to 2.0.8
-Patch14:        %{name}-javadoc-plugin-pom.patch
+Patch14:	%{name}-javadoc-plugin-pom.patch
 # javadoc 2.4 uses an old doxia method
-Patch15:        %{name}-plugins-javadoc-newdoxia.patch
+Patch15:	%{name}-plugins-javadoc-newdoxia.patch
 # This plugin can't cope with a JAR without a JDK version on it
-Patch16:        %{name}-plugins-project-info-reports-jdkversion.patch
-Patch17:        %{name}-MNG-3139.patch
+Patch16:	%{name}-plugins-project-info-reports-jdkversion.patch
+Patch17:	%{name}-MNG-3139.patch
 Patch18:	%{name}-plugins-jpprepolayout.patch
 Patch19:	%{name}-plugins-disableenforcer.patch
-Patch20:        %{name}-commons-cli-1.1.patch
+Patch20:	%{name}-commons-cli-1.1.patch
 
-Provides:       %{name}-bootstrap = %{epoch}:%{version}-%{release}
+Provides:	%{name}-bootstrap = %{version}-%{release}
 
-BuildRequires:    java-devel
-BuildRequires:    jpackage-utils >= 0:1.7.2
-BuildRequires:    /bin/ls,/usr/bin/head,/usr/bin/find,/usr/bin/awk,/bin/grep,/bin/sed
+### PLDIZED DEPENDENCIES {{{
+BuildRequires:	rpmbuild(macros) >= 1.557
+### END OF PLDIZED DEPENDENCIES }}}
 
-BuildRequires:    ant >= 1.6.5
-BuildRequires:    ant-nodeps
-BuildRequires:    ant-junit
-BuildRequires:    antlr >= 2.7.4
-BuildRequires:    aqute-bndlib
-BuildRequires:    bsh >= 1.3.0
-#BuildRequires:   cglib >= 2.1.0
-BuildRequires:    checkstyle4 >= 4.1
-BuildRequires:    checkstyle4-optional >= 4.1
-BuildRequires:    classworlds >= 1.1
-BuildRequires:    dom4j >= 1.6.1
-#BuildRequires:    tomcat5-parent
-BuildRequires:    tomcat5-servlet-2.4-api
-BuildRequires:    glassfish-javamail
-BuildRequires:    gnu.regexp >= 1.1.4
-BuildRequires:    httpunit >= 1.6
-BuildRequires:    jakarta-commons-beanutils >= 1.7.0
-BuildRequires:    jakarta-commons-cli >= 1.0
-BuildRequires:    jakarta-commons-collections >= 3.1
-BuildRequires:    jakarta-commons-io >= 1.1
-BuildRequires:    jakarta-commons-lang >= 2.1
-BuildRequires:    jakarta-commons-logging >= 1.0.4
-BuildRequires:    jakarta-commons-validator >= 1.1.4
-BuildRequires:    jaxen >= 1.1
-BuildRequires:    jdom >= 1.0
-#BuildRequires:   jmock >= 1.0.1
-BuildRequires:    jline >= 0.8.1
-BuildRequires:    jsch >= 0.1.20
-BuildRequires:    jtidy >= 1.0
-BuildRequires:    junit >= 3.8.2
-BuildRequires:    maven2-common-poms >= 1.0-5
-BuildRequires:    maven-jxr >= 1.0-2
-BuildRequires:    maven-wagon >= 1.0-0.1.b2
-BuildRequires:    maven-doxia >= 1.0-0.a9
-BuildRequires:    nekohtml >= 0.9.3
-BuildRequires:    oro >= 2.0.8
-BuildRequires:    plexus-ant-factory >= 1.0-0.a1.2
-BuildRequires:    plexus-bsh-factory >= 1.0-0.a7s.2
-BuildRequires:    plexus-archiver >= 1.0-0.1.a8
-BuildRequires:    plexus-compiler >= 1.5.1
-BuildRequires:    plexus-container-default >= 1.0
-BuildRequires:    plexus-i18n >= 1.0
-BuildRequires:    plexus-interactivity >= 1.0
-BuildRequires:    plexus-utils >= 1.2
-BuildRequires:    plexus-velocity >= 1.1.2
-BuildRequires:    pmd >= 3.6
-BuildRequires:    qdox >= 1.5
-BuildRequires:    rhino >= 1.5
-BuildRequires:    saxon-scripts
-BuildRequires:    saxpath
-BuildRequires:    velocity >= 1.4
-BuildRequires:    xerces-j2 >= 2.7.1
-BuildRequires:    xalan-j2 >= 2.6.0
-BuildRequires:    xmlrpc
-BuildRequires:    xmlunit
-BuildRequires:    xom
+### OLD JPP DEPENDENCIES {{{
+BuildRequires:	java-devel
+BuildRequires:	jpackage-utils >= 0:1.7.2
+BuildRequires:	/bin/ls,/usr/bin/head,/usr/bin/find,/usr/bin/awk,/bin/grep,/bin/sed
 
-%if %with itests
-BuildRequires:    log4j >= 1.2.13
-BuildRequires:    xml-commons-apis >= 1.3.02
+BuildRequires:	ant >= 1.6.5
+BuildRequires:	ant-nodeps
+BuildRequires:	ant-junit
+BuildRequires:	antlr >= 2.7.4
+BuildRequires:	aqute-bndlib
+BuildRequires:	bsh >= 1.3.0
+#BuildRequires:	cglib >= 2.1.0
+BuildRequires:	checkstyle4 >= 4.1
+BuildRequires:	checkstyle4-optional >= 4.1
+BuildRequires:	classworlds >= 1.1
+BuildRequires:	dom4j >= 1.6.1
+#BuildRequires:	tomcat5-parent
+BuildRequires:	tomcat5-servlet-2.4-api
+BuildRequires:	glassfish-javamail
+BuildRequires:	gnu.regexp >= 1.1.4
+BuildRequires:	httpunit >= 1.6
+BuildRequires:	jakarta-commons-beanutils >= 1.7.0
+BuildRequires:	jakarta-commons-cli >= 1.0
+BuildRequires:	jakarta-commons-collections >= 3.1
+BuildRequires:	jakarta-commons-io >= 1.1
+BuildRequires:	jakarta-commons-lang >= 2.1
+BuildRequires:	jakarta-commons-logging >= 1.0.4
+BuildRequires:	jakarta-commons-validator >= 1.1.4
+BuildRequires:	jaxen >= 1.1
+BuildRequires:	jdom >= 1.0
+#BuildRequires:	jmock >= 1.0.1
+BuildRequires:	jline >= 0.8.1
+BuildRequires:	jsch >= 0.1.20
+BuildRequires:	jtidy >= 1.0
+BuildRequires:	junit >= 3.8.2
+BuildRequires:	maven2-common-poms >= 1.0-5
+BuildRequires:	maven-jxr >= 1.0-2
+BuildRequires:	maven-wagon >= 1.0-0.1.b2
+BuildRequires:	maven-doxia >= 1.0-0.a9
+BuildRequires:	nekohtml >= 0.9.3
+BuildRequires:	oro >= 2.0.8
+BuildRequires:	plexus-ant-factory >= 1.0-0.a1.2
+BuildRequires:	plexus-bsh-factory >= 1.0-0.a7s.2
+BuildRequires:	plexus-archiver >= 1.0-0.1.a8
+BuildRequires:	plexus-compiler >= 1.5.1
+BuildRequires:	plexus-container-default >= 1.0
+BuildRequires:	plexus-i18n >= 1.0
+BuildRequires:	plexus-interactivity >= 1.0
+BuildRequires:	plexus-utils >= 1.2
+BuildRequires:	plexus-velocity >= 1.1.2
+BuildRequires:	pmd >= 3.6
+BuildRequires:	qdox >= 1.5
+BuildRequires:	rhino >= 1.5
+BuildRequires:	saxon-scripts
+BuildRequires:	saxpath
+BuildRequires:	velocity >= 1.4
+BuildRequires:	xerces-j2 >= 2.7.1
+BuildRequires:	xalan-j2 >= 2.6.0
+BuildRequires:	xmlrpc
+BuildRequires:	xmlunit
+BuildRequires:	xom
+
+%if %{with itests}
+BuildRequires:	log4j >= 1.2.13
+BuildRequires:	xml-commons-apis >= 1.3.02
 %endif
 
-%if %without bootstrap
-BuildRequires:    %{name} = %{epoch}:%{version}
-BuildRequires:    maven2-plugin-ant
-BuildRequires:    maven2-plugin-assembly
-BuildRequires:    maven2-plugin-clean
-BuildRequires:    maven2-plugin-compiler
-BuildRequires:    maven2-plugin-install
-BuildRequires:    maven2-plugin-jar
-BuildRequires:    maven2-plugin-javadoc
-BuildRequires:    maven2-plugin-plugin
-BuildRequires:    maven2-plugin-resources
-BuildRequires:    maven2-plugin-shade
-BuildRequires:    maven2-plugin-site
-BuildRequires:    maven2-plugin-surefire
-BuildRequires:    maven-shared-archiver
-BuildRequires:    maven-doxia-sitetools
-BuildRequires:    maven-embedder
-BuildRequires:    maven-scm >= 0:1.0-0.b3.2
-BuildRequires:    maven-scm-test >= 0:1.0-0.b3.2
-BuildRequires:    maven-shared-common-artifact-filters
-BuildRequires:    maven-shared-dependency-analyzer
-BuildRequires:    maven-shared-dependency-tree
-BuildRequires:    maven-shared-downloader
-BuildRequires:    maven-shared-file-management >= 1.0
-BuildRequires:	  maven-shared-io
-BuildRequires:    maven-shared-plugin-testing-harness >= 1.0
-BuildRequires:    maven-shared-repository-builder
-BuildRequires:    maven-shared-invoker
-BuildRequires:    maven-shared-jar
-BuildRequires:    maven-shared-model-converter
-BuildRequires:    maven-shared-plugin-testing-tools
-BuildRequires:    maven-shared-plugin-tools-api
-BuildRequires:    maven-shared-plugin-tools-beanshell
-BuildRequires:    maven-shared-plugin-tools-java
-BuildRequires:    maven-shared-reporting-impl
-BuildRequires:    maven-shared-verifier
-BuildRequires:    maven-surefire >= 2.0
-BuildRequires:    maven-surefire-provider-junit
-BuildRequires:    maven-surefire-booter >= 2.0
-BuildRequires:    modello >= 1.0-0.a8.3
-BuildRequires:    modello-maven-plugin >= 1.0-0.a8.3
-BuildRequires:    plexus-digest
-BuildRequires:    plexus-maven-plugin >= 1.3.5
-BuildRequires:    plexus-mail-sender
-BuildRequires:    plexus-resources
+%if %{without bootstrap}
+BuildRequires:	%{name} = %{version}
+BuildRequires:	maven2-plugin-ant
+BuildRequires:	maven2-plugin-assembly
+BuildRequires:	maven2-plugin-clean
+BuildRequires:	maven2-plugin-compiler
+BuildRequires:	maven2-plugin-install
+BuildRequires:	maven2-plugin-jar
+BuildRequires:	maven2-plugin-javadoc
+BuildRequires:	maven2-plugin-plugin
+BuildRequires:	maven2-plugin-resources
+BuildRequires:	maven2-plugin-shade
+BuildRequires:	maven2-plugin-site
+BuildRequires:	maven2-plugin-surefire
+BuildRequires:	maven-shared-archiver
+BuildRequires:	maven-doxia-sitetools
+BuildRequires:	maven-embedder
+BuildRequires:	maven-scm >= 0:1.0-0.b3.2
+BuildRequires:	maven-scm-test >= 0:1.0-0.b3.2
+BuildRequires:	maven-shared-common-artifact-filters
+BuildRequires:	maven-shared-dependency-analyzer
+BuildRequires:	maven-shared-dependency-tree
+BuildRequires:	maven-shared-downloader
+BuildRequires:	maven-shared-file-management >= 1.0
+BuildRequires:	maven-shared-io
+BuildRequires:	maven-shared-plugin-testing-harness >= 1.0
+BuildRequires:	maven-shared-repository-builder
+BuildRequires:	maven-shared-invoker
+BuildRequires:	maven-shared-jar
+BuildRequires:	maven-shared-model-converter
+BuildRequires:	maven-shared-plugin-testing-tools
+BuildRequires:	maven-shared-plugin-tools-api
+BuildRequires:	maven-shared-plugin-tools-beanshell
+BuildRequires:	maven-shared-plugin-tools-java
+BuildRequires:	maven-shared-reporting-impl
+BuildRequires:	maven-shared-verifier
+BuildRequires:	maven-surefire >= 2.0
+BuildRequires:	maven-surefire-provider-junit
+BuildRequires:	maven-surefire-booter >= 2.0
+BuildRequires:	modello >= 1.0-0.a8.3
+BuildRequires:	modello-maven-plugin >= 1.0-0.a8.3
+BuildRequires:	plexus-digest
+BuildRequires:	plexus-maven-plugin >= 1.3.5
+BuildRequires:	plexus-mail-sender
+BuildRequires:	plexus-resources
 %endif
 
-Requires:        ant >= 1.6.5
-Requires:        antlr >= 2.7.4
-Requires:    	 aqute-bndlib
-Requires:        bsh >= 1.3.0
-#Requires:       cglib >= 2.1.0
-Requires:        checkstyle4 >= 4.1
-Requires:        classworlds >= 1.
-Requires(post):  classworlds >= 1.1
-Requires:        dom4j >= 1.6.1
-#Requires:        tomcat5-parent
-Requires:        tomcat5-servlet-2.4-api
-Requires:        glassfish-javamail
-Requires:        gnu.regexp >= 1.1.4
-Requires:        httpunit >= 1.6
-Requires:        jakarta-commons-beanutils >= 1.7.0
-Requires:        jakarta-commons-cli >= 1.0
-Requires(post):  jakarta-commons-cli >= 1.0
-Requires:        jakarta-commons-collections >= 3.1
-Requires:        jakarta-commons-io >= 1.1
-Requires:        jakarta-commons-lang >= 2.1
-Requires(post):  jakarta-commons-lang >= 2.1
-Requires:        jakarta-commons-logging >= 1.0.4
-Requires(post):  jakarta-commons-logging >= 1.0.4
-Requires:        jakarta-commons-validator >= 1.1.4
-Requires:        jaxen >= 1.1
-Requires:        jdom >= 1.0
-Requires(post):  jdom >= 1.0
-#Requires:       jmock >= 1.0.1
-Requires:        jline >= 0.8.1
-Requires:        jsch >= 0.1.20
-Requires(post):  jsch >= 0.1.20
-Requires:        jtidy >= 1.0
-Requires:        junit >= 3.8.2
-Requires:        maven2-common-poms >= 1.0-5
-Requires:        maven-jxr >= 1.0
-Requires:        maven-wagon >= 1.0-0.1.b2
-Requires(post):  maven-wagon >= 1.0-0.1.b2
-Requires:        nekohtml >= 0.9.3
-Requires:        oro >= 2.0.8
-Requires:        plexus-ant-factory >= 1.0-0.a1.2
-Requires:        plexus-bsh-factory >= 1.0-0.a7s.2
-Requires:        plexus-archiver >= 1.0-0.a6
-Requires:        plexus-compiler >= 1.5.1
-Requires:        plexus-container-default >= 1.0
-Requires(post):  plexus-container-default >= 1.0
-Requires:        plexus-i18n >= 1.0
-Requires:        plexus-interactivity >= 1.0
-Requires(post):  plexus-interactivity >= 1.0
-Requires:        plexus-utils >= 1.2
-Requires(post):  plexus-utils >= 1.2
-Requires:        plexus-velocity >= 1.1.2
-Requires:        pmd >= 3.6
-Requires:        qdox >= 1.5
-Requires:        rhino >= 1.5
-Requires:        velocity >= 1.4
-Requires:        xerces-j2 >= 2.7.1
-Requires:        xalan-j2 >= 2.6.0
-Requires:        xmlrpc
-Requires:        xmlunit
-Requires:        xom
+Requires:	ant >= 1.6.5
+Requires:	antlr >= 2.7.4
+Requires:	aqute-bndlib
+Requires:	bsh >= 1.3.0
+#Requires:	cglib >= 2.1.0
+Requires:	checkstyle4 >= 4.1
+Requires:	classworlds >= 1.
+Requires(post):	classworlds >= 1.1
+Requires:	dom4j >= 1.6.1
+#Requires:	tomcat5-parent
+Requires:	tomcat5-servlet-2.4-api
+Requires:	glassfish-javamail
+Requires:	gnu.regexp >= 1.1.4
+Requires:	httpunit >= 1.6
+Requires:	jakarta-commons-beanutils >= 1.7.0
+Requires:	jakarta-commons-cli >= 1.0
+Requires(post):	jakarta-commons-cli >= 1.0
+Requires:	jakarta-commons-collections >= 3.1
+Requires:	jakarta-commons-io >= 1.1
+Requires:	jakarta-commons-lang >= 2.1
+Requires(post):	jakarta-commons-lang >= 2.1
+Requires:	jakarta-commons-logging >= 1.0.4
+Requires(post):	jakarta-commons-logging >= 1.0.4
+Requires:	jakarta-commons-validator >= 1.1.4
+Requires:	jaxen >= 1.1
+Requires:	jdom >= 1.0
+Requires(post):	jdom >= 1.0
+#Requires:	jmock >= 1.0.1
+Requires:	jline >= 0.8.1
+Requires:	jsch >= 0.1.20
+Requires(post):	jsch >= 0.1.20
+Requires:	jtidy >= 1.0
+Requires:	junit >= 3.8.2
+Requires:	maven2-common-poms >= 1.0-5
+Requires:	maven-jxr >= 1.0
+Requires:	maven-wagon >= 1.0-0.1.b2
+Requires(post):	maven-wagon >= 1.0-0.1.b2
+Requires:	nekohtml >= 0.9.3
+Requires:	oro >= 2.0.8
+Requires:	plexus-ant-factory >= 1.0-0.a1.2
+Requires:	plexus-bsh-factory >= 1.0-0.a7s.2
+Requires:	plexus-archiver >= 1.0-0.a6
+Requires:	plexus-compiler >= 1.5.1
+Requires:	plexus-container-default >= 1.0
+Requires(post):	plexus-container-default >= 1.0
+Requires:	plexus-i18n >= 1.0
+Requires:	plexus-interactivity >= 1.0
+Requires(post):	plexus-interactivity >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires(post):	plexus-utils >= 1.2
+Requires:	plexus-velocity >= 1.1.2
+Requires:	pmd >= 3.6
+Requires:	qdox >= 1.5
+Requires:	rhino >= 1.5
+Requires:	velocity >= 1.4
+Requires:	xerces-j2 >= 2.7.1
+Requires:	xalan-j2 >= 2.6.0
+Requires:	xmlrpc
+Requires:	xmlunit
+Requires:	xom
 
-%if %without bootstrap
-Requires:        %{name} = %{epoch}:%{version}
-Requires:        maven-doxia >= 1.0-0.a9
-Requires(post):  maven-doxia >= 1.0-0.a9
-Requires:        maven-scm >= 0:1.0-0.b3.2
-Requires:        maven-scm-test >= 0:1.0-0.b3.2
-Requires:        maven-shared-invoker
-Requires:	 maven-shared-io
-Requires:        maven-shared-file-management >= 1.0-4
-Requires:        maven-shared-jar
-Requires:        maven-shared-model-converter
-Requires:        maven-shared-verifier
-Requires:        maven-surefire >= 2.0
-Requires:        maven-surefire-booter >= 2.0
-Requires:        modello >= 1.0-0.a8.3
-Requires:        modello-maven-plugin >= 1.0-0.a8.3
+%if %{without bootstrap}
+Requires:		%{name} = %{version}
+Requires:	maven-doxia >= 1.0-0.a9
+Requires(post):	maven-doxia >= 1.0-0.a9
+Requires:	maven-scm >= 0:1.0-0.b3.2
+Requires:	maven-scm-test >= 0:1.0-0.b3.2
+Requires:	maven-shared-invoker
+Requires:		 maven-shared-io
+Requires:	maven-shared-file-management >= 1.0-4
+Requires:	maven-shared-jar
+Requires:	maven-shared-model-converter
+Requires:	maven-shared-verifier
+Requires:	maven-surefire >= 2.0
+Requires:	maven-surefire-booter >= 2.0
+Requires:	modello >= 1.0-0.a8.3
+Requires:	modello-maven-plugin >= 1.0-0.a8.3
 %endif
 
-Obsoletes:       maven2-plugin-jxr <= 0:2.0.4 
-Obsoletes:       maven2-plugin-surefire <= 0:2.0.4 
-Obsoletes:       maven2-plugin-surefire-report <= 0:2.0.4 
-Obsoletes:       maven2-plugin-release <= 0:2.0.4 
-Obsoletes:	 maven2-plugin-enforcer < %{epoch}:%{version}-%{release}
+Obsoletes:	maven2-plugin-jxr <= 0:2.0.4 
+Obsoletes:	maven2-plugin-surefire <= 0:2.0.4 
+Obsoletes:	maven2-plugin-surefire-report <= 0:2.0.4 
+Obsoletes:	maven2-plugin-release <= 0:2.0.4 
+Obsoletes:		 maven2-plugin-enforcer < %{version}-%{release}
 
-Requires(post):    jpackage-utils >= 0:1.7.2
-Requires(postun):  jpackage-utils >= 0:1.7.2, /bin/rmdir
+Requires(post):	jpackage-utils >= 0:1.7.2
+Requires(postun):	jpackage-utils >= 0:1.7.2, /bin/rmdir
+### END OF OLD JPP DEPENDENCIES }}}
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root
 
-BuildArch:      noarch
+BuildArch:	noarch
 
 %description
 Maven is a software project management and comprehension tool. Based on the 
@@ -308,184 +313,184 @@ concept of a project object model (POM), Maven can manage a project's build,
 reporting and documentation from a central piece of information.
 
 %package        javadoc
-Summary:        Javadoc for %{name}
-Group:          Development/Documentation
-Requires(post):   /bin/rm,/bin/ln
-Requires(postun): /bin/rm
+Summary:	Javadoc for %{name}
+Group:	Development/Documentation
+Requires(post):	/bin/rm,/bin/ln
+Requires(postun):	/bin/rm
 
 %description    javadoc
 %{summary}.
 
 %package        manual
-Summary:        Documents for %{name}
-Group:          Development/Documentation
+Summary:	Documents for %{name}
+Group:	Development/Documentation
 
 %description    manual
 %{summary}.
 
 %package        plugin-ant
-Summary:        Ant plugin for maven
-Group:          Development/Build Tools
-Requires:       ant >= 1.6.5
-Requires:       ant-junit
-Requires:       ant-nodeps
-Requires:       junit >= 3.8.2
-Requires:       maven-wagon >= 1.0-0.1.b2
-Requires:       plexus-utils >= 1.2
-Requires:       xalan-j2 >= 2.6.0
-Requires:    	xml-commons-apis >= 1.3.02
-Requires:	plexus-container-default
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	Ant plugin for maven
+Group:	Development/Build Tools
+Requires:	ant >= 1.6.5
+Requires:	ant-junit
+Requires:	ant-nodeps
+Requires:	junit >= 3.8.2
+Requires:	maven-wagon >= 1.0-0.1.b2
+Requires:	plexus-utils >= 1.2
+Requires:	xalan-j2 >= 2.6.0
+Requires:		xml-commons-apis >= 1.3.02
+Requires:		plexus-container-default
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-ant
 Generates an Ant build file for the project.
 
 %package        plugin-antlr
-Summary:        Antlr plugin for maven
-Group:          Development/Build Tools
-Requires:       antlr >= 2.7.4
-Requires:	plexus-container-default
-Requires:       plexus-i18n >= 1.0
-%if %without bootstrap
-Requires:       maven-doxia >= 1.0-0.a9
-Requires:       maven-doxia-sitetools >= 1.0
+Summary:	Antlr plugin for maven
+Group:	Development/Build Tools
+Requires:	antlr >= 2.7.4
+Requires:		plexus-container-default
+Requires:	plexus-i18n >= 1.0
+%if %{without bootstrap}
+Requires:	maven-doxia >= 1.0-0.a9
+Requires:	maven-doxia-sitetools >= 1.0
 %endif
-Requires:       plexus-utils >= 1.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-antlr
 Generates sources from an Antlr grammar.
 
 %package        plugin-antrun
-Summary:        Antrun plugin for maven
-Group:          Development/Build Tools
-Requires:       ant >= 1.6.5
-Requires:    	maven-embedder
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:    	maven-shared-reporting-impl
+Summary:	Antrun plugin for maven
+Group:	Development/Build Tools
+Requires:	ant >= 1.6.5
+Requires:		maven-embedder
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-antrun
 Runs a set of ant tasks from a phase of the build.
 
 
 %package        plugin-assembly
-Summary:        Assembly plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-%if %without bootstrap
-Requires:       modello >= 1.0-0.a8.3
+Summary:	Assembly plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+%if %{without bootstrap}
+Requires:	modello >= 1.0-0.a8.3
 %endif
-Requires:       plexus-archiver >= 1.0
-Requires:       plexus-utils >= 1.2
-Requires:    	maven-shared-file-management >= 1.0
-Requires:    	maven-shared-archiver
-Requires:	plexus-container-default
-Requires:    	maven-shared-repository-builder
-Requires:    	maven-shared-common-artifact-filters
-Requires:	maven-shared-plugin-testing-tools
-Requires:	maven-shared-test-tools
-Requires:       jmock >= 1.0.1
-Requires:       jdom >= 1.0
-Requires:       jaxen >= 1.1
-Requires:    	saxpath
-Requires:       junit >= 3.8.2
+Requires:	plexus-archiver >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires:		maven-shared-file-management >= 1.0
+Requires:		maven-shared-archiver
+Requires:		plexus-container-default
+Requires:		maven-shared-repository-builder
+Requires:		maven-shared-common-artifact-filters
+Requires:		maven-shared-plugin-testing-tools
+Requires:		maven-shared-test-tools
+Requires:	jmock >= 1.0.1
+Requires:	jdom >= 1.0
+Requires:	jaxen >= 1.1
+Requires:		saxpath
+Requires:	junit >= 3.8.2
 
 %description    plugin-assembly
 Builds an assembly (distribution) of sources and/or binaries.
 
 %package        plugin-changelog
-Summary:        Changelog plugin for maven
-Group:          Development/Build Tools
-%if %without bootstrap
-Requires:       maven-scm
+Summary:	Changelog plugin for maven
+Group:	Development/Build Tools
+%if %{without bootstrap}
+Requires:	maven-scm
 %endif
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-doxia >= 1.0-0.a9
-Requires:       maven-doxia-sitetools >= 1.0
-Requires:       maven-scm >= 0:1.0-0.b3.2
-Requires:    	maven-shared-reporting-impl
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	maven-doxia >= 1.0-0.a9
+Requires:	maven-doxia-sitetools >= 1.0
+Requires:	maven-scm >= 0:1.0-0.b3.2
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-changelog
 The Maven Changelog Plugin generates reports regarding the recent changes in
 your Software Configuration Management or SCM.
 
 %package        plugin-changes
-Summary:        Changes plugin for maven
-Group:          Development/Build Tools
-%if %without bootstrap
-Requires:       maven-doxia
-Requires:       maven-doxia-sitetools >= 1.0
+Summary:	Changes plugin for maven
+Group:	Development/Build Tools
+%if %{without bootstrap}
+Requires:	maven-doxia
+Requires:	maven-doxia-sitetools >= 1.0
 %endif
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       velocity
-Requires:       commons-httpclient
-Requires:       plexus-velocity >= 1.1.2
-Requires:       plexus-mail-sender
-Requires:       glassfish-javamail
-Requires:       jakarta-commons-lang
-Requires:       velocity
-Requires:    	maven-shared-reporting-impl
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	velocity
+Requires:	commons-httpclient
+Requires:	plexus-velocity >= 1.1.2
+Requires:	plexus-mail-sender
+Requires:	glassfish-javamail
+Requires:	jakarta-commons-lang
+Requires:	velocity
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-changes
 The Maven Changes Plugin is used to inform users of the changes that have 
 occured between different releases of your project.  
 
 %package        plugin-checkstyle
-Summary:        Checkstyle plugin for maven
-Group:          Development/Build Tools
-Requires:       checkstyle4 >= 4.1
-Requires:	checkstyle4-optional >= 4.1
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
-Requires:       plexus-velocity >= 1.1.2
-Requires:       plexus-resources
-Requires:    	maven-shared-reporting-impl
+Summary:	Checkstyle plugin for maven
+Group:	Development/Build Tools
+Requires:	checkstyle4 >= 4.1
+Requires:		checkstyle4-optional >= 4.1
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:	plexus-velocity >= 1.1.2
+Requires:	plexus-resources
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-checkstyle
 Generates a checkstyle report.
 
 
 %package        plugin-clean
-Summary:        Clean plugin for maven
-Group:          Development/Build Tools
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
+Summary:	Clean plugin for maven
+Group:	Development/Build Tools
+Requires:	junit >= 3.8.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
 
 %description    plugin-clean
 Cleans up files generated during build.
 
 %package        plugin-compiler
-Summary:        Compiler plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-compiler >= 1.5.1
-Requires:       plexus-utils >= 1.2
+Summary:	Compiler plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-compiler >= 1.5.1
+Requires:	plexus-utils >= 1.2
 
 %description    plugin-compiler
 Compiles Java sources.
 
 %package        plugin-dependency
-Summary:        Dependency plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-archiver >= 1.0
-Requires:       plexus-utils >= 1.2
-Requires:       maven-shared-file-management >= 1.0-4
-Requires:       junit >= 3.8.2
-Requires:       plexus-container-default
-Requires:       maven-shared-dependency-analyzer
-Requires:       maven-shared-dependency-tree
+Summary:	Dependency plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-archiver >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires:	maven-shared-file-management >= 1.0-4
+Requires:	junit >= 3.8.2
+Requires:	plexus-container-default
+Requires:	maven-shared-dependency-analyzer
+Requires:	maven-shared-dependency-tree
 
 %description    plugin-dependency
 The dependency plugin provides the capability to manipulate artifacts. It can
@@ -493,21 +498,21 @@ copy and/or unpack artifacts from local or remote repositories to a specified
 location.
 
 %package        plugin-deploy
-Summary:        Deploy plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	Deploy plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-deploy
 Deploys the built artifacts to a remote repository.
 
 
 %package        plugin-doap
-Summary:        Description of a Project (DOAP) plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils
+Summary:	Description of a Project (DOAP) plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils
 
 %description    plugin-doap
 The Maven DOAP Plugin generates a Description of a Project (DOAP) file from
@@ -515,18 +520,18 @@ a POM.
 
 
 %package        plugin-docck
-Summary:        DOCCK plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils
-Requires:       maven-shared-plugin-tools-beanshell >= 2.2
-Requires:       maven-shared-plugin-tools-java >= 2.2
-Requires:       commons-httpclient
-Requires:       jakarta-commons-logging >= 1.0.4
-Requires:       maven-shared-file-management >= 1.0-4
-Requires:       maven-shared-plugin-tools-api
-Requires:    	maven-shared-reporting-impl
+Summary:	DOCCK plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils
+Requires:	maven-shared-plugin-tools-beanshell >= 2.2
+Requires:	maven-shared-plugin-tools-java >= 2.2
+Requires:	commons-httpclient
+Requires:	jakarta-commons-logging >= 1.0.4
+Requires:	maven-shared-file-management >= 1.0-4
+Requires:	maven-shared-plugin-tools-api
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-docck
 The Maven DOCCK Plugin checks that a project complies with the 
@@ -534,82 +539,82 @@ Plugin Documentation Standard.
 
 
 %package        plugin-ear
-Summary:        Ear plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
-Requires:       maven-shared-verifier
-Requires:       xmlunit
+Summary:	Ear plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:	maven-shared-verifier
+Requires:	xmlunit
 
 %description    plugin-ear
 Generates an EAR from the current project.
 
 
 %package        plugin-eclipse
-Summary:        Eclipse plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
-Requires:       plexus-archiver >= 1.0
-Requires:       jmock >= 1.0.1
-Requires:       jdom >= 1.0
-Requires:       jaxen >= 1.1
-Requires:    	saxpath
-Requires:       plexus-interactivity >= 1.0
-Requires:	maven-shared-plugin-testing-tools
-Requires:	maven-shared-test-tools
-Requires:       aqute-bndlib
+Summary:	Eclipse plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:	plexus-archiver >= 1.0
+Requires:	jmock >= 1.0.1
+Requires:	jdom >= 1.0
+Requires:	jaxen >= 1.1
+Requires:		saxpath
+Requires:	plexus-interactivity >= 1.0
+Requires:		maven-shared-plugin-testing-tools
+Requires:		maven-shared-test-tools
+Requires:	aqute-bndlib
 
 %description    plugin-eclipse
 Generates an Eclipse project file for the current project.
 
 
 %package        plugin-ejb
-Summary:        EJB plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	EJB plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-ejb
 Builds an EJB (and optional client) from the current project.
 
 
 %package        plugin-gpg
-Summary:        GPG plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       jakarta-commons-lang
-Requires:       plexus-utils
-Requires:       jakarta-commons-lang
-Requires:       junit >= 3.8.2
+Summary:	GPG plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	jakarta-commons-lang
+Requires:	plexus-utils
+Requires:	jakarta-commons-lang
+Requires:	junit >= 3.8.2
 
 %description    plugin-gpg
 The Maven GPG Plugin signs all of the project's attached artifacts with GnuPG.
 
 
 %package        plugin-help
-Summary:        Help plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-shared-plugin-tools-api
+Summary:	Help plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	maven-shared-plugin-tools-api
 
 %description    plugin-help
 Gets information about the working environment for the project.
 
 
 %package        plugin-idea
-Summary:        Idea plugin for maven
-Group:          Development/Build Tools
-Requires:       dom4j >= 1.6.1
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-wagon >= 1.0-0.1.b2
-Requires:       plexus-utils >= 1.2
-Requires:       jmock >= 1.0.1
+Summary:	Idea plugin for maven
+Group:	Development/Build Tools
+Requires:	dom4j >= 1.6.1
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	maven-wagon >= 1.0-0.1.b2
+Requires:	plexus-utils >= 1.2
+Requires:	jmock >= 1.0.1
 
 %description    plugin-idea
 Creates/updates an IDEA workspace for the current project 
@@ -617,27 +622,27 @@ Creates/updates an IDEA workspace for the current project
 
 
 %package        plugin-install
-Summary:        Install plugin for maven
-Group:          Development/Build Tools
-Requires:       plexus-digest >= 1.0
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	Install plugin for maven
+Group:	Development/Build Tools
+Requires:	plexus-digest >= 1.0
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-install
 Installs the built artifact into the local repository.
 
 %package        plugin-invoker
-Summary:        Invoker plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-%if %without bootstrap
-Requires:       maven-shared
-Requires:       maven-shared-invoker
-Requires:       maven-shared-file-management >= 1.0-4
-Requires:	maven-shared-io
+Summary:	Invoker plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+%if %{without bootstrap}
+Requires:	maven-shared
+Requires:	maven-shared-invoker
+Requires:	maven-shared-file-management >= 1.0-4
+Requires:		maven-shared-io
 %endif
-Requires:       bsh
+Requires:	bsh
 
 %description    plugin-invoker
 The Maven Invoker Plugin is used to run a set of Maven projects and makes 
@@ -645,60 +650,60 @@ sure that each project execution is successful, and optionally verifies
 the output from a given project execution.
 
 %package        plugin-jar
-Summary:        Jar plugin for maven
-Group:          Development/Build Tools
-Requires:       jakarta-commons-lang >= 2.1
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-shared-archiver >= 2.3
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
+Summary:	Jar plugin for maven
+Group:	Development/Build Tools
+Requires:	jakarta-commons-lang >= 2.1
+Requires:		%{name} = %{version}-%{release}
+Requires:	maven-shared-archiver >= 2.3
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
 
 %description    plugin-jar
 Builds a JAR from the current project.
 
 
 %package        plugin-javadoc
-Summary:        Javadoc plugin for maven
-Group:          Development/Build Tools
-Requires:       jakarta-commons-lang >= 2.1
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-%if %without bootstrap
-Requires:       modello >= 1.0-0.a8.3
+Summary:	Javadoc plugin for maven
+Group:	Development/Build Tools
+Requires:	jakarta-commons-lang >= 2.1
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+%if %{without bootstrap}
+Requires:	modello >= 1.0-0.a8.3
 %endif
-Requires:       plexus-archiver >= 1.0
-Requires:       plexus-utils >= 1.2
-Requires:    	maven-shared-reporting-impl
+Requires:	plexus-archiver >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-javadoc
 Generates Javadoc for the project.
 
 %package        plugin-one
-Summary:        One plugin for maven
-Group:          Development/Build Tools
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-archiver >= 1.0
-Requires:       plexus-utils >= 1.2
-Requires:       junit >= 3.8.2
-Requires:       maven-shared-model-converter
+Summary:	One plugin for maven
+Group:	Development/Build Tools
+Requires:	junit >= 3.8.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-archiver >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires:	junit >= 3.8.2
+Requires:	maven-shared-model-converter
 
 %description    plugin-one
 A plugin for interacting with legacy Maven 1.x repositories and builds.
 
 
 %package        plugin-plugin
-Summary:        Plugin plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-shared-plugin-tools-beanshell >= 2.2
-Requires:       maven-shared-plugin-tools-java >= 2.2
-Requires:    	maven-shared-reporting-impl
-Requires:       maven-doxia >= 1.0-0.a9
-Requires:       plexus-utils >= 1.2
-Requires:       plexus-container-default
+Summary:	Plugin plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	maven-shared-plugin-tools-beanshell >= 2.2
+Requires:	maven-shared-plugin-tools-java >= 2.2
+Requires:		maven-shared-reporting-impl
+Requires:	maven-doxia >= 1.0-0.a9
+Requires:	plexus-utils >= 1.2
+Requires:	plexus-container-default
 
 %description    plugin-plugin
 Creates a Maven plugin descriptor for any Mojo's found in the source tree, 
@@ -706,64 +711,64 @@ to include in the JAR.
 
 
 %package        plugin-pmd
-Summary:        Pmd plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
-Requires:       plexus-resources
-Requires:       pmd >= 3.3
-Requires:       jaxen >= 1.1
-Requires:       xom
-Requires:    	maven-shared-reporting-impl
+Summary:	Pmd plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:	plexus-resources
+Requires:	pmd >= 3.3
+Requires:	jaxen >= 1.1
+Requires:	xom
+Requires:		maven-shared-reporting-impl
 
 %description    plugin-pmd
 Generates a PMD report.
 
 
 %package        plugin-project-info-reports
-Summary:        Project-info-reports plugin for maven
-Group:          Development/Build Tools
-Requires:       httpunit >= 1.6
-Requires:       jakarta-commons-validator >= 1.1.4
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-i18n >= 1.0
-Requires:    	maven-shared-reporting-impl
-Requires:       maven-shared-jar
-Requires:       maven-shared-dependency-tree
-Requires:       maven-wagon
-Requires:       maven-scm >= 0:1.0-0.b3.2
-Requires:       maven-doxia >= 1.0-0.a9
-Requires:       maven-doxia-sitetools >= 1.0
+Summary:	Project-info-reports plugin for maven
+Group:	Development/Build Tools
+Requires:	httpunit >= 1.6
+Requires:	jakarta-commons-validator >= 1.1.4
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-i18n >= 1.0
+Requires:		maven-shared-reporting-impl
+Requires:	maven-shared-jar
+Requires:	maven-shared-dependency-tree
+Requires:	maven-wagon
+Requires:	maven-scm >= 0:1.0-0.b3.2
+Requires:	maven-doxia >= 1.0-0.a9
+Requires:	maven-doxia-sitetools >= 1.0
 
 %description    plugin-project-info-reports
 Generates standard project reports.
 
 %package        plugin-rar
-Summary:        Rar plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	Rar plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-rar
 Builds a RAR from the current project.
 
 
 %package        plugin-remote-resources
-Summary:        Remote Resources plugin for maven
-Group:          Development/Build Tools
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-container-default
-Requires:       plexus-utils
-Requires:       plexus-velocity
-Requires:       velocity
-%if %without bootstrap
-Requires:       maven-shared
-Requires:       maven-shared-downloader
-Requires:       plexus-resources
+Summary:	Remote Resources plugin for maven
+Group:	Development/Build Tools
+Requires:	junit >= 3.8.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-container-default
+Requires:	plexus-utils
+Requires:	plexus-velocity
+Requires:	velocity
+%if %{without bootstrap}
+Requires:	maven-shared
+Requires:	maven-shared-downloader
+Requires:	plexus-resources
 %endif
 
 %description    plugin-remote-resources
@@ -772,97 +777,97 @@ from remote repositories, processes those resources, and incorporate them
 into JARs built with maven.
 
 %package        plugin-repository
-Summary:        Repository plugin for maven
-Group:          Development/Build Tools
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-archiver >= 1.0
+Summary:	Repository plugin for maven
+Group:	Development/Build Tools
+Requires:	junit >= 3.8.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-archiver >= 1.0
 
 %description    plugin-repository
 Plugin to help with repository-based tasks.
 
 %package        plugin-resources
-Summary:        Resources plugin for maven
-Group:          Development/Build Tools
-#Requires:       jakarta-commons-io >= 1.1
-Requires:       plexus-utils >= 1.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
+Summary:	Resources plugin for maven
+Group:	Development/Build Tools
+#Requires:	jakarta-commons-io >= 1.1
+Requires:	plexus-utils >= 1.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
 
 %description    plugin-resources
 Copies the resources to the output directory for including in the JAR.
 
 %package        plugin-site
-Summary:        Site plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-%if %without bootstrap
-Requires:       maven-doxia >= 1.0-0.a9
-Requires:       maven-doxia-sitetools >= 1.0
+Summary:	Site plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+%if %{without bootstrap}
+Requires:	maven-doxia >= 1.0-0.a9
+Requires:	maven-doxia-sitetools >= 1.0
 %endif
-Requires:       plexus-utils >= 1.2
+Requires:	plexus-utils >= 1.2
 
 %description    plugin-site
 Generates a site for the current project.
 
 %package        plugin-source
-Summary:        Source plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-archiver >= 1.0
-Requires:       plexus-utils >= 1.2
-Requires:       plexus-container-default >= 1.0
-Requires:       junit >= 3.8.2
+Summary:	Source plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-archiver >= 1.0
+Requires:	plexus-utils >= 1.2
+Requires:	plexus-container-default >= 1.0
+Requires:	junit >= 3.8.2
 
 %description    plugin-source
 Builds a JAR of sources for use in IDEs and distribution to the repository.
 
 
 %package        plugin-stage
-Summary:        Stage plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       maven-wagon
-Requires:       plexus-utils
-Requires:       junit >= 3.8.2
+Summary:	Stage plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	maven-wagon
+Requires:	plexus-utils
+Requires:	junit >= 3.8.2
 
 %description    plugin-stage
 Maven Stage Plugin copies artifacts from one repository to another.
 
 
 %package        plugin-verifier
-Summary:        Verifier plugin for maven
-Group:          Development/Build Tools
-Requires:       junit >= 3.8.2
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-%if %without bootstrap
-Requires:       modello >= 1.0-0.a8.3
+Summary:	Verifier plugin for maven
+Group:	Development/Build Tools
+Requires:	junit >= 3.8.2
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+%if %{without bootstrap}
+Requires:	modello >= 1.0-0.a8.3
 %endif
-Requires:       plexus-utils >= 1.2
+Requires:	plexus-utils >= 1.2
 
 %description    plugin-verifier
 Useful for integration tests - verifies the existence of certain conditions.
 
 %package        plugin-war
-Summary:        War plugin for maven
-Group:          Development/Build Tools
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires(postun): %{name} = %{epoch}:%{version}-%{release}
-Requires:       plexus-utils >= 1.2
-Requires:       junit >= 3.8.2
+Summary:	War plugin for maven
+Group:	Development/Build Tools
+Requires:		%{name} = %{version}-%{release}
+Requires(postun):		%{name} = %{version}-%{release}
+Requires:	plexus-utils >= 1.2
+Requires:	junit >= 3.8.2
 
 %description    plugin-war
 Builds a WAR from the current project.
 
-%if %with repolib
+%if %{with repolib}
 %package repolib
-Summary:        Artifacts to be uploaded to a repository library
-Group:          Development/Libraries/Java
+Summary:	Artifacts to be uploaded to a repository library
+Group:	Development/Libraries/Java
 
 %description repolib
 Artifacts to be uploaded to a repository library.
@@ -893,17 +898,17 @@ popd
 #tar xzf %{SOURCE8}
 
 # javadoc 2.4 uses an old doxia method
-%patch15 -b .sav
+%patch15
 
 # This plugin can't cope with a JAR without a JDK version on it
-%patch16 -b .sav
+%patch16
 
-%patch17 -b .sav
+%patch17
 
-%patch18 -b .sav
-%patch19 -b .sav
+%patch18
+%patch19
 
-%patch20 -b .sav
+%patch20
 
 # Remove dependencies on org.codehaus.doxia.* (it is now
 # org.apache.maven.doxia, and in the interest of maintaining just one
@@ -931,33 +936,33 @@ done
 # Remove existing binaries from source trees
 #find . -name "*.jar" -exec rm -f '{}' \;
 
-%patch0 -b .sav
-%patch1 -b .sav
-%patch2 -b .sav
-%patch3 -b .sav
-%patch4 -b .sav
-%patch5 -b .sav
+%patch0
+%patch1
+%patch2
+%patch3
+%patch4
+%patch5
 
 # keep external jars out of uber jar only in non-bootstrap mode
-%if %without bootstrap
-%patch6 -b .sav
+%if %{without bootstrap}
+%patch6
 %endif
 
 
-%patch7 -b .sav
+%patch7
 
-%if %with bootstrap
-%patch8 -b .sav
+%if %{with bootstrap}
+%patch8
 %endif
 
-%patch9 -b .sav
-%patch10 -b .sav
-%patch11 -b .sav
-%patch12 -b .sav
+%patch9
+%patch10
+%patch11
+%patch12
 # javadoc 2.5 no longer needs this patch
-#%patch13 -b .sav
+#%patch13
 # javadoc 2.5 pre-reqs maven 2.0.9 by default
-#%patch14 -b .sav
+#%patch14
 
 # FIXME: Maven eclipse plugin tests are disabled for now, until a way
 # is found to stop it from connecting to the web despite offline mode.
@@ -979,7 +984,7 @@ rm -f maven2/maven-artifact-manager/src/test/java/org/apache/maven/artifact/repo
 tar xzf %{SOURCE3}
 
 # extract jars iff in bootstrap mode
-%if %with bootstrap
+%if %{with bootstrap}
 tar xzf %{SOURCE4}
 %endif
 
@@ -1000,7 +1005,7 @@ cp -p %{SOURCE11} maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven
 
 cp -p %{SOURCE7} %{maven_settings_file}
 sed -i -e "s|<url>__INTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/m2_repo/repository</url>|g" %{maven_settings_file}
-%if %with bootstrap
+%if %{with bootstrap}
 sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/external_repo</url>|g" %{maven_settings_file}
 %else
 sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://%{_datadir}/%{name}/repository</url>|g" %{maven_settings_file}
@@ -1008,7 +1013,7 @@ sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://%{_datadir}/%{
 
 sed -i -e "s|__INTERNAL_REPO_PLACEHOLDER__|file://`pwd`/m2_repo/repository|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 
-%if %with bootstrap
+%if %{with bootstrap}
 sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://`pwd`/external_repo|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 %else
 sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
@@ -1050,7 +1055,7 @@ export M2_SETTINGS_FILE=%{maven_settings_file}
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.ignore.versions -Dmaven2.offline.mode -Dmaven.test.failure.ignore=true -Dmaven2.jpp.depmap.file=%{SOURCE17}"
 export M2_HOME=`pwd`/maven2/home/apache-%{name}-%{version}
 
-%if %with bootstrap
+%if %{with bootstrap}
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=`pwd`/external_repo"
 %else
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=%{_datadir}/%{name}/repository"
@@ -1077,7 +1082,7 @@ sed -i -e s:"/core/boot/classworlds-\*.jar":/core/boot/classworlds\*.jar:g $M2_H
 # In non-bootstrap mode, external jars are kept out of the uber jar. Copy those
 # jars in for now (linked in %%post)
 
-%if %without bootstrap
+%if %{without bootstrap}
 (cd $M2_HOME/lib
 cp ../../../../m2_home_local/repository/com/jcraft/jsch/0.1.24/jsch-0.1.24.jar jsch.jar
 cp ../../../../m2_home_local/repository/org/codehaus/plexus/plexus-utils/1.4.6/plexus-utils-1.4.6.jar plexus-utils.jar
@@ -1115,7 +1120,7 @@ $M2_HOME/bin/mvn -e --batch-mode -s %{maven_settings_file} $MAVEN_OPTS -Dmaven.t
 
 popd >& /dev/null
 
-%if %without bootstrap
+%if %{without bootstrap}
 # Build model-all JAR  (for model-v3 classes)
 pushd maven2/maven-model >& /dev/null
 
@@ -1126,7 +1131,7 @@ popd >& /dev/null
 
 # Build complete. Run it tests.
 
-%if %with itests
+%if %{with itests}
 
 (cd maven2
 
@@ -1216,7 +1221,7 @@ cp -p $M2_HOME/bin/* $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/boot
 
-%if %with bootstrap
+%if %{with bootstrap}
 cp -p $M2_HOME/boot/classworlds* $RPM_BUILD_ROOT%{_datadir}/%{name}/boot/classworlds.jar
 %endif
 
@@ -1259,7 +1264,7 @@ pushd %{name}
 
         install -m 644 $project/target/$project-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/$artifactname-%{version}.jar
 
-%if %without bootstrap
+%if %{without bootstrap}
         if [ "$project" == "maven-model" ]; then
           install -m 644 $project/target/$project-%{version}-all.jar $RPM_BUILD_ROOT%{_javadir}/%{name}/$artifactname-all-%{version}.jar
         fi
@@ -1370,14 +1375,14 @@ ln -sf %{_datadir}/%{name}/plugins $RPM_BUILD_ROOT%{_javadir}/%{name}
 ln -s %{_javadir} $RPM_BUILD_ROOT%{_datadir}/%{name}/repository/JPP
 
 # Create the bootstrap repo
-%if %with bootstrap
+%if %{with bootstrap}
 install -dm 755  $RPM_BUILD_ROOT%{_datadir}/%{name}/bootstrap_repo
 tar xzf %{SOURCE4}
 mv m2_repo/repository/JPP $RPM_BUILD_ROOT%{_datadir}/%{name}/bootstrap_repo/
 rmdir -p m2_repo/repository
 %endif
 
-%if %with repolib
+%if %{with repolib}
 install -d -m 755 $RPM_BUILD_ROOT%{repodir}
 install -d -m 755 $RPM_BUILD_ROOT%{repodirlib}
 install -p -m 644 %{SOURCE100} $RPM_BUILD_ROOT%{repodir}/component-info.xml
@@ -1433,7 +1438,7 @@ rm -rf $RPM_BUILD_ROOT
 find %{_datadir}/%{name}/boot/ -type l -exec rm -f '{}' \;
 find %{_datadir}/%{name}/lib/ -type l -exec rm -f '{}' \;
 
-%if %without bootstrap
+%if %{without bootstrap}
 build-jar-repository -s -p %{_datadir}/%{name}/boot classworlds
 
 build-jar-repository -s -p %{_datadir}/%{name}/lib \
@@ -1495,7 +1500,7 @@ if [ -d %{_javadir}/%{name} ] ; then rmdir --ignore-fail-on-non-empty %{_javadir
 %{_mavendepmapfragdir}
 %{_javadir}/%{name}
 
-%if %with bootstrap
+%if %{with bootstrap}
 %{_datadir}/%{name}/bootstrap_repo
 %endif
 
@@ -1687,7 +1692,7 @@ if [ -d %{_javadir}/%{name} ] ; then rmdir --ignore-fail-on-non-empty %{_javadir
 %dir %{_datadir}/%{name}/plugins
 %{_datadir}/%{name}/plugins/war-plugin*.jar
 
-%if %with repolib
+%if %{with repolib}
 %files repolib
 %defattr(0644,root,root,0755)
 %{_javadir}/repository.jboss.com
@@ -1837,3 +1842,4 @@ if [ -d %{_javadir}/%{name} ] ; then rmdir --ignore-fail-on-non-empty %{_javadir
 
 * Wed Feb 22 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.2-1jpp
 - Initial build.
+# vim:foldmethod=marker
