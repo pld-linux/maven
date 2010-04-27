@@ -1,0 +1,11 @@
+--- maven2/maven-core/src/bin/mvn.sav	2008-01-02 19:45:36.000000000 -0500
++++ maven2/maven-core/src/bin/mvn	2008-01-02 19:45:48.000000000 -0500
+@@ -160,7 +160,7 @@ fi
+ 
+ exec "$JAVACMD" \
+   $MAVEN_OPTS \
+-  -classpath "${M2_HOME}"/boot/classworlds-*.jar \
++  -classpath "${M2_HOME}"/boot/classworlds*.jar \
+   "-Dclassworlds.conf=${M2_HOME}/bin/m2.conf" \
+   "-Dmaven.home=${M2_HOME}"  \
+   ${CLASSWORLDS_LAUNCHER} $QUOTED_ARGS

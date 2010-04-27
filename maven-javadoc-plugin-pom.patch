@@ -1,0 +1,19 @@
+--- maven2-plugins/maven-javadoc-plugin/pom.xml.orig	2009-01-31 09:47:18.423411000 -0500
++++ maven2-plugins/maven-javadoc-plugin/pom.xml	2009-01-31 10:39:38.671359000 -0500
+@@ -38,7 +38,7 @@
+   <inceptionYear>2004</inceptionYear>
+ 
+   <prerequisites>
+-    <maven>2.0.9</maven>
++    <maven>2.0.8</maven>
+   </prerequisites>
+ 
+   <scm>
+@@ -215,6 +215,7 @@
+         </executions>
+         <configuration>
+           <version>1.0.0</version>
++          <model>src/main/mdo/javadocOptions.mdo</model>
+           <models>
+             <model>src/main/mdo/javadocOptions.mdo</model>
+           </models>

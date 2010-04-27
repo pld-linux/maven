@@ -1,0 +1,12 @@
+--- maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2008/03/24 20:05:11	640549
++++ maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2009/02/24 20:07:37	747533
+@@ -195,8 +195,7 @@
+             ArtifactRepositoryPolicy policy =
+                 metadata.isSnapshot() ? repository.getSnapshots() : repository.getReleases();
+ 
+-            if ( ( policy.isEnabled() && !repository.isBlacklisted() )
+-                && ( loadMetadata( metadata, repository, localRepository, previousMetadata ) ) )
++            if ( policy.isEnabled() && loadMetadata( metadata, repository, localRepository, previousMetadata ) )
+             {
+                 metadata.setRepository( repository );
+                 selected = repository;

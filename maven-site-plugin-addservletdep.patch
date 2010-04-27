@@ -1,0 +1,21 @@
+--- maven2-plugins/maven-site-plugin/pom.xml.orig	2009-01-27 12:46:58.030715000 -0500
++++ maven2-plugins/maven-site-plugin/pom.xml	2009-01-27 12:47:44.980506000 -0500
+@@ -184,11 +184,18 @@
+       <artifactId>plexus-utils</artifactId>
+       <version>1.4.1</version>
+     </dependency>
++<!--
+     <dependency>
+       <groupId>org.mortbay.jetty</groupId>
+       <artifactId>jetty</artifactId>
+       <version>6.0.0rc0</version>
+     </dependency>
++-->
++    <dependency>
++      <groupId>javax.servlet</groupId>
++      <artifactId>servlet-api</artifactId>
++      <version>2.4</version>
++    </dependency>
+     <dependency>
+       <groupId>org.apache.maven.shared</groupId>
+       <artifactId>maven-plugin-testing-harness</artifactId>

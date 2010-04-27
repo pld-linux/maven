@@ -1,0 +1,39 @@
+--- ./maven2/maven-core/pom.xml.sav	2007-12-12 16:21:15.000000000 -0500
++++ ./maven2/maven-core/pom.xml	2007-12-12 16:21:10.000000000 -0500
+@@ -39,21 +39,23 @@
+                   <exclude>junit:junit</exclude>
+                   <exclude>jmock:jmock</exclude>
+                   <exclude>xml-apis:xml-apis</exclude>
++                  <exclude>com.jcraft:jsch</exclude>
++                  <exclude>org.codehaus.plexus:plexus-utils</exclude>
++                  <exclude>commons-cli:commons-cli</exclude>
++                  <exclude>org.apache.maven.doxia:doxia-sink-api</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-file</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-http-lightweight</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-http-shared</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-provider-api</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-ssh</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-ssh-common</exclude>
++                  <exclude>org.apache.maven.wagon:wagon-ssh-external</exclude>
++                  <exclude>org.codehaus.plexus:plexus-container-default</exclude>
++                  <exclude>org.codehaus.plexus:plexus-interactivity-api</exclude>
++                  <exclude>jdom:jdom</exclude>
++                  <exclude>jtidy:jtidy</exclude>
+                 </excludes>
+               </artifactSet>
+-              <relocations>
+-                <relocation>
+-                  <pattern>org.codehaus.plexus.util</pattern>
+-                  <excludes>
+-                    <exclude>
+-                      org.codehaus.plexus.util.xml.Xpp3Dom
+-                    </exclude>
+-                    <exclude>
+-                      org.codehaus.plexus.util.xml.pull.*
+-                    </exclude>
+-                  </excludes>
+-                </relocation>
+-              </relocations>
+             </configuration>
+           </execution>
+         </executions>

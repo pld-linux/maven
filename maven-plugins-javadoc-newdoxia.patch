@@ -1,0 +1,40 @@
+--- maven2-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/JavadocReport.java.orig	2009-01-31 12:28:40.393331000 -0500
++++ maven2-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/JavadocReport.java	2009-01-31 18:17:01.921601000 -0500
+@@ -26,6 +26,7 @@
+ import org.apache.maven.plugin.MojoFailureException;
+ import org.apache.maven.reporting.MavenReport;
+ import org.apache.maven.reporting.MavenReportException;
++import org.apache.maven.doxia.module.xhtml.decoration.render.RenderingContext;
+ import org.codehaus.doxia.sink.Sink;
+ import org.codehaus.plexus.util.StringUtils;
+ 
+@@ -219,24 +220,18 @@
+     {
+         try
+         {
+-            SiteRendererSink sink = siteRenderer.createSink( getReportOutputDirectory(), getOutputName() + ".html" );
+-
++            RenderingContext context = new RenderingContext( outputDirectory, getOutputName() + ".html" );
++            SiteRendererSink sink = new SiteRendererSink( context );
+             generate( sink, Locale.getDefault() );
+         }
+-        catch ( RendererException e )
+-        {
+-            throw new MojoExecutionException( "An error has occurred in " + getName( Locale.ENGLISH )
+-                + " report generation:" + e.getMessage(), e );
+-        }
+-        catch ( IOException e )
++        catch ( MavenReportException e )
+         {
+             throw new MojoExecutionException( "An error has occurred in " + getName( Locale.ENGLISH )
+                 + " report generation:" + e.getMessage(), e );
+         }
+-        catch ( MavenReportException e )
++        catch ( RuntimeException e )
+         {
+-            throw new MojoExecutionException( "An error has occurred in " + getName( Locale.ENGLISH )
+-                + " report generation:" + e.getMessage(), e );
++            getLog().error( e.getMessage(), e );
+         }
+     }
+ 

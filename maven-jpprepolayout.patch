@@ -1,0 +1,508 @@
+diff -up ./maven2/bootstrap/bootstrap-installer/src/main/java/org/apache/maven/bootstrap/installer/BootstrapInstaller.java.sav ./maven2/bootstrap/bootstrap-installer/src/main/java/org/apache/maven/bootstrap/installer/BootstrapInstaller.java
+--- ./maven2/bootstrap/bootstrap-installer/src/main/java/org/apache/maven/bootstrap/installer/BootstrapInstaller.java.sav	2007-09-08 19:20:50.000000000 -0400
++++ ./maven2/bootstrap/bootstrap-installer/src/main/java/org/apache/maven/bootstrap/installer/BootstrapInstaller.java	2009-05-05 15:28:38.000000000 -0400
+@@ -57,6 +57,8 @@ public class BootstrapInstaller
+ 
+     private boolean offline;
+ 
++    private String settingsFile;
++
+     public BootstrapInstaller( SimpleArgumentParser parser )
+         throws Exception
+     {
+@@ -72,6 +74,8 @@ public class BootstrapInstaller
+         this.updateSnapshots = parser.isArgumentSet( "--update-snapshots" );
+ 
+         this.offline = parser.isArgumentSet( "--offline" );
++
++       this.settingsFile = parser.getArgumentValue( "--settings" );
+     }
+ 
+     public static void main( String[] args )
+@@ -215,6 +219,11 @@ public class BootstrapInstaller
+             cli.createArgument().setValue( "--update-snapshots" );
+         }
+ 
++        if (this.settingsFile != null) {
++            cli.createArgument().setValue( "-s" );
++            cli.createArgument().setValue( this.settingsFile ); 
++        }
++
+         for ( int i = 0; i < args.length; i++ )
+         {
+             cli.createArgument().setValue( args[i] );
+diff -up ./maven2/bootstrap/bootstrap-mini/build.sav ./maven2/bootstrap/bootstrap-mini/build
+--- ./maven2/bootstrap/bootstrap-mini/build.sav	2006-12-11 23:53:43.000000000 -0500
++++ ./maven2/bootstrap/bootstrap-mini/build	2009-05-05 15:28:38.000000000 -0400
+@@ -9,6 +9,11 @@ rm -rf bootstrap-mini.jar ${buildDir} > 
+ mkdir -p ${classesDir}
+ 
+ "$JAVA_HOME/bin/javac" -g -d ${classesDir} `find ${srcDir} -name '*.java'`
++# FIXME: Is there a better way to make the compiler see the jdom classes? 
++# setting CLASSPATH, or giving -cp/-classpath didn't work :(
++(cd ${classesDir} 
++   jar xf $JDOMCLASS 
++)
+ ret=$?; if [ $ret != 0 ]; then exit $ret; fi
+ 
+ ( cd ${classesDir} ; "$JAVA_HOME/bin/jar" -cfm ../../bootstrap-mini.jar ../../src/main/resources/META-INF/MANIFEST.MF * )
+diff -up ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java.sav ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+--- ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java.sav	2007-06-15 02:19:15.000000000 -0400
++++ ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java	2009-05-05 15:28:38.000000000 -0400
+@@ -49,7 +49,8 @@ public class OnlineArtifactDownloader
+ 
+     private String proxyPassword;
+ 
+-    private static final String REPO_URL = "http://repo1.maven.org/maven2";
++    private static final String INTERNAL_REPO_URL = "__INTERNAL_REPO_PLACEHOLDER__";
++    private static final String EXTERNAL_REPO_URL = "__EXTERNAL_REPO_PLACEHOLDER__";
+ 
+     private Map downloadedArtifacts = new HashMap();
+ 
+@@ -170,7 +171,10 @@ public class OnlineArtifactDownloader
+             try
+             {
+                 String version = dep.getVersion();
+-                if ( snapshot )
++                if ( snapshot && 
++                   ((System.getProperty("maven2.offline.mode") == null) && 
++                       (System.getProperty("maven2.jpp.mode") == null)) )
++
+                 {
+                     String filename = "maven-metadata-" + remoteRepo.getId() + ".xml";
+                     File localFile = getLocalRepository().getMetadataFile( dep.getGroupId(), dep.getArtifactId(),
+@@ -252,7 +256,10 @@ public class OnlineArtifactDownloader
+ 
+                     file.getParentFile().mkdirs();
+ 
+-                    if ( !file.exists() || version.indexOf( "SNAPSHOT" ) >= 0 )
++                    if ( (!file.exists() || version.indexOf( "SNAPSHOT" ) >= 0) && 
++                       ((System.getProperty("maven2.offline.mode") == null) && 
++                           (System.getProperty("maven2.jpp.mode") == null)) )
++
+                     {
+                         String filename = dep.getArtifactId() + "-" + version + ".pom";
+                         String metadataPath = remoteRepo.getMetadataPath( dep.getGroupId(), dep.getArtifactId(),
+@@ -340,11 +347,8 @@ public class OnlineArtifactDownloader
+ 
+         if ( remoteRepositories.isEmpty() )
+         {
+-            // TODO: use super POM?
+-            remoteRepositories.add( new Repository( "central", REPO_URL, Repository.LAYOUT_DEFAULT, false, true ) );
+-            // TODO: use maven root POM?
+-            remoteRepositories.add( new Repository( "apache.snapshots", "http://people.apache.org/repo/m2-snapshot-repository/",
+-                                                    Repository.LAYOUT_DEFAULT, true, false ) );
++            remoteRepositories.add( new Repository( "internal", INTERNAL_REPO_URL, Repository.LAYOUT_JPP, true, true ) );
++            remoteRepositories.add( new Repository( "external", EXTERNAL_REPO_URL, Repository.LAYOUT_JPP, true, true ) );
+         }
+ 
+         return remoteRepositories;
+diff -up ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/model/Repository.java.sav ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/model/Repository.java
+--- ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/model/Repository.java.sav	2006-07-08 11:46:08.000000000 -0400
++++ ./maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/model/Repository.java	2009-05-05 15:28:37.000000000 -0400
+@@ -18,6 +18,8 @@ package org.apache.maven.bootstrap.model
+ 
+ import java.io.File;
+ import java.util.Collections;
++import java.util.Hashtable;
++import org.apache.maven.artifact.repository.layout.MavenJPackageDepmap;
+ 
+ /**
+  * Repository path management.
+@@ -35,6 +37,12 @@ public class Repository
+ 
+     private String layout = LAYOUT_DEFAULT;
+ 
++    public static final String LAYOUT_JPP = "jpp";
++
++    private static final char GROUP_SEPARATOR = '.';
++
++    private static final char PATH_SEPARATOR = '/';
++
+     private String id;
+ 
+     private boolean releases = true;
+@@ -64,7 +72,25 @@ public class Repository
+     public String getArtifactPath( Dependency dependency )
+     {
+         String repositoryPath;
+-        if ( LAYOUT_LEGACY.equals( layout ) )
++        if ( LAYOUT_JPP.equals( layout ) )
++        {
++
++           String groupId, artifactId;
++
++           MavenJPackageDepmap map = MavenJPackageDepmap.getInstance();
++           Hashtable newInfo = map.getMappedInfo(dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion());
++
++           groupId = (String) newInfo.get("group");
++           artifactId = (String) newInfo.get("artifact");
++           
++           if (dependency.getType().equals("pom")) {
++               return getMetadataPath(groupId, artifactId, dependency.getVersion(), dependency.getType(), dependency.getArtifact());
++           }
++
++            // Same as legacy layout
++            repositoryPath = groupId + "/" + artifactId + ".jar";
++        }
++        else if ( LAYOUT_LEGACY.equals( layout ) )
+         {
+             repositoryPath = dependency.getArtifactDirectory() + "/" + dependency.getType() + "s/" +
+                 dependency.getArtifact();
+@@ -94,7 +120,30 @@ public class Repository
+         Dependency dependency = new Dependency( groupId, artifactId, version, type, Collections.EMPTY_LIST );
+ 
+         String repositoryPath;
+-        if ( LAYOUT_LEGACY.equals( layout ) )
++        if ( LAYOUT_JPP.equals( layout ) ) 
++        {
++            if (filename.substring(filename.length()-4).equals(".pom") || type.equals("pom")) {
++ 
++                MavenJPackageDepmap map = MavenJPackageDepmap.getInstance();
++                Hashtable newInfo = map.getMappedInfo(groupId, artifactId, version);
++ 
++                groupId = (String) newInfo.get("group");
++                artifactId = (String) newInfo.get("artifact");
++ 
++                String fName = groupId.replace(PATH_SEPARATOR, GROUP_SEPARATOR) + "-" + artifactId + ".pom";
++                repositoryPath = System.getProperty("maven2.jpp.pom.path", "JPP/maven2/poms") + "/" + fName;
++                java.io.File f;
++ 
++                // .substring(6) removes preceeding file://
++                f = new File(basedir.substring(6) + "/" + repositoryPath);
++                if (!f.exists()) {
++                    repositoryPath = System.getProperty("maven2.jpp.default.pom.path", "JPP/maven2/default_poms") + "/" + fName;
++                }
++            } else {
++                 repositoryPath = System.getProperty("maven2.jpp.pom.path", "JPP/maven2/poms") + "/" + filename;
++            }
++        }
++        else if ( LAYOUT_LEGACY.equals( layout ) )
+         {
+             repositoryPath = dependency.getArtifactDirectory() + "/poms/" + filename;
+         }
+@@ -102,11 +151,29 @@ public class Repository
+         {
+             repositoryPath = dependency.getGroupId().replace( '.', '/' );
+             repositoryPath = repositoryPath + "/" + dependency.getArtifactId();
+-            if ( version != null )
++
++            String newVersion = version;
++            String newFilename = filename;
++
++            if (    ( 
++                       ( System.getProperty("maven2.offline.mode") != null && 
++                         System.getProperty("maven2.ignore.versions") != null ) ||
++                       (System.getProperty("maven2.jpp.mode") != null) 
++                   ) && 
++                version != null) {
++                MavenJPackageDepmap map = MavenJPackageDepmap.getInstance();
++                Hashtable newInfo = map.getMappedInfo(groupId, artifactId, version);
++
++                newVersion = (String) newInfo.get("version");
++
++                newFilename = filename.replaceFirst(dependency.getVersion(), newVersion);
++            }
++
++            if ( newVersion != null )
+             {
+-                repositoryPath = repositoryPath + "/" + dependency.getVersion();
++                repositoryPath = repositoryPath + "/" + newVersion;
+             }
+-            repositoryPath = repositoryPath + "/" + filename;
++            repositoryPath = repositoryPath + "/" + newFilename;
+         }
+         else
+         {
+diff -up ./maven2/bootstrap.sh.sav ./maven2/bootstrap.sh
+--- ./maven2/bootstrap.sh.sav	2007-03-18 20:43:54.000000000 -0400
++++ ./maven2/bootstrap.sh	2009-05-05 15:28:38.000000000 -0400
+@@ -8,7 +8,7 @@ if [ -z "$JAVA_HOME" ]; then
+   exit 1
+ fi
+ 
+-JAVACMD="$JAVA_HOME/bin/java"
++JAVACMD="$JAVA_HOME/bin/java -classpath $CLASSPATH"
+ 
+ (
+   cd bootstrap/bootstrap-mini
+diff -up ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/manager/DefaultWagonManager.java.sav ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/manager/DefaultWagonManager.java
+--- ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/manager/DefaultWagonManager.java.sav	2007-03-26 21:05:38.000000000 -0400
++++ ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/manager/DefaultWagonManager.java	2009-05-05 15:28:37.000000000 -0400
+@@ -340,9 +340,25 @@ public class DefaultWagonManager
+         else if ( repository.isBlacklisted() )
+         {
+             getLogger().debug( "Skipping blacklisted repository " + repository.getId() );
+-        }
+-        else
+-        {
++        } 
++        else if ( ((System.getProperty("maven2.offline.mode") != null) || 
++                       (System.getProperty("maven2.jpp.mode") != null)) && 
++                        !repository.getUrl().startsWith("file:") ) {
++           getLogger().warn( "Skipping non filebased repository " + repository.getUrl() + " in full offline mode");
++       }
++       else
++       {
++            // Else policy is enabled, this is not a blacklisted repo, and we 
++            // may or may not be in jpp/offline mode. If we are not in 
++            // jpp/offline mode, __jpp_repo__ needs to be disabled.
++
++            if (System.getProperty("maven2.usejppjars") == null &&
++                 System.getProperty("maven2.jpp.mode") == null &&
++                 repository.getId().equals("__jpp_repo__")) {
++                    getLogger().warn( "Skipping jpp repository " + repository.getUrl() + " in vanilla mode");
++                    return;
++            }
++
+             getLogger().debug( "Trying repository " + repository.getId() );
+             getRemoteFile( repository, artifact.getFile(), remotePath, downloadMonitor, policy.getChecksumPolicy(),
+                            false );
+diff -up ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java.sav ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java
+--- ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java.sav	2007-10-16 16:40:07.000000000 -0400
++++ ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2009-05-05 15:28:37.000000000 -0400
+@@ -88,7 +88,9 @@ public class DefaultRepositoryMetadataMa
+ 
+                     boolean metadataIsEmpty = true;
+ 
+-                    if ( checkForUpdates )
++                    if ( checkForUpdates && 
++                       ((System.getProperty("maven2.offline.mode") == null) && 
++                           (System.getProperty("maven2.jpp.mode") == null)))
+                     {
+                         getLogger().info( metadata.getKey() + ": checking for updates from " + repository.getId() );
+ 
+diff -up ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactResolver.java.sav ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactResolver.java
+--- ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactResolver.java.sav	2007-09-10 20:36:31.000000000 -0400
++++ ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactResolver.java	2009-05-05 15:28:37.000000000 -0400
+@@ -184,7 +184,9 @@ public class DefaultArtifactResolver
+                 try
+                 {
+                     // TODO: force should be passed to the wagon manager
+-                    if ( artifact.getRepository() != null )
++                    if ( artifact.getRepository() != null && 
++                       ((System.getProperty("maven2.offline.mode") == null) && 
++                           (System.getProperty("maven2.jpp.mode") == null)))
+                     {
+                         // the transformations discovered the artifact - so use it exclusively
+                         wagonManager.getArtifact( artifact, artifact.getRepository() );
+diff -up ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/transform/ReleaseArtifactTransformation.java.sav ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/transform/ReleaseArtifactTransformation.java
+--- ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/transform/ReleaseArtifactTransformation.java.sav	2007-01-11 02:47:53.000000000 -0500
++++ ./maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/transform/ReleaseArtifactTransformation.java	2009-05-05 15:27:21.000000000 -0400
+@@ -46,7 +46,11 @@ public class ReleaseArtifactTransformati
+         {
+             try
+             {
+-                String version = resolveVersion( artifact, localRepository, remoteRepositories );
++                String version;
++				if (System.getProperty("maven2.ignore.versions") != null)  
++					version = "2.0.8";
++				else
++					version = resolveVersion( artifact, localRepository, remoteRepositories );
+ 
+                 if ( Artifact.RELEASE_VERSION.equals( version ) )
+                 {
+diff -up ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/DefaultRepositoryLayout.java.sav ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/DefaultRepositoryLayout.java
+--- ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/DefaultRepositoryLayout.java.sav	2007-01-11 02:47:53.000000000 -0500
++++ ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/DefaultRepositoryLayout.java	2009-05-05 15:28:37.000000000 -0400
+@@ -23,6 +23,9 @@ import org.apache.maven.artifact.Artifac
+ import org.apache.maven.artifact.handler.ArtifactHandler;
+ import org.apache.maven.artifact.metadata.ArtifactMetadata;
+ import org.apache.maven.artifact.repository.ArtifactRepository;
++import org.apache.maven.artifact.repository.layout.MavenJPackageDepmap;
++
++import java.util.Hashtable;
+ 
+ /**
+  * @author jdcasey
+@@ -42,10 +45,24 @@ public class DefaultRepositoryLayout
+ 
+         StringBuffer path = new StringBuffer();
+ 
++        String baseVersion = artifact.getBaseVersion();
++        String version = artifact.getVersion();
++
++        if (( System.getProperty("maven2.offline.mode") != null  && 
++              System.getProperty("maven2.ignore.versions") != null ) || 
++            ( System.getProperty("maven2.jpp.mode") != null) ) { 
++            MavenJPackageDepmap map = MavenJPackageDepmap.getInstance();
++            Hashtable newInfo = map.getMappedInfo(artifact.getGroupId(), artifact.getArtifactId(), version);
++
++            //System.err.println("Replacing[1] " + baseVersion + " and " + version + " with " + (String) newInfo.get("version") + " in offline+ignore versions mode");
++            baseVersion = (String) newInfo.get("version");
++            version = baseVersion;
++        }
++
+         path.append( formatAsDirectory( artifact.getGroupId() ) ).append( PATH_SEPARATOR );
+         path.append( artifact.getArtifactId() ).append( PATH_SEPARATOR );
+-        path.append( artifact.getBaseVersion() ).append( PATH_SEPARATOR );
+-        path.append( artifact.getArtifactId() ).append( ARTIFACT_SEPARATOR ).append( artifact.getVersion() );
++        path.append( baseVersion ).append( PATH_SEPARATOR );
++        path.append( artifact.getArtifactId() ).append( ARTIFACT_SEPARATOR ).append( version );
+ 
+         if ( artifact.hasClassifier() )
+         {
+@@ -76,7 +93,17 @@ public class DefaultRepositoryLayout
+ 
+             if ( metadata.storedInArtifactVersionDirectory() )
+             {
+-                path.append( metadata.getBaseVersion() ).append( PATH_SEPARATOR );
++               String baseVersion = metadata.getBaseVersion();
++
++           if (( System.getProperty("maven2.offline.mode") != null  && 
++                 System.getProperty("maven2.ignore.versions") != null ) || 
++               ( System.getProperty("maven2.jpp.mode") != null) ) {
++                   MavenJPackageDepmap map = MavenJPackageDepmap.getInstance();
++                   Hashtable newInfo = map.getMappedInfo(metadata.getGroupId(), metadata.getArtifactId(), baseVersion);
++
++                   baseVersion = (String) newInfo.get("version");
++               }
++                path.append( baseVersion ).append( PATH_SEPARATOR );
+             }
+         }
+ 
+diff -up ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactCollector.java.sav ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactCollector.java
+--- ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactCollector.java.sav	2007-11-05 09:24:53.000000000 -0500
++++ ./maven2/maven-artifact/src/main/java/org/apache/maven/artifact/resolver/DefaultArtifactCollector.java	2009-05-05 15:28:37.000000000 -0400
+@@ -267,7 +267,8 @@ public class DefaultArtifactCollector
+                             // set the recommended version
+                             // TODO: maybe its better to just pass the range through to retrieval and use a transformation?
+                             ArtifactVersion version;
+-                            if ( !artifact.isSelectedVersionKnown() )
++                            if ( !artifact.isSelectedVersionKnown() && 
++                                 System.getProperty("maven2.ignore.versions") == null)
+                             {
+                                 List versions = artifact.getAvailableVersions();
+                                 if ( versions == null )
+@@ -302,7 +303,14 @@ public class DefaultArtifactCollector
+                                 version = artifact.getSelectedVersion();
+                             }
+ 
+-                            artifact.selectVersion( version.toString() );
++                            if ( !artifact.isSelectedVersionKnown() && 
++                                System.getProperty("maven2.ignore.versions") != null )
++                            {
++                                artifact.selectVersion( "2.0.8" );
++                            } else {
++                               artifact.selectVersion( version.toString() );
++                            }
++
+                             fireEvent( ResolutionListener.SELECT_VERSION_FROM_RANGE, listeners, child );
+                         }
+ 
+diff -up ./maven2/maven-artifact/src/main/resources/META-INF/plexus/components.xml.sav ./maven2/maven-artifact/src/main/resources/META-INF/plexus/components.xml
+--- ./maven2/maven-artifact/src/main/resources/META-INF/plexus/components.xml.sav	2007-09-18 15:19:35.000000000 -0400
++++ ./maven2/maven-artifact/src/main/resources/META-INF/plexus/components.xml	2009-05-05 15:28:37.000000000 -0400
+@@ -31,6 +31,12 @@ under the License.
+       <implementation>org.apache.maven.artifact.repository.layout.LegacyRepositoryLayout</implementation>
+     </component>
+ 
++    <component>
++      <role>org.apache.maven.artifact.repository.layout.ArtifactRepositoryLayout</role>
++      <role-hint>jpp</role-hint>
++      <implementation>org.apache.maven.artifact.repository.layout.JPackageRepositoryLayout</implementation>
++    </component>
++
+     <!--
+      |
+      | ArtifactHandlerManager
+diff -up ./maven2/maven-core/src/main/java/org/apache/maven/plugin/version/DefaultPluginVersionManager.java.sav ./maven2/maven-core/src/main/java/org/apache/maven/plugin/version/DefaultPluginVersionManager.java
+--- ./maven2/maven-core/src/main/java/org/apache/maven/plugin/version/DefaultPluginVersionManager.java.sav	2007-10-16 17:43:07.000000000 -0400
++++ ./maven2/maven-core/src/main/java/org/apache/maven/plugin/version/DefaultPluginVersionManager.java	2009-05-05 15:28:37.000000000 -0400
+@@ -224,9 +224,16 @@ public class DefaultPluginVersionManager
+         }
+ 
+         // if we still haven't found a version, then fail early before we get into the update goop.
+-        if ( StringUtils.isEmpty( version ) )
++        if ( StringUtils.isEmpty( version ) && ((System.getProperty("maven2.offline.mode") == null) && 
++                                               (System.getProperty("maven2.jpp.mode") == null)))
++
+         {
+             throw new PluginVersionNotFoundException( groupId, artifactId );
++        } else if (((System.getProperty("maven2.offline.mode") != null) || 
++                    (System.getProperty("maven2.jpp.mode") != null))) {
++            // Doesn't matter what we have here. We need *something* because metadata 
++            // is not retrieved in offline mode, so there needs to be some kind of version
++            version = "2.0.8";
+         }
+ 
+         // if the plugin registry is inactive, then the rest of this goop is useless...
+diff -up ./maven2/maven-project/src/main/java/org/apache/maven/project/validation/DefaultModelValidator.java.sav ./maven2/maven-project/src/main/java/org/apache/maven/project/validation/DefaultModelValidator.java
+--- ./maven2/maven-project/src/main/java/org/apache/maven/project/validation/DefaultModelValidator.java.sav	2007-01-11 02:47:53.000000000 -0500
++++ ./maven2/maven-project/src/main/java/org/apache/maven/project/validation/DefaultModelValidator.java	2009-05-05 15:28:37.000000000 -0400
+@@ -43,7 +43,7 @@ import java.util.List;
+ public class DefaultModelValidator
+     implements ModelValidator
+ {
+-    private static final String ID_REGEX = "[A-Za-z0-9_\\-.]+";
++    private static final String ID_REGEX = "[A-Za-z0-9_/\\\\.-]+";
+ 
+     ///////////////////////////////////////////////////////////////////////////
+     // ModelValidator Implementation
+@@ -88,7 +88,18 @@ public class DefaultModelValidator
+ 
+             validateStringNotEmpty( "dependencies.dependency.type", result, d.getType(), dependencySourceHint( d ) );
+ 
+-            validateStringNotEmpty( "dependencies.dependency.version", result, d.getVersion(), dependencySourceHint( d ) );
++            // Check disabled in "ignore versions" mode. On many occassions, JPackage 
++            // builds modules that are not built by default in a project. A lot of 
++            // these seem to have missing versions for dependencies, so we omit 
++            // validation check for version in the "ignore versions" mode.
++ 
++            if (System.getProperty("maven2.ignore.versions") == null) {
++                validateStringNotEmpty( "dependencies.dependency.version", result, d.getVersion(), dependencySourceHint( d ) );
++            } else {
++                if ( d.getVersion() == null ) {
++                    d.setVersion("2.0.8");
++                }
++            }
+ 
+             if ( Artifact.SCOPE_SYSTEM.equals( d.getScope() ) )
+             {
+@@ -212,7 +223,7 @@ public class DefaultModelValidator
+             boolean match = id.matches( ID_REGEX );
+             if ( !match )
+             {
+-                result.addMessage( "'" + fieldName + "' with value '" + id + "' does not match a valid id pattern." );
++                result.addMessage( "'" + fieldName + "' with value '" + id + "' does not match a valid id pattern: " + ID_REGEX);
+             }
+             return match;
+         }
+diff -up ./maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml.sav ./maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml
+--- ./maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml.sav	2007-01-11 02:47:53.000000000 -0500
++++ ./maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml	2009-05-05 15:28:37.000000000 -0400
+@@ -24,6 +24,15 @@ under the License.
+ 
+   <repositories>
+     <repository>
++      <id>__jpp_repo__</id>
++      <name>JPackage Maven Repository</name>
++      <layout>jpp</layout>
++      <url>file:///usr/share/maven2/repository</url>
++      <snapshots>
++        <enabled>true</enabled>
++      </snapshots>
++    </repository>
++    <repository>
+       <id>central</id>
+       <name>Maven Repository Switchboard</name>
+       <layout>default</layout>
+@@ -38,6 +47,18 @@ under the License.
+   </repositories>
+ 
+   <pluginRepositories>
++     <pluginRepository>
++      <id>__jpp_repo__</id>
++      <name>JPackage Maven Plugin Repository</name>
++      <url>file:///usr/share/maven2/repository</url>
++      <layout>jpp</layout>
++      <snapshots>
++        <enabled>true</enabled>
++      </snapshots>
++      <releases>
++        <updatePolicy>never</updatePolicy>
++      </releases>
++    </pluginRepository>
+     <pluginRepository>
+       <id>central</id>
+       <name>Maven Plugin Repository</name>

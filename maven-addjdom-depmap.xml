@@ -1,0 +1,10 @@
+
+<dependencies>
+	<add>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</add>
+</dependencies>

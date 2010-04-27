@@ -1,0 +1,25 @@
+diff -up ./maven2-plugins/maven-dependency-plugin/pom.xml.sav ./maven2-plugins/maven-dependency-plugin/pom.xml
+--- ./maven2-plugins/maven-dependency-plugin/pom.xml.sav	2007-07-04 12:36:14.000000000 -0400
++++ ./maven2-plugins/maven-dependency-plugin/pom.xml	2008-04-03 15:01:06.000000000 -0400
+@@ -75,21 +75,6 @@
+ 		</license>
+ 	</licenses>
+ 	<build>
+-		<plugins>
+-			<plugin>
+-				<groupId>org.codehaus.mojo</groupId>
+-				<artifactId>cobertura-maven-plugin</artifactId>
+-				<version>2.0</version>
+-				<executions>
+-					<execution>
+-						<phase>clean</phase>
+-						<goals>
+-							<goal>clean</goal>
+-						</goals>
+-					</execution>
+-				</executions>
+-			</plugin>
+-		</plugins>
+ 		<resources>
+ 			<!-- Include the apache process LICENSE and NOTICE files.-->
+ 			<!--uncomment for release. Commented out for now to enable eclipse-plugin to work-->

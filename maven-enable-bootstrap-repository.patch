@@ -1,0 +1,37 @@
+--- maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml.sav	2008-01-02 19:54:58.000000000 -0500
++++ maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml	2008-01-02 19:56:27.000000000 -0500
+@@ -24,6 +24,15 @@ under the License.
+ 
+   <repositories>
+     <repository>
++      <id>bootstrap_repo</id>
++      <name>Maven Bootstrap Repository</name>
++      <layout>jpp</layout>
++      <url>file:///usr/share/maven2/bootstrap_repo</url>
++      <snapshots>
++        <enabled>true</enabled>
++      </snapshots>
++    </repository>
++    <repository>
+       <id>__jpp_repo__</id>
+       <name>JPackage Maven Repository</name>
+       <layout>jpp</layout>
+@@ -48,6 +57,18 @@ under the License.
+ 
+   <pluginRepositories>
+      <pluginRepository>
++      <id>bootstrap_repo</id>
++      <name>Maven Bootstrap Plugin Repository</name>
++      <url>file:///usr/share/maven2/bootstrap_repo</url>
++      <layout>jpp</layout>
++      <snapshots>
++        <enabled>true</enabled>
++      </snapshots>
++      <releases>
++        <updatePolicy>never</updatePolicy>
++      </releases>
++     </pluginRepository>
++     <pluginRepository>
+       <id>__jpp_repo__</id>
+       <name>JPackage Maven Plugin Repository</name>
+       <url>file:///usr/share/maven2/repository</url>

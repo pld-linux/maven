@@ -1,0 +1,10 @@
+--- maven2-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/AbstractJavadocMojo.java.orig	2009-01-27 09:50:15.158248000 -0500
++++ maven2-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/AbstractJavadocMojo.java	2009-01-27 09:51:49.692700000 -0500
+@@ -82,7 +82,6 @@
+  * @version $Id$
+  * @requiresDependencyResolution compile
+  * @execute phase="generate-sources"
+- * @aggregator
+  */
+ public abstract class AbstractJavadocMojo
+     extends AbstractMojo

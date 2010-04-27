@@ -1,0 +1,36 @@
+<settings>
+	<profiles>
+		<profile>
+			<id>JPP</id>
+			<repositories>
+				<repository>
+					<id>internal</id>
+					<layout>jpp</layout>
+					<url>__INTERNAL_REPO_PLACEHOLDER__</url>
+				</repository>
+				<repository>
+					<id>external</id>
+					<layout>jpp</layout>
+					<url>__EXTERNAL_REPO_PLACEHOLDER__</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>plugins-internal</id>
+					<name>plugins-internal</name>
+					<layout>jpp</layout>
+					<url>__INTERNAL_REPO_PLACEHOLDER__</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>plugins-external</id>
+					<name>plugins-external</name>
+					<layout>jpp</layout>
+					<url>__EXTERNAL_REPO_PLACEHOLDER__</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+	<activeProfiles>
+		<activeProfile>JPP</activeProfile>
+	</activeProfiles>
+</settings>

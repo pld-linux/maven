@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="">
+  <component id="org/apache/maven"
+             licenseType=""
+             version="@VERSION@"
+             tag="@TAG@"
+             description=""
+             
+             > 
+              
+    <artifact id="maven-project.jar"/>
+    <artifact id="maven-settings.jar"/>
+    <artifact id="maven-model.jar"/>
+    <artifact id="maven-profile.jar"/>
+    <artifact id="maven-artifact-manager.jar"/>
+    <artifact id="maven-repository-metadata.jar"/>
+    <artifact id="maven-artifact.jar"/>
+    <artifact id="maven-plugin-registry.jar"/>
+    <artifact id="maven-error-diagnostics.jar"/>
+
+
+    <export>
+      <include input="maven-artifact.jar"/>
+      <include input="maven-model.jar"/>
+      <include input="maven-project.jar"/>
+      <include input="maven-artifact-manager.jar"/>
+      <include input="maven-plugin-registry.jar"/>
+      <include input="maven-profile.jar"/>
+      <include input="maven-settings.jar"/>
+      <include input="maven-repository-metadata.jar"/>
+      <include input="maven-error-diagnostics.jar"/>
+
+    </export>
+  </component>
+</project>
