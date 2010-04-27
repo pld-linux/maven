@@ -887,9 +887,7 @@ tar xzf %{SOURCE2}
 # has several bugs
 rm -rf maven2-plugins/maven-javadoc-plugin
 rm -rf maven2-plugins/maven-enforcer-plugin
-pushd maven2-plugins
-tar xzf %{SOURCE22}
-popd
+tar xzf %{SOURCE22} -C maven2-plugins
 
 # Use an older version of site plugin because newer one requires newer doxia 
 # (1.0a8) which is not compatible with the older one (1.0a7) which is needed 
@@ -1061,8 +1059,7 @@ export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=`pwd`/external_repo"
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=%{_datadir}/%{name}/repository"
 %endif
 
-# pushd maven2/ ...
-pushd %{name} >& /dev/null
+cd %{name} # {{{
 
 [ -z "$JAVA_HOME" ] && JAVA_HOME=%{_jvmdir}/java
 export JAVA_HOME
@@ -1074,7 +1071,7 @@ export JDOMCLASS=$CLASSPATH
 ./bootstrap.sh --prefix=`pwd`/home  --settings=%{maven_settings_file}
 unset CLASSPATH
 
-popd >& /dev/null
+cd - # cd %{name} }}}
 
 # Update the classworlds jar name in the mvn script
 sed -i -e s:"/core/boot/classworlds-\*.jar":/core/boot/classworlds\*.jar:g $M2_HOME/bin/mvn
@@ -1097,7 +1094,7 @@ build-jar-repository -s -p $M2_HOME/lib jdom maven-wagon/file maven-wagon/http-l
 %endif
 
 # Build plugins
-pushd maven2-plugins >& /dev/null
+cd maven2-plugins # {{{
 
 # Build the plugin-plugin first, as it is needed to build itself later on
 # NOTE: Build of this plugin for the first time is expected to cause errors. 
@@ -1118,15 +1115,15 @@ sed -i -e s:"<module>maven-clover-plugin</module>"::g pom.xml
 $M2_HOME/bin/mvn -e --batch-mode -s %{maven_settings_file} $MAVEN_OPTS -Dmaven.test.skip=true -npu --no-plugin-registry verify  
 $M2_HOME/bin/mvn -e --batch-mode -s %{maven_settings_file} $MAVEN_OPTS -Dmaven.test.skip=true -npu --no-plugin-registry --fail-at-end jar:jar install:install
 
-popd >& /dev/null
+cd - # }}}
 
 %if %{without bootstrap}
 # Build model-all JAR  (for model-v3 classes)
-pushd maven2/maven-model >& /dev/null
+cd maven2/maven-model # {{{
 
 $M2_HOME/bin/mvn -e -s %{maven_settings_file} $MAVEN_OPTS -P all-models package
 
-popd >& /dev/null
+cd - # }}}
 %endif
 
 # Build complete. Run it tests.
@@ -1144,9 +1141,9 @@ $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS org.apache.maven.plugins:
 )
 
 for i in `find integration-tests/maven-core-it-support -name pom.xml`; do
-    pushd `dirname $i`
+    cd `dirname $i` # {{{
         $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS org.apache.maven.plugins:maven-plugin-plugin:2.1.1-SNAPSHOT::descriptor org.apache.maven.plugins:maven-resources-plugin:2.2-SNAPSHOT:resources org.apache.maven.plugins:maven-compiler-plugin:2.1-SNAPSHOT:compile  org.apache.maven.plugins:maven-jar-plugin:2.1-SNAPSHOT:jar org.apache.maven.plugins:maven-install-plugin:2.2-SNAPSHOT:install
-    popd
+    cd - # }}}
 done
 
 # Test 41 expects core-it-support 1.2 to be packed as a coreit-artifact
@@ -1179,9 +1176,9 @@ for dir in `find -maxdepth 1 -type d`; do
         continue
     fi 
 
-    pushd $dir
+    cd $dir # {{{
     $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS -Dmaven2.usejppjars org.apache.maven.plugins:maven-javadoc-plugin:2.3-SNAPSHOT:javadoc
-    popd
+    cd - # }}}
 done
 )
 (cd maven2-plugins
@@ -1195,9 +1192,9 @@ for dir in `find -maxdepth 1 -type d`; do
         continue
     fi
 
-    pushd $dir
+    cd $dir # {{{
     $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS -Dmaven2.usejppjars org.apache.maven.plugins:maven-javadoc-plugin:2.3-SNAPSHOT:javadoc
-    popd
+    cd - # }}}
 done
 )
 
@@ -1239,7 +1236,7 @@ done
 
 # Install component poms and jars
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/poms
-pushd %{name}
+cd %{name} # {{{
     for project in maven-artifact \
         maven-artifact-manager \
         maven-artifact-test \
@@ -1271,7 +1268,7 @@ pushd %{name}
 %endif
 
     done
-popd
+cd - # }}}
 
 # reporting api
 cp -p %{name}/maven-reporting/maven-reporting-api/pom.xml $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.%{name}-reporting-api.pom
@@ -1304,7 +1301,7 @@ cp -p %{name}/pom.xml $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.%{name}-maven.
 # plugins
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/
 
-pushd maven2-plugins
+cd maven2-plugins # {{{
     for targetdir in `find -mindepth 2 -maxdepth 2 -type d -name target`; do
 
         # Find the version version
@@ -1321,7 +1318,7 @@ pushd maven2-plugins
         %add_to_maven_depmap org.apache.maven.plugins $pluginname $pluginversion JPP/%{name}/plugins $artifactname
 
     done
-popd
+cd - # }}}
 
 # g=org.apache.maven.plugins a=maven-plugins needs to be copied manually, as 
 # it get's changed to a=plugins (a=plugins and a=maven-plugins is the same 
