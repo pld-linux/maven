@@ -97,50 +97,108 @@ Patch20:	%{name}-commons-cli-1.1.patch
 Provides:	%{name}-bootstrap = %{version}-%{release}
 
 ### PLDIZED DEPENDENCIES {{{
-BuildRequires:	rpmbuild(macros) >= 1.557
-### END OF PLDIZED DEPENDENCIES }}}
-
-### OLD JPP DEPENDENCIES {{{
-BuildRequires:	java-devel
-BuildRequires:	jpackage-utils >= 0:1.7.2
-BuildRequires:	/bin/ls,/usr/bin/head,/usr/bin/find,/usr/bin/awk,/bin/grep,/bin/sed
-
+### BRs {{{
 BuildRequires:	ant >= 1.6.5
-BuildRequires:	ant-nodeps
 BuildRequires:	ant-junit
 BuildRequires:	antlr >= 2.7.4
+BuildRequires:	ant-nodeps
+BuildRequires:	java-bsh >= 1.3.0
+BuildRequires:	java-commons-beanutils >= 1.7.0
+BuildRequires:	java-commons-cli >= 1.0
+BuildRequires:	java-commons-collections >= 3.1
+BuildRequires:	java-commons-io >= 1.1
+BuildRequires:	java-commons-lang >= 2.1
+BuildRequires:	java-commons-logging >= 1.0.4
+BuildRequires:	java-commons-validator >= 1.1.4
+BuildRequires:	java-dom4j >= 1.6.1
+BuildRequires:	java-gnu-regexp >= 1.1.4
+BuildRequires:	java-httpunit >= 1.6
+BuildRequires:	java-jdom >= 1.0
+BuildRequires:	java-junit >= 3.8.2
+BuildRequires:	java-oro >= 2.0.8
+BuildRequires:	java-qdox >= 1.5
+BuildRequires:	java-rhino >= 1.5
+BuildRequires:	java-xalan >= 2.6.0
+BuildRequires:	java-xerces >= 2.7.1
+BuildRequires:	java-xmlunit
+BuildRequires:	java-xom
+%{buildrequires_jdk}
+BuildRequires:	jpackage-utils >= 0:1.7.2
+BuildRequires:	rpmbuild(macros) >= 1.557
+BuildRequires:	sed >= 4.0
+%if %{with itests}
+BuildRequires:	java-log4j >= 1.2.13
+BuildRequires:	java(xml-commons-apis) >= 1.3.02
+%endif
+### }}}
+
+### Rs {{{
+Requires:	ant >= 1.6.5
+Requires:	antlr >= 2.7.4
+Requires:	java-bsh >= 1.3.0
+Requires:	java-commons-beanutils >= 1.7.0
+Requires:	java-commons-cli >= 1.0
+Requires:	java-commons-collections >= 3.1
+Requires:	java-commons-io >= 1.1
+Requires:	java-commons-lang >= 2.1
+Requires:	java-commons-logging >= 1.0.4
+Requires:	java-commons-validator >= 1.1.4
+Requires:	java-dom4j >= 1.6.1
+Requires:	java-gnu-regexp >= 1.1.4
+Requires:	java-httpunit >= 1.6
+Requires:	java-jdom >= 1.0
+Requires:	java-junit >= 3.8.2
+Requires:	java-oro >= 2.0.8
+Requires:	java-qdox >= 1.5
+Requires:	java-rhino >= 1.5
+Requires:	java-xalan >= 2.6.0
+Requires:	java-xerces >= 2.7.1
+Requires:	java-xmlunit
+Requires:	java-xom
+Requires(post):	java-commons-cli >= 1.0
+Requires(post):	java-commons-lang >= 2.1
+Requires(post):	java-commons-logging >= 1.0.4
+Requires(post):	java-jdom >= 1.0
+Requires(post):	jpackage-utils >= 0:1.7.2
+Requires(postun):	jpackage-utils >= 0:1.7.2
+### }}}
+### END OF PLDIZED DEPENDENCIES }}}
+
+### DEPENDENCIES NOT PACKAGED FOR PLD {{{
+BuildRequires:	java-velocity >= 1.4
+Requires:		velocity >= 1.4
+### }}}
+
+### DEPENDENCIES THAT NEEDS INVESTIGATION {{{
+# Is java(mail) enough?
+BuildRequires:	glassfish-javamail
+Requires:		glassfish-javamail
+# java(servlet)?
+BuildRequires:	tomcat5-servlet-2.4-api
+Requires:		tomcat5-servlet-2.4-api
+# C library??? Or some java bindings?
+BuildRequires:	xmlrpc
+Requires:		xmlrpc
+# WTF is that?
 BuildRequires:	aqute-bndlib
-BuildRequires:	bsh >= 1.3.0
+### }}}
+
+### OLD JPP DEPENDENCIES {{{
+### BRs {{{
 #BuildRequires:	cglib >= 2.1.0
 BuildRequires:	checkstyle4 >= 4.1
 BuildRequires:	checkstyle4-optional >= 4.1
 BuildRequires:	classworlds >= 1.1
-BuildRequires:	dom4j >= 1.6.1
-#BuildRequires:	tomcat5-parent
-BuildRequires:	tomcat5-servlet-2.4-api
-BuildRequires:	glassfish-javamail
-BuildRequires:	gnu.regexp >= 1.1.4
-BuildRequires:	httpunit >= 1.6
-BuildRequires:	jakarta-commons-beanutils >= 1.7.0
-BuildRequires:	jakarta-commons-cli >= 1.0
-BuildRequires:	jakarta-commons-collections >= 3.1
-BuildRequires:	jakarta-commons-io >= 1.1
-BuildRequires:	jakarta-commons-lang >= 2.1
-BuildRequires:	jakarta-commons-logging >= 1.0.4
-BuildRequires:	jakarta-commons-validator >= 1.1.4
 BuildRequires:	jaxen >= 1.1
-BuildRequires:	jdom >= 1.0
 #BuildRequires:	jmock >= 1.0.1
 BuildRequires:	jline >= 0.8.1
 BuildRequires:	jsch >= 0.1.20
 BuildRequires:	jtidy >= 1.0
-BuildRequires:	junit >= 3.8.2
 BuildRequires:	maven2-common-poms >= 1.0-5
 BuildRequires:	maven-jxr >= 1.0-2
 BuildRequires:	maven-wagon >= 1.0-0.1.b2
 BuildRequires:	maven-doxia >= 1.0-0.a9
 BuildRequires:	nekohtml >= 0.9.3
-BuildRequires:	oro >= 2.0.8
 BuildRequires:	plexus-ant-factory >= 1.0-0.a1.2
 BuildRequires:	plexus-bsh-factory >= 1.0-0.a7s.2
 BuildRequires:	plexus-archiver >= 1.0-0.1.a8
@@ -151,21 +209,8 @@ BuildRequires:	plexus-interactivity >= 1.0
 BuildRequires:	plexus-utils >= 1.2
 BuildRequires:	plexus-velocity >= 1.1.2
 BuildRequires:	pmd >= 3.6
-BuildRequires:	qdox >= 1.5
-BuildRequires:	rhino >= 1.5
 BuildRequires:	saxon-scripts
 BuildRequires:	saxpath
-BuildRequires:	velocity >= 1.4
-BuildRequires:	xerces-j2 >= 2.7.1
-BuildRequires:	xalan-j2 >= 2.6.0
-BuildRequires:	xmlrpc
-BuildRequires:	xmlunit
-BuildRequires:	xom
-
-%if %{with itests}
-BuildRequires:	log4j >= 1.2.13
-BuildRequires:	xml-commons-apis >= 1.3.02
-%endif
 
 %if %{without bootstrap}
 BuildRequires:	%{name} = %{version}
@@ -213,46 +258,26 @@ BuildRequires:	plexus-maven-plugin >= 1.3.5
 BuildRequires:	plexus-mail-sender
 BuildRequires:	plexus-resources
 %endif
+# }}}
 
-Requires:	ant >= 1.6.5
-Requires:	antlr >= 2.7.4
+### Rs {{{
 Requires:	aqute-bndlib
-Requires:	bsh >= 1.3.0
 #Requires:	cglib >= 2.1.0
 Requires:	checkstyle4 >= 4.1
 Requires:	classworlds >= 1.
 Requires(post):	classworlds >= 1.1
-Requires:	dom4j >= 1.6.1
 #Requires:	tomcat5-parent
-Requires:	tomcat5-servlet-2.4-api
-Requires:	glassfish-javamail
-Requires:	gnu.regexp >= 1.1.4
-Requires:	httpunit >= 1.6
-Requires:	jakarta-commons-beanutils >= 1.7.0
-Requires:	jakarta-commons-cli >= 1.0
-Requires(post):	jakarta-commons-cli >= 1.0
-Requires:	jakarta-commons-collections >= 3.1
-Requires:	jakarta-commons-io >= 1.1
-Requires:	jakarta-commons-lang >= 2.1
-Requires(post):	jakarta-commons-lang >= 2.1
-Requires:	jakarta-commons-logging >= 1.0.4
-Requires(post):	jakarta-commons-logging >= 1.0.4
-Requires:	jakarta-commons-validator >= 1.1.4
 Requires:	jaxen >= 1.1
-Requires:	jdom >= 1.0
-Requires(post):	jdom >= 1.0
 #Requires:	jmock >= 1.0.1
 Requires:	jline >= 0.8.1
 Requires:	jsch >= 0.1.20
 Requires(post):	jsch >= 0.1.20
 Requires:	jtidy >= 1.0
-Requires:	junit >= 3.8.2
 Requires:	maven2-common-poms >= 1.0-5
 Requires:	maven-jxr >= 1.0
 Requires:	maven-wagon >= 1.0-0.1.b2
 Requires(post):	maven-wagon >= 1.0-0.1.b2
 Requires:	nekohtml >= 0.9.3
-Requires:	oro >= 2.0.8
 Requires:	plexus-ant-factory >= 1.0-0.a1.2
 Requires:	plexus-bsh-factory >= 1.0-0.a7s.2
 Requires:	plexus-archiver >= 1.0-0.a6
@@ -266,15 +291,8 @@ Requires:	plexus-utils >= 1.2
 Requires(post):	plexus-utils >= 1.2
 Requires:	plexus-velocity >= 1.1.2
 Requires:	pmd >= 3.6
-Requires:	qdox >= 1.5
-Requires:	rhino >= 1.5
-Requires:	velocity >= 1.4
-Requires:	xerces-j2 >= 2.7.1
-Requires:	xalan-j2 >= 2.6.0
-Requires:	xmlrpc
-Requires:	xmlunit
-Requires:	xom
 
+### Bootstrap {{{
 %if %{without bootstrap}
 Requires:		%{name} = %{version}
 Requires:	maven-doxia >= 1.0-0.a9
@@ -292,15 +310,9 @@ Requires:	maven-surefire-booter >= 2.0
 Requires:	modello >= 1.0-0.a8.3
 Requires:	modello-maven-plugin >= 1.0-0.a8.3
 %endif
+### }}}
 
-Obsoletes:	maven2-plugin-jxr <= 0:2.0.4 
-Obsoletes:	maven2-plugin-surefire <= 0:2.0.4 
-Obsoletes:	maven2-plugin-surefire-report <= 0:2.0.4 
-Obsoletes:	maven2-plugin-release <= 0:2.0.4 
-Obsoletes:		 maven2-plugin-enforcer < %{version}-%{release}
-
-Requires(post):	jpackage-utils >= 0:1.7.2
-Requires(postun):	jpackage-utils >= 0:1.7.2, /bin/rmdir
+### }}}
 ### END OF OLD JPP DEPENDENCIES }}}
 
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root
