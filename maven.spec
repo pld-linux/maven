@@ -6,17 +6,12 @@
 %define repodirlib %{repodir}/lib
 %define repodirsrc %{repodir}/src
 
-%define maven_version   2.0.8
-
-%define base_name maven
-%define name maven2
-
 %define repo_dir m2_home_local/repository
 %define maven_settings_file %{_builddir}/%{name}/settings.xml
 
-Name:           %{name}
-Version:        %{maven_version}
-Release:        26%{?dist}
+Name:           maven
+Version:        2.0.8
+Release:        0.1
 Epoch:          0
 Summary:        Java project management and project comprehension tool
 
@@ -1053,7 +1048,7 @@ export M2_SETTINGS_FILE=%{maven_settings_file}
 # breaking build.
 
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.ignore.versions -Dmaven2.offline.mode -Dmaven.test.failure.ignore=true -Dmaven2.jpp.depmap.file=%{SOURCE17}"
-export M2_HOME=`pwd`/maven2/home/apache-%{base_name}-%{version}
+export M2_HOME=`pwd`/maven2/home/apache-%{name}-%{version}
 
 %if %with bootstrap
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=`pwd`/external_repo"
@@ -1204,7 +1199,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-export M2_HOME=`pwd`/maven2/home/apache-%{base_name}-%{version}
+export M2_HOME=`pwd`/maven2/home/apache-%{name}-%{version}
 
 # Repository
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/repository
@@ -1364,7 +1359,7 @@ ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
 # manual and jpp readme
 install -dm 755 $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-cp -p %{name}/home/apache-%{base_name}-%{version}/*.txt $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+cp -p %{name}/home/apache-%{name}-%{version}/*.txt $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 cp -p %{SOURCE16} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 # create appropriate links in /usr/share/java
