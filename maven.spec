@@ -9,6 +9,7 @@
 %define repo_dir m2_home_local/repository
 %define maven_settings_file %{_builddir}/%{name}/settings.xml
 
+### preamble {{{
 Name:		maven
 Version:	2.0.8
 Release:	%{bootstrap_release %rel}
@@ -134,6 +135,7 @@ BuildRequires:	sed >= 4.0
 %if %{with itests}
 BuildRequires:	java-log4j >= 1.2.13
 BuildRequires:	java(xml-commons-apis) >= 1.3.02
+BuildRequires:	saxon
 %endif
 ### }}}
 
@@ -213,7 +215,6 @@ BuildRequires:	plexus-interactivity >= 1.0
 BuildRequires:	plexus-utils >= 1.2
 BuildRequires:	plexus-velocity >= 1.1.2
 BuildRequires:	pmd >= 3.6
-BuildRequires:	saxon-scripts
 BuildRequires:	saxpath
 
 %if %{without bootstrap}
@@ -322,7 +323,9 @@ Requires:	modello-maven-plugin >= 1.0-0.a8.3
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root
 
 BuildArch:	noarch
+### }}}
 
+### descriptions and subpackages {{{
 %description
 Maven is a software project management and comprehension tool. Based on the 
 concept of a project object model (POM), Maven can manage a project's build,
@@ -888,7 +891,9 @@ Artifacts to be uploaded to a repository library.
 This package is not meant to be installed but so its contents
 can be extracted through rpm2cpio.
 %endif
+### }}}
 
+### prep {{{
 %prep
 #rpm -ql maven-surefire
 
@@ -1035,7 +1040,9 @@ sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository
 mkdir -p m2_repo/repository/JPP/maven2/default_poms
 cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven-empty-dep.pom
 cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
+### }}}
 
+### build {{{
 %build
 # Fix maven-remote-resources-plugin
 # we now use plexus-velocity 1.1.7 which has the correct descriptor with a hint.
@@ -1043,15 +1050,15 @@ rm -f maven-plugins/maven-remote-resources-plugin/src/main/resources/META-INF/pl
 
 # Wire in jdom dependency
 cp -p maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom
-saxon -o maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
-saxon -o m2_repo/repository/JPP/maven2/poms/JPP.maven2-artifact.pom maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o m2_repo/repository/JPP/maven2/poms/JPP.maven2-artifact.pom maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
 
 # for uber jar
 cp -p maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom
-saxon -o maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
 
 cp -p maven/bootstrap/bootstrap-installer/pom.xml maven/bootstrap/bootstrap-installer/pom.xml.withoutjdom
-saxon -o maven/bootstrap/bootstrap-installer/pom.xml maven/bootstrap/bootstrap-installer/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o maven/bootstrap/bootstrap-installer/pom.xml maven/bootstrap/bootstrap-installer/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
 
 mkdir -p maven/maven-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
 touch maven/maven-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
@@ -1179,7 +1186,7 @@ export MAVEN_OPTS=$OLD_MAVEN_OPTS
 # plugin which makes this necessary. See: 
 # http://jira.codehaus.org/browse/MJAVADOC-157
 
-(cd maven
+(cd maven # {{{
 for dir in `find -maxdepth 1 -type d`; do
 
     if [ "$dir" == "./maven-core-it-runner" ]; then
@@ -1194,8 +1201,9 @@ for dir in `find -maxdepth 1 -type d`; do
     $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS -Dmaven2.usejppjars org.apache.maven.plugins:maven-javadoc-plugin:2.3-SNAPSHOT:javadoc
     cd - # }}}
 done
-)
-(cd maven-plugins
+) # }}}
+
+(cd maven-plugins # {{{
 for dir in `find -maxdepth 1 -type d`; do
 
     if [ "$dir" == "./maven-clover-plugin" ]; then
@@ -1210,8 +1218,10 @@ for dir in `find -maxdepth 1 -type d`; do
     $M2_HOME/bin/mvn -s %{maven_settings_file} $MAVEN_OPTS -Dmaven2.usejppjars org.apache.maven.plugins:maven-javadoc-plugin:2.3-SNAPSHOT:javadoc
     cd - # }}}
 done
-)
+) # }}}
+### }}}
 
+### install {{{
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -1439,6 +1449,7 @@ for jar in project.jar settings.jar model.jar profile.jar artifact-manager.jar r
     cp -p %{buildroot}%{_javadir}/%{name}/${jar} %{buildroot}%{repodirlib}/maven-${jar}
 done
 %endif
+### }}}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
