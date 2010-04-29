@@ -1088,8 +1088,8 @@ cd %{name} # {{{
 [ -z "$JAVA_HOME" ] && JAVA_HOME=%{_jvmdir}/java
 export JAVA_HOME
 
-mkdir bootstrap/lib
-ln -s $(build-classpath jdom) bootstrap/lib/jdom.jar
+mkdir -p bootstrap/lib
+ln -sf $(build-classpath jdom) bootstrap/lib/jdom.jar
 export CLASSPATH=$(pwd)/bootstrap/lib/jdom.jar
 export JDOMCLASS=$CLASSPATH
 ./bootstrap.sh --prefix=$(pwd)/home  --settings=%{maven_settings_file}
