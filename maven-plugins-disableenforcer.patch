@@ -1,5 +1,5 @@
---- maven2-plugins/pom.xml.sav	2009-09-02 14:44:36.000000000 -0400
-+++ maven2-plugins/pom.xml	2009-09-02 14:44:48.000000000 -0400
+--- maven-plugins/pom.xml.sav	2009-09-02 14:44:36.000000000 -0400
++++ maven-plugins/pom.xml	2009-09-02 14:44:48.000000000 -0400
 @@ -106,7 +106,6 @@
      <module>maven-ear-plugin</module>
      <module>maven-eclipse-plugin</module>

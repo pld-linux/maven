@@ -1,6 +1,6 @@
 diff -up ./maven2/maven-core/pom.xml.sav ./maven2/maven-core/pom.xml
---- ./maven2/maven-core/pom.xml.sav	2008-04-07 20:42:34.000000000 -0400
-+++ ./maven2/maven-core/pom.xml	2008-04-07 21:26:45.000000000 -0400
+--- ./maven/maven-core/pom.xml.sav	2008-04-07 20:42:34.000000000 -0400
++++ ./maven/maven-core/pom.xml	2008-04-07 21:26:45.000000000 -0400
 @@ -10,9 +10,9 @@
    <build>
      <plugins>

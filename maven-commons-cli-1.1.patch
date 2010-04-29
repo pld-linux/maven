@@ -1,6 +1,6 @@
 diff -up ./maven2/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java.sav ./maven2/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java
---- ./maven2/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java.sav	2009-01-29 16:47:45.000000000 -0500
-+++ ./maven2/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java	2009-01-29 16:48:00.000000000 -0500
+--- ./maven/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java.sav	2009-01-29 16:47:45.000000000 -0500
++++ ./maven/maven-core/src/main/java/org/apache/maven/cli/MavenCli.java	2009-01-29 16:48:00.000000000 -0500
 @@ -645,7 +645,7 @@ public class MavenCli
                  "Force the use of an alternate POM file." ).create( ALTERNATE_POM_FILE ) );
  

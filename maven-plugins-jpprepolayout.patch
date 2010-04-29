@@ -1,6 +1,6 @@
 diff -up maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java.sav maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java
---- maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java.sav	2007-05-18 09:25:57.000000000 -0400
-+++ maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java	2009-05-05 16:38:37.000000000 -0400
+--- maven-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java.sav	2007-05-18 09:25:57.000000000 -0400
++++ maven-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/AbstractProjectInfoReport.java	2009-05-05 16:38:37.000000000 -0400
 @@ -118,7 +118,11 @@ public abstract class AbstractProjectInf
          {
              if ( version == null )
@@ -15,8 +15,8 @@ diff -up maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apac
              VersionRange versionSpec = VersionRange.createFromVersionSpec( version );
              artifact = factory.createDependencyArtifact( skin.getGroupId(), skin.getArtifactId(), versionSpec, "jar",
 diff -up maven2-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java.sav maven2-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java
---- maven2-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java.sav	2009-05-05 16:36:38.000000000 -0400
-+++ maven2-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java	2009-05-05 16:36:47.000000000 -0400
+--- maven-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java.sav	2009-05-05 16:36:38.000000000 -0400
++++ maven-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/AbstractSiteRenderingMojo.java	2009-05-05 16:36:47.000000000 -0400
 @@ -376,7 +376,11 @@ public abstract class AbstractSiteRender
          {
              if ( version == null )

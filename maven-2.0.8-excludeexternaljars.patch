@@ -1,5 +1,5 @@
---- ./maven2/maven-core/pom.xml.sav	2007-12-12 16:21:15.000000000 -0500
-+++ ./maven2/maven-core/pom.xml	2007-12-12 16:21:10.000000000 -0500
+--- ./maven/maven-core/pom.xml.sav	2007-12-12 16:21:15.000000000 -0500
++++ ./maven/maven-core/pom.xml	2007-12-12 16:21:10.000000000 -0500
 @@ -39,21 +39,23 @@
                    <exclude>junit:junit</exclude>
                    <exclude>jmock:jmock</exclude>

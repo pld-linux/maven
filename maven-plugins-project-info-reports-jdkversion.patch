@@ -1,5 +1,5 @@
---- maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java.orig	2009-02-05 18:41:35.075639000 -0500
-+++ maven2-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java	2009-02-05 18:50:43.416432000 -0500
+--- maven-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java.orig	2009-02-05 18:41:35.075639000 -0500
++++ maven-plugins/maven-project-info-reports-plugin/src/main/java/org/apache/maven/report/projectinfo/dependencies/renderer/DependenciesRenderer.java	2009-02-05 18:50:43.416432000 -0500
 @@ -372,7 +372,10 @@
  
                          try

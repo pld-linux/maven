@@ -1,5 +1,5 @@
---- maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2008/03/24 20:05:11	640549
-+++ maven2/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2009/02/24 20:07:37	747533
+--- maven/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2008/03/24 20:05:11	640549
++++ maven/maven-artifact-manager/src/main/java/org/apache/maven/artifact/repository/metadata/DefaultRepositoryMetadataManager.java	2009/02/24 20:07:37	747533
 @@ -195,8 +195,7 @@
              ArtifactRepositoryPolicy policy =
                  metadata.isSnapshot() ? repository.getSnapshots() : repository.getReleases();

@@ -1,5 +1,5 @@
---- maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml.sav	2008-01-02 19:54:58.000000000 -0500
-+++ maven2/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml	2008-01-02 19:56:27.000000000 -0500
+--- maven/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml.sav	2008-01-02 19:54:58.000000000 -0500
++++ maven/maven-project/src/main/resources/org/apache/maven/project/pom-4.0.0.xml	2008-01-02 19:56:27.000000000 -0500
 @@ -24,6 +24,15 @@ under the License.
  
    <repositories>
