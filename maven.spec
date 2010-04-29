@@ -18,33 +18,32 @@ Group:		Development/Languages/Java
 License:	Apache v2
 URL:		http://maven.apache.org/
 
-%define	srcurl	http://execve.pl/PLD/maven
 # svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-%{version} maven
 # tar czf maven-src.tar.gz maven
-Source0:		%{srcurl}/%{name}-src.tar.gz
+Source0:		http://execve.pl/PLD/maven/%{name}-src.tar.gz
 # Source0-md5:	8db6e8515fe317f635befa39b074016a
 
 # svn export -r {2007-03-31} http://svn.apache.org/repos/asf/maven/plugins/trunk maven-plugins
 # tar czf maven-plugins-070331-src.tar.gz maven-plugins
-Source2:		%{srcurl}/%{name}-plugins-070705-src.tar.gz
+Source2:		http://execve.pl/PLD/maven/%{name}-plugins-070705-src.tar.gz
 # Source2-md5:	7e9d3175131910d64c95fdf4d60651fa
 
 # We need to replace the javadoc plugin as the 2.3-SNAPSHOT included above 
 # has several bugs
 # svn export http://svn.apache.org/repos/asf/maven/plugins/tags/maven-javadoc-plugin-2.4 maven-javadoc-plugin
-Source22: 		%{srcurl}/maven-javadoc-plugin-2.4-src.tar.gz
+Source22: 		http://execve.pl/PLD/maven/maven-javadoc-plugin-2.4-src.tar.gz
 # Source22-md5:	c3c1014b8548f94f91f3b679a5500e4b
 
 # No source location for these. They are ascii files generated from maven
 # repositories, and are not in cvs/svn
 # The files were originally aquired from: http://repo1.maven.org/maven2/
-Source3:		%{srcurl}/m2_pom_repo.tar.gz
+Source3:		http://execve.pl/PLD/maven/m2_pom_repo.tar.gz
 # Source3-md5:	a4b18868658fe3e3c58d0f4e9bf66bee
 
 # As with above, these files are from the maven repositories, and are not in 
 # cvs/svn
 # The files were originally aquired from: http://repo1.maven.org/maven2/
-Source4:		%{srcurl}/m2_jar_repo.tar.gz
+Source4:		http://execve.pl/PLD/maven/m2_jar_repo.tar.gz
 # Source4-md5:	00976d79948c93be23cdda62300dc8c2
 Source5:		%{name}-script
 
@@ -53,7 +52,7 @@ Source7:		maven-settings.xml
 
 # svn export -r '{2006-03-08}' http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-site-plugin maven-site-plugin
 # tar czf maven-maven-site-plugin.tar.gz maven-site-plugin 
-Source8:	%{srcurl}/%{name}-maven-site-plugin.tar.gz
+Source8:	http://execve.pl/PLD/maven/%{name}-maven-site-plugin.tar.gz
 # Source8-md5:	2ba3a4baeb3d4d9d7b8121a6ae05578d
 
 Source9:	%{name}-run-it-tests.sh
