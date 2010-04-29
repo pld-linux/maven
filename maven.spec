@@ -1004,7 +1004,7 @@ tar xzf %{SOURCE4}
 %endif
 
 # Copy model-v3
-cp -p %{SOURCE10} m2_repo/repository/JPP/maven/model-v3.jar
+cp -p %{SOURCE10} m2_repo/repository/JPP/maven2/model-v3.jar
 
 mkdir external_repo
 ln -s %{_javadir} external_repo/JPP
@@ -1035,9 +1035,9 @@ sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository
 %endif
 
 # Copy the empty dependency jar/pom in place
-mkdir -p m2_repo/repository/JPP/maven/default_poms
-cp -p %{SOURCE13} m2_repo/repository/JPP/maven/default_poms/JPP.maven-empty-dep.pom
-cp -p %{SOURCE14} m2_repo/repository/JPP/maven/empty-dep.jar
+mkdir -p m2_repo/repository/JPP/maven2/default_poms
+cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven-empty-dep.pom
+cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
 
 %build
 # Fix maven-remote-resources-plugin
@@ -1047,7 +1047,7 @@ rm -f maven-plugins/maven-remote-resources-plugin/src/main/resources/META-INF/pl
 # Wire in jdom dependency
 cp -p maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom
 saxon -o maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
-saxon -o m2_repo/repository/JPP/maven/poms/JPP.maven-artifact.pom maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o m2_repo/repository/JPP/maven2/poms/JPP.maven2-artifact.pom maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
 
 # for uber jar
 cp -p maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom
