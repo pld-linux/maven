@@ -46,60 +46,60 @@ Source3:		%{srcurl}m2_pom_repo.tar.gz
 # The files were originally aquired from: http://repo1.maven.org/maven2/
 Source4:		%{srcurl}m2_jar_repo.tar.gz
 # Source4-md5:	00976d79948c93be23cdda62300dc8c2
-Source5:		%{name}2-script
+Source5:		%{name}-script
 
-Source6:		maven2-JPackageRepositoryLayout.java
-Source7:		maven2-settings.xml
+Source6:		maven-JPackageRepositoryLayout.java
+Source7:		maven-settings.xml
 
 # svn export -r '{2006-03-08}' http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-site-plugin maven-site-plugin
 # tar czf maven2-maven-site-plugin.tar.gz maven-site-plugin 
 Source8:	%{srcurl}%{name}-maven-site-plugin.tar.gz
 # Source8-md5:	2ba3a4baeb3d4d9d7b8121a6ae05578d
 
-Source9:	%{name}2-run-it-tests.sh
+Source9:	%{name}-run-it-tests.sh
 
 # svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-2.0.8/maven-model
 # cd maven-model
 # mvn -P all-models package 
 # Find model jar in target/maven-model-2.0.8.jar
-Source10:	%{name}2-model-v3.jar
-Source11:	%{name}2-MavenJPackageDepmap.java
-Source12:	%{name}2-addjdom-depmap.xml
-Source13:	%{name}2-empty-dep.pom
+Source10:	%{name}-model-v3.jar
+Source11:	%{name}-MavenJPackageDepmap.java
+Source12:	%{name}-addjdom-depmap.xml
+Source13:	%{name}-empty-dep.pom
 
 # Empty jar file with just a manifest. No source destination to specify
-Source14:	%{name}2-empty-dep.jar
-Source15:	%{name}2-jpp-script
-Source16:	%{name}2-jpp-readme.html
-Source17:	%{name}2-versionless-depmap.xml
+Source14:	%{name}-empty-dep.jar
+Source15:	%{name}-jpp-script
+Source16:	%{name}-jpp-readme.html
+Source17:	%{name}-versionless-depmap.xml
 
 Source99:		maven-doxia-modules.pom
-Source100:		maven2-component-info.xml
+Source100:		maven-component-info.xml
 
-Patch0:		maven2-addjdomtobootstrappath.patch
-Patch1:		%{name}2-jpprepolayout.patch
-Patch2:		%{name}2-fastjar-manifest-fix.patch
-Patch3:		%{name}2-plugins-doxiaupdatefix.patch
-Patch4:		%{name}2-plugins-catch-uncaught-exceptions.patch
-Patch5:		%{name}2-plugins-dependency-plugin-import-fix.patch
-Patch6:		%{name}2-%{version}-excludeexternaljars.patch
-Patch7:		%{name}2-site-plugin-addservletdep.patch
-Patch8:		%{name}2-enable-bootstrap-repository.patch
-Patch9:		%{name}2-use-unversioned-classworlds.patch
-Patch10:	%{name}2-plugins-disablecobertura.patch
-Patch11:	%{name}2-shade-plugin-replacement.patch
-Patch12:	%{name}2-sourcetarget.patch
-Patch13:	%{name}2-plugins-MJAVADOC-137-AbstractJavadocMojo.patch
+Patch0:		maven-addjdomtobootstrappath.patch
+Patch1:		%{name}-jpprepolayout.patch
+Patch2:		%{name}-fastjar-manifest-fix.patch
+Patch3:		%{name}-plugins-doxiaupdatefix.patch
+Patch4:		%{name}-plugins-catch-uncaught-exceptions.patch
+Patch5:		%{name}-plugins-dependency-plugin-import-fix.patch
+Patch6:		%{name}-%{version}-excludeexternaljars.patch
+Patch7:		%{name}-site-plugin-addservletdep.patch
+Patch8:		%{name}-enable-bootstrap-repository.patch
+Patch9:		%{name}-use-unversioned-classworlds.patch
+Patch10:	%{name}-plugins-disablecobertura.patch
+Patch11:	%{name}-shade-plugin-replacement.patch
+Patch12:	%{name}-sourcetarget.patch
+Patch13:	%{name}-plugins-MJAVADOC-137-AbstractJavadocMojo.patch
 # The maven javadoc plugin 2.5 pre-reqs maven 2.0.9, we lower to 2.0.8
-Patch14:	%{name}2-javadoc-plugin-pom.patch
+Patch14:	%{name}-javadoc-plugin-pom.patch
 # javadoc 2.4 uses an old doxia method
-Patch15:	%{name}2-plugins-javadoc-newdoxia.patch
+Patch15:	%{name}-plugins-javadoc-newdoxia.patch
 # This plugin can't cope with a JAR without a JDK version on it
-Patch16:	%{name}2-plugins-project-info-reports-jdkversion.patch
-Patch17:	%{name}2-MNG-3139.patch
-Patch18:	%{name}2-plugins-jpprepolayout.patch
-Patch19:	%{name}2-plugins-disableenforcer.patch
-Patch20:	%{name}2-commons-cli-1.1.patch
+Patch16:	%{name}-plugins-project-info-reports-jdkversion.patch
+Patch17:	%{name}-MNG-3139.patch
+Patch18:	%{name}-plugins-jpprepolayout.patch
+Patch19:	%{name}-plugins-disableenforcer.patch
+Patch20:	%{name}-commons-cli-1.1.patch
 
 ### PLDIZED DEPENDENCIES {{{
 ### BRs {{{
