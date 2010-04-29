@@ -122,6 +122,7 @@ BuildRequires:	java-jaxen >= 1.1
 BuildRequires:	java-jdom >= 1.0
 BuildRequires:	java-junit >= 3.8.2
 BuildRequires:	java-oro >= 2.0.8
+BuildRequires:	java-plexus-utils >= 1.2
 BuildRequires:	java-qdox >= 1.5
 BuildRequires:	java-rhino >= 1.5
 BuildRequires:	java-xalan >= 2.6.0
@@ -156,6 +157,7 @@ Requires:	java-httpunit >= 1.6
 Requires:	java-jdom >= 1.0
 Requires:	java-junit >= 3.8.2
 Requires:	java-oro >= 2.0.8
+Requires:	java-plexus-utils >= 1.2
 Requires:	java-qdox >= 1.5
 Requires:	java-rhino >= 1.5
 Requires:	java-xalan >= 2.6.0
@@ -166,6 +168,7 @@ Requires(post):	java-commons-cli >= 1.0
 Requires(post):	java-commons-lang >= 2.1
 Requires(post):	java-commons-logging >= 1.0.4
 Requires(post):	java-jdom >= 1.0
+Requires(post):	java-plexus-utils >= 1.2
 Requires(post):	jpackage-utils >= 0:1.7.2
 Requires(postun):	jpackage-utils >= 0:1.7.2
 ### }}}
@@ -212,7 +215,6 @@ BuildRequires:	plexus-compiler >= 1.5.1
 BuildRequires:	plexus-container-default >= 1.0
 BuildRequires:	plexus-i18n >= 1.0
 BuildRequires:	plexus-interactivity >= 1.0
-BuildRequires:	plexus-utils >= 1.2
 BuildRequires:	plexus-velocity >= 1.1.2
 BuildRequires:	pmd >= 3.6
 BuildRequires:	saxpath
@@ -292,8 +294,6 @@ Requires(post):	plexus-container-default >= 1.0
 Requires:	plexus-i18n >= 1.0
 Requires:	plexus-interactivity >= 1.0
 Requires(post):	plexus-interactivity >= 1.0
-Requires:	plexus-utils >= 1.2
-Requires(post):	plexus-utils >= 1.2
 Requires:	plexus-velocity >= 1.1.2
 Requires:	pmd >= 3.6
 
@@ -353,7 +353,7 @@ Requires:	ant-junit
 Requires:	ant-nodeps
 Requires:	java-junit >= 3.8.2
 Requires:	maven-wagon >= 1.0-0.1.b2
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	java-xalan >= 2.6.0
 Requires:		xml-commons-apis >= 1.3.02
 Requires:		plexus-container-default
@@ -373,7 +373,7 @@ Requires:	plexus-i18n >= 1.0
 Requires:	maven-doxia >= 1.0-0.a9
 Requires:	maven-doxia-sitetools >= 1.0
 %endif
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 
@@ -402,7 +402,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	modello >= 1.0-0.a8.3
 %endif
 Requires:	plexus-archiver >= 1.0
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:		maven-shared-file-management >= 1.0
 Requires:		maven-shared-archiver
 Requires:		plexus-container-default
@@ -465,7 +465,7 @@ Requires:	checkstyle4 >= 4.1
 Requires:		checkstyle4-optional >= 4.1
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	plexus-velocity >= 1.1.2
 Requires:	plexus-resources
 Requires:		maven-shared-reporting-impl
@@ -480,7 +480,7 @@ Group:	Development/Build Tools
 Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 
 %description    plugin-clean
 Cleans up files generated during build.
@@ -491,7 +491,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-compiler >= 1.5.1
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 
 %description    plugin-compiler
 Compiles Java sources.
@@ -502,7 +502,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	maven-shared-file-management >= 1.0-4
 Requires:	java-junit >= 3.8.2
 Requires:	plexus-container-default
@@ -529,7 +529,7 @@ Summary:	Description of a Project (DOAP) plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils
+Requires:	java-plexus-utils
 
 %description    plugin-doap
 The Maven DOAP Plugin generates a Description of a Project (DOAP) file from
@@ -541,7 +541,7 @@ Summary:	DOCCK plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils
+Requires:	java-plexus-utils
 Requires:	maven-shared-plugin-tools-beanshell >= 2.2
 Requires:	maven-shared-plugin-tools-java >= 2.2
 Requires:	commons-httpclient
@@ -560,7 +560,7 @@ Summary:	Ear plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	maven-shared-verifier
 Requires:	java-xmlunit
 
@@ -573,7 +573,7 @@ Summary:	Eclipse plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	plexus-archiver >= 1.0
 Requires:	jmock >= 1.0.1
 Requires:	java-jdom >= 1.0
@@ -604,7 +604,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	java-commons-lang
-Requires:	plexus-utils
+Requires:	java-plexus-utils
 Requires:	java-commons-lang
 Requires:	java-junit >= 3.8.2
 
@@ -630,7 +630,7 @@ Requires:	java-dom4j >= 1.6.1
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	maven-wagon >= 1.0-0.1.b2
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	jmock >= 1.0.1
 
 %description    plugin-idea
@@ -673,7 +673,7 @@ Requires:	java-commons-lang >= 2.1
 Requires:		%{name} = %{version}-%{release}
 Requires:	maven-shared-archiver >= 2.3
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 
 %description    plugin-jar
 Builds a JAR from the current project.
@@ -689,7 +689,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	modello >= 1.0-0.a8.3
 %endif
 Requires:	plexus-archiver >= 1.0
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:		maven-shared-reporting-impl
 
 %description    plugin-javadoc
@@ -702,7 +702,7 @@ Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	java-junit >= 3.8.2
 Requires:	maven-shared-model-converter
 
@@ -719,7 +719,7 @@ Requires:	maven-shared-plugin-tools-beanshell >= 2.2
 Requires:	maven-shared-plugin-tools-java >= 2.2
 Requires:		maven-shared-reporting-impl
 Requires:	maven-doxia >= 1.0-0.a9
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	plexus-container-default
 
 %description    plugin-plugin
@@ -732,7 +732,7 @@ Summary:	Pmd plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	plexus-resources
 Requires:	pmd >= 3.3
 Requires:	java-jaxen >= 1.1
@@ -779,7 +779,7 @@ Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-container-default
-Requires:	plexus-utils
+Requires:	java-plexus-utils
 Requires:	plexus-velocity
 Requires:	velocity
 %if %{without bootstrap}
@@ -808,7 +808,7 @@ Plugin to help with repository-based tasks.
 Summary:	Resources plugin for maven
 Group:	Development/Build Tools
 #Requires:	java-commons-io >= 1.1
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 
@@ -824,7 +824,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	maven-doxia >= 1.0-0.a9
 Requires:	maven-doxia-sitetools >= 1.0
 %endif
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 
 %description    plugin-site
 Generates a site for the current project.
@@ -835,7 +835,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	plexus-container-default >= 1.0
 Requires:	java-junit >= 3.8.2
 
@@ -849,7 +849,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	maven-wagon
-Requires:	plexus-utils
+Requires:	java-plexus-utils
 Requires:	java-junit >= 3.8.2
 
 %description    plugin-stage
@@ -865,7 +865,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 %if %{without bootstrap}
 Requires:	modello >= 1.0-0.a8.3
 %endif
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 
 %description    plugin-verifier
 Useful for integration tests - verifies the existence of certain conditions.
@@ -875,7 +875,7 @@ Summary:	War plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	plexus-utils >= 1.2
+Requires:	java-plexus-utils >= 1.2
 Requires:	java-junit >= 3.8.2
 
 %description    plugin-war
@@ -1722,149 +1722,3 @@ if [ -d %{_javadir}/%{name} ] ; then rmdir --ignore-fail-on-non-empty %{_javadir
 %defattr(0644,root,root,0755)
 %{_javadir}/repository.jboss.com
 %endif
-
-%changelog
-* Fri Mar 12 2010 David Walluck <dwalluck@redhat.com> 0:2.0.8-26
-- more merging with RHEL-4-EP-5 0:2.0.8-10.40
-
-* Fri Mar 12 2010 David Walluck <dwalluck@redhat.com> 0:2.0.8-25
-- update java source files from RHEL-4-EP-5 0:2.0.8-10.40
-
-* Thu Mar 11 2010 David Walluck <dwalluck@redhat.com> 0:2.0.8-24
-- merge some patches from RHEL-4-EP-5 0:2.0.8-10.40
-
-* Wed Sep 02 2009 Ralph Apel <r.apel@r-apel.de> 0:2.0.8-23
-- rebuild without_bootstrap
-
-* Wed Sep 02 2009 Ralph Apel <r.apel@r-apel.de> 0:2.0.8-22
-- try to relax maven-surefire requirements
-- drop excessive BRs in bootstrap mode
-
-* Thu Jun 11 2009 David Walluck <dwalluck@redhat.com> 0:2.0.8-21
-- add repolib
-
-* Fri May 22 2009 David Walluck <dwalluck@redhat.com> 0:2.0.8-20
-- update maven-surefire BuildRequires
-
-* Mon May 04 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-19
-- Rebuild
-
-* Tue Apr 21 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-18
-- Build model-all.jar for model-v3 needed by maven-shared-model-converter, Merged from RHEL-4-EP-5 0:2.0.8-10.17
-
-* Tue Apr 21 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-17
-- rebuild in non-bootstrap mode with plexus-cdc alpha10
-
-* Tue Apr 21 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-16
-- rebuild in bootstrap mode with plexus-cdc alpha10
-
-* Thu Apr 02 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-15
-- fix jpp depmap issues of maven-shared-plugin-tools-api, maven-shared-plugin-tools-beanshell, maven-shared-plugin-tools-java
-- cp maven-assembly-plugin/../components.xml manually to fix java.io.FileNotFoundException
-- rebuild in non-bootstrap mode
-
-* Thu Apr 02 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-14
-- rebuild in bootstrap mode to fix PluginDescriptor issue
-
-* Wed Apr 01 2009 Fernando Nasser <fnasser@redhat.com> - 0:2.0.8-13
-- Build in bootstrap mode
-
-* Mon Mar 23 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-12
-- add maven2-plugins-jpprepolayout.patch
-
-* Mon Mar 23 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-11
-- rebuild in non-bootstrap mode
-
-* Mon Mar 23 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-10
-- remove Obsoletes: maven-surefire-plugin
-
-* Tue Mar 16 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-9
-- Merge from RHEL-4-EP-5, add missing BRs/Reqs, add patches
-
-* Tue Mar 11 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-8
-- Add missing Requires: maven-shared-plugin-tools-java, maven-shared-plugin-tools-beanshell for subpackage plugin-plugin
-
-* Tue Mar 10 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-7
-- Add Requires: tomcat5, excalibur-avalon-logkit, excalibur-avalon-framework
-
-* Wed Mar 05 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-6
-- Provides: maven2-bootstrap >= 2.0.7
-
-* Wed Mar 05 2009 Yong Yang <yyang@redhat.com> - 0:2.0.8-5
-- Add Obsoletes maven2-bootstrap <= 2.0.7, maven-release, maven-surefire-plugin
-
-* Wed Mar 04 2009 Deepak Bhole <dbhole@redhat.com> - 0:2.0.8-4
-- Add patch for commons-cli 1.1
-
-* Fri Feb 20 2009 Yong Yang <yyang@redhat.com> 2.0.8-3
-- add new maven-parent jpp depmap
-
-* Wed Feb 18 2009 Yong Yang <yyang@redhat.com> 2.0.8-2
-- Import from dbhloes maven2 2.0.8 list, Initializing build with bootstrap mode on JPP6
-- Fix many BRs, jpp depmaps
-
-* Tue Mar 20 2007 Deepak Bhole <dbhole@redhat.com> 0:2.0.4-10jpp.6
-- Build without bootstrap
-
-* Tue Mar 20 2007 Deepak Bhole <dbhole@redhat.com> 2.0.4-10jpp.5
-- Force gcj_support to 0
-
-* Tue Mar 20 2007 Deepak Bhole <dbhole@redhat.com> 2.0.4-10jpp.4
-- Build without gcj for now
-
-* Fri Mar 16 2007 Deepak Bhole <dbhole@redhat.com> 0:2.0.4-10jpp.3
-- Added gcj support
-- Fix up per Fedora spec
-- Added source locations/generation methods for binary %%SOURCEes
-- Added workaround for gcj bug that causes plugin reload to fail
-
-* Wed Dec 13 2006 Deepak Bhole <dbhole@redhat.com> 2.0.4-10jpp.2
-- Build without bootstrap
-
-* Mon Dec 04 2006 Deepak Bhole <dbhole@redhat.com> 2.0.4-10jpp.1
-- Synch with jpp
-- From dbhole@redhat:
-  - Added a new mapping system
-  - Added a jpp howto
-  - Added support for plugin mixing
-  - Wired in /usr/share/maven2/repository as one of the default repos
-  - Moved poms over to maven2-common-poms
-  - Reverted to original plugin groupid's
-  - Installer maven-{artifact-ant,embedder,meeper,script}
-- From r.apel@r-apel.de:
-  - Fix maven-site-plugin pom in maven2-jpp-mapping.patch
-  - Add maven-shared-file-management to plugin-assembly Requires 
-  - Add post/postun Requires for javadoc
-
-* Wed Jul 12 2006 Fernando Nasser <fnasser@redhat.com> - 0:2.0.4-4jpp_1rh
-- Merge with upstream
-
-* Mon Jul 10 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.4-4jpp
-- Additional fixes (mostly to the dependency transformer xsl) for itests.
-- Added a --with regereratedpoms switch.
-
-* Wed Jul 05 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.4-3jpp
-- Added partial support for it tests, and appropriate fixes.
-
-* Thu Jun 29 2006 Fernando Nasser <fnasser@redhat.com> - 0:2.0.4-2jpp_2rh
-- Rebuild
-
-* Tue Jun 27 2006 Fernando Nasser <fnasser@redhat.com> - 0:2.0.4-2jpp_1rh
-- Full build
-
-* Mon Jun 26 2006 Fernando Nasser <fnasser@redhat.com> - 0:2.0.4-2jpp_0rh
-- Merge with upstream
-- Bootstrap building
-
-* Thu Jun 22 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.4-2jpp
-- Fixes for Tuscany building
-
-* Fri Jun 02 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.4-1jpp
-- Upgrade to 2.0.4
-
-* Wed May 31 2006 Fernando Nasser <fnasser@redhat.com> - 0:2.0.2-1jpp_1rh
-- First Red Hat build
-
-* Wed Feb 22 2006 Deepak Bhole <dbhole@redhat.com> - 0:2.0.2-1jpp
-- Initial build.
-# vim:foldmethod=marker
