@@ -1021,17 +1021,17 @@ mkdir -p maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/
 cp -p %{SOURCE11} maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/repository/layout/MavenJPackageDepmap.java
 
 cp -p %{SOURCE7} %{maven_settings_file}
-sed -i -e "s|<url>__INTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/m2_repo/repository</url>|g" %{maven_settings_file}
+sed -i -e "s|<url>__INTERNAL_REPO_PLACEHOLDER__</url>|<url>file://$(pwd)/m2_repo/repository</url>|g" %{maven_settings_file}
 %if %{with bootstrap}
-sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/external_repo</url>|g" %{maven_settings_file}
+sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://$(pwd)/external_repo</url>|g" %{maven_settings_file}
 %else
 sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://%{_datadir}/%{name}/repository</url>|g" %{maven_settings_file}
 %endif
 
-sed -i -e "s|__INTERNAL_REPO_PLACEHOLDER__|file://`pwd`/m2_repo/repository|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+sed -i -e "s|__INTERNAL_REPO_PLACEHOLDER__|file://$(pwd)/m2_repo/repository|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 
 %if %{with bootstrap}
-sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://`pwd`/external_repo|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://$(pwd)/external_repo|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 %else
 sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 %endif
@@ -1044,6 +1044,9 @@ cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
 
 ### build {{{
 %build
+
+export JAVA_HOME=%{java_home}
+
 # Fix maven-remote-resources-plugin
 # we now use plexus-velocity 1.1.7 which has the correct descriptor with a hint.
 rm -f maven-plugins/maven-remote-resources-plugin/src/main/resources/META-INF/plexus/components.xml
@@ -1064,7 +1067,7 @@ mkdir -p maven/maven-plugins/maven-assembly-plugin/target/generated-resources/pl
 touch maven/maven-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
 
 # Build maven
-export MAVEN_REPO_LOCAL=`pwd`/%{repo_dir}
+export MAVEN_REPO_LOCAL=$(pwd)/%{repo_dir}
 export M2_SETTINGS_FILE=%{maven_settings_file}
 
 # In bootstrap mode, we want it looking at default poms only (controlled via 
@@ -1072,10 +1075,10 @@ export M2_SETTINGS_FILE=%{maven_settings_file}
 # breaking build.
 
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.ignore.versions -Dmaven2.offline.mode -Dmaven.test.failure.ignore=true -Dmaven2.jpp.depmap.file=%{SOURCE17}"
-export M2_HOME=`pwd`/maven/home/apache-%{name}-%{version}
+export M2_HOME=$(pwd)/maven/home/apache-%{name}-%{version}
 
 %if %{with bootstrap}
-export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=`pwd`/external_repo"
+export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=$(pwd)/external_repo"
 %else
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=%{_datadir}/%{name}/repository"
 %endif
@@ -1087,9 +1090,9 @@ export JAVA_HOME
 
 mkdir bootstrap/lib
 ln -s $(build-classpath jdom) bootstrap/lib/jdom.jar
-export CLASSPATH=`pwd`/bootstrap/lib/jdom.jar
+export CLASSPATH=$(pwd)/bootstrap/lib/jdom.jar
 export JDOMCLASS=$CLASSPATH
-./bootstrap.sh --prefix=`pwd`/home  --settings=%{maven_settings_file}
+./bootstrap.sh --prefix=$(pwd)/home  --settings=%{maven_settings_file}
 unset CLASSPATH
 
 cd - # cd %{name} }}}
@@ -1225,7 +1228,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-export M2_HOME=`pwd`/maven/home/apache-%{name}-%{version}
+export M2_HOME=$(pwd)/maven/home/apache-%{name}-%{version}
 
 # Repository
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/repository
