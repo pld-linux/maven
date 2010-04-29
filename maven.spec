@@ -19,13 +19,13 @@ License:	Apache v2
 URL:		http://maven.apache.org/
 
 %define	srcurl	http://execve.pl/PLD/maven
-# svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-%{version} maven2
-# tar czf maven2-src.tar.gz maven2
+# svn export http://svn.apache.org/repos/asf/maven/components/tags/maven-%{version} maven
+# tar czf maven-src.tar.gz maven
 Source0:		%{srcurl}/%{name}-src.tar.gz
 # Source0-md5:	8db6e8515fe317f635befa39b074016a
 
-# svn export -r {2007-03-31} http://svn.apache.org/repos/asf/maven/plugins/trunk maven2-plugins
-# tar czf maven2-plugins-070331-src.tar.gz maven2-plugins
+# svn export -r {2007-03-31} http://svn.apache.org/repos/asf/maven/plugins/trunk maven-plugins
+# tar czf maven-plugins-070331-src.tar.gz maven-plugins
 Source2:		%{srcurl}/%{name}-plugins-070705-src.tar.gz
 # Source2-md5:	7e9d3175131910d64c95fdf4d60651fa
 
@@ -52,7 +52,7 @@ Source6:		maven-JPackageRepositoryLayout.java
 Source7:		maven-settings.xml
 
 # svn export -r '{2006-03-08}' http://svn.apache.org/repos/asf/maven/plugins/trunk/maven-site-plugin maven-site-plugin
-# tar czf maven2-maven-site-plugin.tar.gz maven-site-plugin 
+# tar czf maven-maven-site-plugin.tar.gz maven-site-plugin 
 Source8:	%{srcurl}/%{name}-maven-site-plugin.tar.gz
 # Source8-md5:	2ba3a4baeb3d4d9d7b8121a6ae05578d
 
@@ -902,14 +902,14 @@ tar xzf %{SOURCE2}
 
 # We need to replace the javadoc plugin as the 2.3-SNAPSHOT included above 
 # has several bugs
-rm -rf maven2-plugins/maven-javadoc-plugin
-rm -rf maven2-plugins/maven-enforcer-plugin
-tar xzf %{SOURCE22} -C maven2-plugins
+rm -rf maven-plugins/maven-javadoc-plugin
+rm -rf maven-plugins/maven-enforcer-plugin
+tar xzf %{SOURCE22} -C maven-plugins
 
 # Use an older version of site plugin because newer one requires newer doxia 
 # (1.0a8) which is not compatible with the older one (1.0a7) which is needed 
 # by other parts of maven
-#rm -rf maven2-plugins/maven-site-plugin
+#rm -rf maven-plugins/maven-site-plugin
 #tar xzf %{SOURCE8}
 
 # javadoc 2.4 uses an old doxia method
@@ -929,19 +929,19 @@ tar xzf %{SOURCE22} -C maven2-plugins
 # org.apache.maven.doxia, and in the interest of maintaining just one
 # doxia jar, we substitute things accordingly)
 
-for i in    maven2-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/FileActivityReport.java \
-            maven2-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/ChangeLogReport.java \
-            maven2-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/DeveloperActivityReport.java \
-            maven2-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/JavadocReport.java \
-            maven2-plugins/maven-plugin-plugin/src/main/java/org/apache/maven/plugin/plugin/PluginReport.java \
-            maven2/maven-reporting/maven-reporting-api/src/main/java/org/apache/maven/reporting/MavenReport.java \
-            maven2-plugins/maven-antlr-plugin/src/main/java/org/apache/maven/plugin/antlr/AntlrHtmlReport.java \
-            maven2-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/AbstractPmdReport.java \
-            maven2-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/CpdReportGenerator.java \
-            maven2-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/PmdReport.java \
-            maven2-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/PmdReportListener.java \
-            maven2-plugins/maven-checkstyle-plugin/src/main/java/org/apache/maven/plugin/checkstyle/CheckstyleReport.java \
-            maven2-plugins/maven-checkstyle-plugin/src/main/java/org/apache/maven/plugin/checkstyle/CheckstyleReportGenerator.java; do
+for i in    maven-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/FileActivityReport.java \
+            maven-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/ChangeLogReport.java \
+            maven-plugins/maven-changelog-plugin/src/main/java/org/apache/maven/plugin/changelog/DeveloperActivityReport.java \
+            maven-plugins/maven-javadoc-plugin/src/main/java/org/apache/maven/plugin/javadoc/JavadocReport.java \
+            maven-plugins/maven-plugin-plugin/src/main/java/org/apache/maven/plugin/plugin/PluginReport.java \
+            maven/maven-reporting/maven-reporting-api/src/main/java/org/apache/maven/reporting/MavenReport.java \
+            maven-plugins/maven-antlr-plugin/src/main/java/org/apache/maven/plugin/antlr/AntlrHtmlReport.java \
+            maven-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/AbstractPmdReport.java \
+            maven-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/CpdReportGenerator.java \
+            maven-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/PmdReport.java \
+            maven-plugins/maven-pmd-plugin/src/main/java/org/apache/maven/plugin/pmd/PmdReportListener.java \
+            maven-plugins/maven-checkstyle-plugin/src/main/java/org/apache/maven/plugin/checkstyle/CheckstyleReport.java \
+            maven-plugins/maven-checkstyle-plugin/src/main/java/org/apache/maven/plugin/checkstyle/CheckstyleReportGenerator.java; do
 
     sed -i -e s:org.codehaus.doxia.sink.Sink:org.apache.maven.doxia.sink.Sink:g $i
     sed -i -e s:org.codehaus.doxia.site.renderer.SiteRenderer:org.apache.maven.doxia.siterenderer.Renderer:g $i
@@ -981,19 +981,19 @@ done
 
 # FIXME: Maven eclipse plugin tests are disabled for now, until a way
 # is found to stop it from connecting to the web despite offline mode.
-rm -rf maven2-plugins/maven-eclipse-plugin/src/test/*
+rm -rf maven-plugins/maven-eclipse-plugin/src/test/*
 
 # FIXME: Disabled items:
 
 #Disabled goal (because we don't want a jetty dependency)
-rm -f maven2-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/SiteRunMojo.java
+rm -f maven-plugins/maven-site-plugin/src/main/java/org/apache/maven/plugins/site/SiteRunMojo.java
 
 # Disabled test because it needs cglib
-rm -f maven2-plugins/maven-release-plugin/src/test/java/org/apache/maven/plugins/release/PrepareReleaseMojoTest.java
+rm -f maven-plugins/maven-release-plugin/src/test/java/org/apache/maven/plugins/release/PrepareReleaseMojoTest.java
 
 # Disabled test because it needs mock
-rm -f maven2/maven-artifact-manager/src/test/java/org/apache/maven/artifact/testutils/MockManager.java 
-rm -f maven2/maven-artifact-manager/src/test/java/org/apache/maven/artifact/repository/metadata/AbstractRepositoryMetadataTest.java
+rm -f maven/maven-artifact-manager/src/test/java/org/apache/maven/artifact/testutils/MockManager.java 
+rm -f maven/maven-artifact-manager/src/test/java/org/apache/maven/artifact/repository/metadata/AbstractRepositoryMetadataTest.java
 
 # extract poms and jars (if any)
 tar xzf %{SOURCE3}
@@ -1004,19 +1004,19 @@ tar xzf %{SOURCE4}
 %endif
 
 # Copy model-v3
-cp -p %{SOURCE10} m2_repo/repository/JPP/maven2/model-v3.jar
+cp -p %{SOURCE10} m2_repo/repository/JPP/maven/model-v3.jar
 
 mkdir external_repo
 ln -s %{_javadir} external_repo/JPP
 
-cp -p %{SOURCE6} maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/JPackageRepositoryLayout.java
-cp -p %{SOURCE11} maven2/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/MavenJPackageDepmap.java
+cp -p %{SOURCE6} maven/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/JPackageRepositoryLayout.java
+cp -p %{SOURCE11} maven/maven-artifact/src/main/java/org/apache/maven/artifact/repository/layout/MavenJPackageDepmap.java
 
 # FIXME: bootstrap-mini has no dependencies, so we copy the file there 
 # (for now). Since bootstrap classes are not in the final package, there 
 # will be no duplicates.
-mkdir -p maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/repository/layout/
-cp -p %{SOURCE11} maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/repository/layout/MavenJPackageDepmap.java
+mkdir -p maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/repository/layout/
+cp -p %{SOURCE11} maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/artifact/repository/layout/MavenJPackageDepmap.java
 
 cp -p %{SOURCE7} %{maven_settings_file}
 sed -i -e "s|<url>__INTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/m2_repo/repository</url>|g" %{maven_settings_file}
@@ -1026,49 +1026,49 @@ sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://`pwd`/external
 sed -i -e "s|<url>__EXTERNAL_REPO_PLACEHOLDER__</url>|<url>file://%{_datadir}/%{name}/repository</url>|g" %{maven_settings_file}
 %endif
 
-sed -i -e "s|__INTERNAL_REPO_PLACEHOLDER__|file://`pwd`/m2_repo/repository|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+sed -i -e "s|__INTERNAL_REPO_PLACEHOLDER__|file://`pwd`/m2_repo/repository|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 
 %if %{with bootstrap}
-sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://`pwd`/external_repo|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://`pwd`/external_repo|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 %else
-sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository|g" maven2/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
+sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository|g" maven/bootstrap/bootstrap-mini/src/main/java/org/apache/maven/bootstrap/download/OnlineArtifactDownloader.java
 %endif
 
 # Copy the empty dependency jar/pom in place
-mkdir -p m2_repo/repository/JPP/maven2/default_poms
-cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven2-empty-dep.pom
-cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
+mkdir -p m2_repo/repository/JPP/maven/default_poms
+cp -p %{SOURCE13} m2_repo/repository/JPP/maven/default_poms/JPP.maven-empty-dep.pom
+cp -p %{SOURCE14} m2_repo/repository/JPP/maven/empty-dep.jar
 
 %build
 # Fix maven-remote-resources-plugin
 # we now use plexus-velocity 1.1.7 which has the correct descriptor with a hint.
-rm -f maven2-plugins/maven-remote-resources-plugin/src/main/resources/META-INF/plexus/components.xml
+rm -f maven-plugins/maven-remote-resources-plugin/src/main/resources/META-INF/plexus/components.xml
 
 # Wire in jdom dependency
-cp -p maven2/maven-artifact/pom.xml maven2/maven-artifact/pom.xml.withoutjdom
-saxon -o maven2/maven-artifact/pom.xml maven2/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
-saxon -o m2_repo/repository/JPP/maven2/poms/JPP.maven2-artifact.pom maven2/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
+cp -p maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom
+saxon -o maven/maven-artifact/pom.xml maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
+saxon -o m2_repo/repository/JPP/maven/poms/JPP.maven-artifact.pom maven/maven-artifact/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
 
 # for uber jar
-cp -p maven2/maven-core/pom.xml maven2/maven-core/pom.xml.withoutjdom
-saxon -o maven2/maven-core/pom.xml maven2/maven-core/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
+cp -p maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom
+saxon -o maven/maven-core/pom.xml maven/maven-core/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
 
-cp -p maven2/bootstrap/bootstrap-installer/pom.xml maven2/bootstrap/bootstrap-installer/pom.xml.withoutjdom
-saxon -o maven2/bootstrap/bootstrap-installer/pom.xml maven2/bootstrap/bootstrap-installer/pom.xml.withoutjdom /usr/share/java-utils/xml/maven2jpp-mapdeps.xsl map=%{SOURCE12}
+cp -p maven/bootstrap/bootstrap-installer/pom.xml maven/bootstrap/bootstrap-installer/pom.xml.withoutjdom
+saxon -o maven/bootstrap/bootstrap-installer/pom.xml maven/bootstrap/bootstrap-installer/pom.xml.withoutjdom /usr/share/java-utils/xml/mavenjpp-mapdeps.xsl map=%{SOURCE12}
 
-mkdir -p maven2/maven2-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
-touch maven2/maven2-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
+mkdir -p maven/maven-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
+touch maven/maven-plugins/maven-assembly-plugin/target/generated-resources/plexus/META-INF/plexus/components.xml
 
-# Build maven2
+# Build maven
 export MAVEN_REPO_LOCAL=`pwd`/%{repo_dir}
 export M2_SETTINGS_FILE=%{maven_settings_file}
 
 # In bootstrap mode, we want it looking at default poms only (controlled via 
-# maven2-common-poms). This enables us to change naming structures without 
+# maven-common-poms). This enables us to change naming structures without 
 # breaking build.
 
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.ignore.versions -Dmaven2.offline.mode -Dmaven.test.failure.ignore=true -Dmaven2.jpp.depmap.file=%{SOURCE17}"
-export M2_HOME=`pwd`/maven2/home/apache-%{name}-%{version}
+export M2_HOME=`pwd`/maven/home/apache-%{name}-%{version}
 
 %if %{with bootstrap}
 export MAVEN_OPTS="$MAVEN_OPTS -Dmaven2.jpp.default.repo=`pwd`/external_repo"
@@ -1111,7 +1111,7 @@ build-jar-repository -s -p $M2_HOME/lib jdom maven-wagon/file maven-wagon/http-l
 %endif
 
 # Build plugins
-cd maven2-plugins # {{{
+cd maven-plugins # {{{
 
 # Build the plugin-plugin first, as it is needed to build itself later on
 # NOTE: Build of this plugin for the first time is expected to cause errors. 
@@ -1136,7 +1136,7 @@ cd - # }}}
 
 %if %{without bootstrap}
 # Build model-all JAR  (for model-v3 classes)
-cd maven2/maven-model # {{{
+cd maven/maven-model # {{{
 
 $M2_HOME/bin/mvn -e -s %{maven_settings_file} $MAVEN_OPTS -P all-models package
 
@@ -1147,7 +1147,7 @@ cd - # }}}
 
 %if %{with itests}
 
-(cd maven2
+(cd maven
 
 # One of the tests (#63) needs tools.jar. Fix the path for it
 sed -i -e s:"<systemPath>\${java.home}/../lib/tools.jar</systemPath>":"<systemPath>$JAVA_HOME/lib/tools.jar</systemPath>":g maven-core-it/it0063/pom.xml 
@@ -1182,7 +1182,7 @@ export MAVEN_OPTS=$OLD_MAVEN_OPTS
 # plugin which makes this necessary. See: 
 # http://jira.codehaus.org/browse/MJAVADOC-157
 
-(cd maven2
+(cd maven
 for dir in `find -maxdepth 1 -type d`; do
 
     if [ "$dir" == "./maven-core-it-runner" ]; then
@@ -1198,7 +1198,7 @@ for dir in `find -maxdepth 1 -type d`; do
     cd - # }}}
 done
 )
-(cd maven2-plugins
+(cd maven-plugins
 for dir in `find -maxdepth 1 -type d`; do
 
     if [ "$dir" == "./maven-clover-plugin" ]; then
@@ -1218,7 +1218,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 
-export M2_HOME=`pwd`/maven2/home/apache-%{name}-%{version}
+export M2_HOME=`pwd`/maven/home/apache-%{name}-%{version}
 
 # Repository
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/repository
@@ -1318,7 +1318,7 @@ cp -p %{name}/pom.xml $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.%{name}-maven.
 # plugins
 install -dm 755 $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/
 
-cd maven2-plugins # {{{
+cd maven-plugins # {{{
     for targetdir in `find -mindepth 2 -maxdepth 2 -type d -name target`; do
 
         # Find the version version
@@ -1341,24 +1341,24 @@ cd - # }}}
 # it get's changed to a=plugins (a=plugins and a=maven-plugins is the same 
 # file, but the former is needed for compatiblity while newer projects use 
 # the latter)
-cp -p maven2-plugins/target/*jar $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/maven-plugins.jar
-cp -p maven2-plugins/pom.xml $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven2.plugins-maven-plugins.pom
+cp -p maven-plugins/target/*jar $RPM_BUILD_ROOT%{_datadir}/%{name}/plugins/maven-plugins.jar
+cp -p maven-plugins/pom.xml $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven.plugins-maven-plugins.pom
 %add_to_maven_depmap org.apache.maven.plugins maven-plugins 9-SNAPSHOT JPP/%{name}/plugins maven-plugins
 
 # The empty dependencies
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/poms
 mkdir -p $RPM_BUILD_ROOT%{_javadir}/%{name}
-cp -p %{SOURCE13} $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven2-empty-dep.pom
+cp -p %{SOURCE13} $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven-empty-dep.pom
 cp -p %{SOURCE14} $RPM_BUILD_ROOT%{_javadir}/%{name}/empty-dep.jar
 
 # For backwards compatibility
-ln -s JPP.maven2-core.pom $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven2-mavencore.pom
+ln -s JPP.maven-core.pom $RPM_BUILD_ROOT%{_datadir}/%{name}/poms/JPP.maven-mavencore.pom
 
 # javadocs
 install -dm 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
-(cd maven2
+(cd maven
     for doc_dir in `find . -type d -name apidocs`; do 
         module=`echo $doc_dir | sed -e s:"^\\./"::g -e s:"/target/site/apidocs$"::g`
         targetdir=$RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/$module
@@ -1367,7 +1367,7 @@ ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
     done
 )
 
-(cd maven2-plugins
+(cd maven-plugins
     for doc_dir in `find . -type d -name apidocs`; do 
         module=`echo $doc_dir | sed -e s:"^\\./"::g -e s:"/target/site/apidocs$"::g`
         targetdir=$RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}/$module
