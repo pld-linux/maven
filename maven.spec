@@ -117,6 +117,7 @@ BuildRequires:	java-commons-validator >= 1.1.4
 BuildRequires:	java-dom4j >= 1.6.1
 BuildRequires:	java-gnu-regexp >= 1.1.4
 BuildRequires:	java-httpunit >= 1.6
+BuildRequires:	java-jaxen >= 1.1
 BuildRequires:	java-jdom >= 1.0
 BuildRequires:	java-junit >= 3.8.2
 BuildRequires:	java-oro >= 2.0.8
@@ -193,7 +194,6 @@ BuildRequires:	aqute-bndlib
 BuildRequires:	checkstyle4 >= 4.1
 BuildRequires:	checkstyle4-optional >= 4.1
 BuildRequires:	classworlds >= 1.1
-BuildRequires:	jaxen >= 1.1
 #BuildRequires:	jmock >= 1.0.1
 BuildRequires:	jline >= 0.8.1
 BuildRequires:	jsch >= 0.1.20
@@ -331,8 +331,6 @@ reporting and documentation from a central piece of information.
 %package        javadoc
 Summary:	Javadoc for %{name}
 Group:	Development/Documentation
-Requires(post):	/bin/rm,/bin/ln
-Requires(postun):	/bin/rm
 
 %description    javadoc
 %{summary}.
@@ -350,10 +348,10 @@ Group:	Development/Build Tools
 Requires:	ant >= 1.6.5
 Requires:	ant-junit
 Requires:	ant-nodeps
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:	maven-wagon >= 1.0-0.1.b2
 Requires:	plexus-utils >= 1.2
-Requires:	xalan-j2 >= 2.6.0
+Requires:	java-xalan >= 2.6.0
 Requires:		xml-commons-apis >= 1.3.02
 Requires:		plexus-container-default
 Requires:		%{name} = %{version}-%{release}
@@ -410,10 +408,10 @@ Requires:		maven-shared-common-artifact-filters
 Requires:		maven-shared-plugin-testing-tools
 Requires:		maven-shared-test-tools
 Requires:	jmock >= 1.0.1
-Requires:	jdom >= 1.0
-Requires:	jaxen >= 1.1
+Requires:	java-jdom >= 1.0
+Requires:	java-jaxen >= 1.1
 Requires:		saxpath
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 
 %description    plugin-assembly
 Builds an assembly (distribution) of sources and/or binaries.
@@ -449,7 +447,7 @@ Requires:	commons-httpclient
 Requires:	plexus-velocity >= 1.1.2
 Requires:	plexus-mail-sender
 Requires:	glassfish-javamail
-Requires:	jakarta-commons-lang
+Requires:	java-commons-lang
 Requires:	velocity
 Requires:		maven-shared-reporting-impl
 
@@ -476,7 +474,7 @@ Generates a checkstyle report.
 %package        plugin-clean
 Summary:	Clean plugin for maven
 Group:	Development/Build Tools
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-utils >= 1.2
@@ -503,7 +501,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
 Requires:	plexus-utils >= 1.2
 Requires:	maven-shared-file-management >= 1.0-4
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:	plexus-container-default
 Requires:	maven-shared-dependency-analyzer
 Requires:	maven-shared-dependency-tree
@@ -544,7 +542,7 @@ Requires:	plexus-utils
 Requires:	maven-shared-plugin-tools-beanshell >= 2.2
 Requires:	maven-shared-plugin-tools-java >= 2.2
 Requires:	commons-httpclient
-Requires:	jakarta-commons-logging >= 1.0.4
+Requires:	java-commons-logging >= 1.0.4
 Requires:	maven-shared-file-management >= 1.0-4
 Requires:	maven-shared-plugin-tools-api
 Requires:		maven-shared-reporting-impl
@@ -561,7 +559,7 @@ Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-utils >= 1.2
 Requires:	maven-shared-verifier
-Requires:	xmlunit
+Requires:	java-xmlunit
 
 %description    plugin-ear
 Generates an EAR from the current project.
@@ -575,8 +573,8 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-utils >= 1.2
 Requires:	plexus-archiver >= 1.0
 Requires:	jmock >= 1.0.1
-Requires:	jdom >= 1.0
-Requires:	jaxen >= 1.1
+Requires:	java-jdom >= 1.0
+Requires:	java-jaxen >= 1.1
 Requires:		saxpath
 Requires:	plexus-interactivity >= 1.0
 Requires:		maven-shared-plugin-testing-tools
@@ -602,10 +600,10 @@ Summary:	GPG plugin for maven
 Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
-Requires:	jakarta-commons-lang
+Requires:	java-commons-lang
 Requires:	plexus-utils
-Requires:	jakarta-commons-lang
-Requires:	junit >= 3.8.2
+Requires:	java-commons-lang
+Requires:	java-junit >= 3.8.2
 
 %description    plugin-gpg
 The Maven GPG Plugin signs all of the project's attached artifacts with GnuPG.
@@ -625,7 +623,7 @@ Gets information about the working environment for the project.
 %package        plugin-idea
 Summary:	Idea plugin for maven
 Group:	Development/Build Tools
-Requires:	dom4j >= 1.6.1
+Requires:	java-dom4j >= 1.6.1
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	maven-wagon >= 1.0-0.1.b2
@@ -658,7 +656,7 @@ Requires:	maven-shared-invoker
 Requires:	maven-shared-file-management >= 1.0-4
 Requires:		maven-shared-io
 %endif
-Requires:	bsh
+Requires:	java-bsh
 
 %description    plugin-invoker
 The Maven Invoker Plugin is used to run a set of Maven projects and makes 
@@ -668,7 +666,7 @@ the output from a given project execution.
 %package        plugin-jar
 Summary:	Jar plugin for maven
 Group:	Development/Build Tools
-Requires:	jakarta-commons-lang >= 2.1
+Requires:	java-commons-lang >= 2.1
 Requires:		%{name} = %{version}-%{release}
 Requires:	maven-shared-archiver >= 2.3
 Requires(postun):		%{name} = %{version}-%{release}
@@ -681,7 +679,7 @@ Builds a JAR from the current project.
 %package        plugin-javadoc
 Summary:	Javadoc plugin for maven
 Group:	Development/Build Tools
-Requires:	jakarta-commons-lang >= 2.1
+Requires:	java-commons-lang >= 2.1
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 %if %{without bootstrap}
@@ -697,12 +695,12 @@ Generates Javadoc for the project.
 %package        plugin-one
 Summary:	One plugin for maven
 Group:	Development/Build Tools
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
 Requires:	plexus-utils >= 1.2
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:	maven-shared-model-converter
 
 %description    plugin-one
@@ -734,8 +732,8 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-utils >= 1.2
 Requires:	plexus-resources
 Requires:	pmd >= 3.3
-Requires:	jaxen >= 1.1
-Requires:	xom
+Requires:	java-jaxen >= 1.1
+Requires:	java-xom
 Requires:		maven-shared-reporting-impl
 
 %description    plugin-pmd
@@ -745,8 +743,8 @@ Generates a PMD report.
 %package        plugin-project-info-reports
 Summary:	Project-info-reports plugin for maven
 Group:	Development/Build Tools
-Requires:	httpunit >= 1.6
-Requires:	jakarta-commons-validator >= 1.1.4
+Requires:	java-httpunit >= 1.6
+Requires:	java-commons-validator >= 1.1.4
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-i18n >= 1.0
@@ -774,7 +772,7 @@ Builds a RAR from the current project.
 %package        plugin-remote-resources
 Summary:	Remote Resources plugin for maven
 Group:	Development/Build Tools
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-container-default
@@ -795,7 +793,7 @@ into JARs built with maven.
 %package        plugin-repository
 Summary:	Repository plugin for maven
 Group:	Development/Build Tools
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
@@ -806,7 +804,7 @@ Plugin to help with repository-based tasks.
 %package        plugin-resources
 Summary:	Resources plugin for maven
 Group:	Development/Build Tools
-#Requires:	jakarta-commons-io >= 1.1
+#Requires:	java-commons-io >= 1.1
 Requires:	plexus-utils >= 1.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
@@ -836,7 +834,7 @@ Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-archiver >= 1.0
 Requires:	plexus-utils >= 1.2
 Requires:	plexus-container-default >= 1.0
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 
 %description    plugin-source
 Builds a JAR of sources for use in IDEs and distribution to the repository.
@@ -849,7 +847,7 @@ Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	maven-wagon
 Requires:	plexus-utils
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 
 %description    plugin-stage
 Maven Stage Plugin copies artifacts from one repository to another.
@@ -858,7 +856,7 @@ Maven Stage Plugin copies artifacts from one repository to another.
 %package        plugin-verifier
 Summary:	Verifier plugin for maven
 Group:	Development/Build Tools
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 %if %{without bootstrap}
@@ -875,7 +873,7 @@ Group:	Development/Build Tools
 Requires:		%{name} = %{version}-%{release}
 Requires(postun):		%{name} = %{version}-%{release}
 Requires:	plexus-utils >= 1.2
-Requires:	junit >= 3.8.2
+Requires:	java-junit >= 3.8.2
 
 %description    plugin-war
 Builds a WAR from the current project.
