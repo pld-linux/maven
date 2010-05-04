@@ -120,6 +120,8 @@ BuildRequires:	java-gnu-regexp >= 1.1.4
 BuildRequires:	java-httpunit >= 1.6
 BuildRequires:	java-jaxen >= 1.1
 BuildRequires:	java-jdom >= 1.0
+BuildRequires:	java-jsch >= 0.1.20
+BuildRequires:	java-jtidy >= 1.0
 BuildRequires:	java-junit >= 3.8.2
 BuildRequires:	java-oro >= 2.0.8
 BuildRequires:	java-plexus-utils >= 1.2
@@ -156,6 +158,8 @@ Requires:	java-gnu-regexp >= 1.1.4
 Requires:	java-httpunit >= 1.6
 Requires:	java-jdom >= 1.0
 Requires:	java-junit >= 3.8.2
+Requires:	java-jsch >= 0.1.20
+Requires:	java-jtidy >= 1.0
 Requires:	java-oro >= 2.0.8
 Requires:	java-plexus-utils >= 1.2
 Requires:	java-qdox >= 1.5
@@ -168,6 +172,7 @@ Requires(post):	java-commons-cli >= 1.0
 Requires(post):	java-commons-lang >= 2.1
 Requires(post):	java-commons-logging >= 1.0.4
 Requires(post):	java-jdom >= 1.0
+Requires(post):	java-jsch >= 0.1.20
 Requires(post):	java-plexus-utils >= 1.2
 Requires(post):	jpackage-utils >= 0:1.7.2
 Requires(postun):	jpackage-utils >= 0:1.7.2
@@ -201,8 +206,6 @@ BuildRequires:	checkstyle4-optional >= 4.1
 BuildRequires:	classworlds >= 1.1
 #BuildRequires:	jmock >= 1.0.1
 BuildRequires:	jline >= 0.8.1
-BuildRequires:	jsch >= 0.1.20
-BuildRequires:	jtidy >= 1.0
 BuildRequires:	maven2-common-poms >= 1.0-5
 BuildRequires:	maven-jxr >= 1.0-2
 BuildRequires:	maven-wagon >= 1.0-0.1.b2
@@ -277,9 +280,6 @@ Requires(post):	classworlds >= 1.1
 Requires:	jaxen >= 1.1
 #Requires:	jmock >= 1.0.1
 Requires:	jline >= 0.8.1
-Requires:	jsch >= 0.1.20
-Requires(post):	jsch >= 0.1.20
-Requires:	jtidy >= 1.0
 Requires:	maven2-common-poms >= 1.0-5
 Requires:	maven-jxr >= 1.0
 Requires:	maven-wagon >= 1.0-0.1.b2
@@ -1092,7 +1092,7 @@ mkdir -p bootstrap/lib
 ln -sf $(build-classpath jdom) bootstrap/lib/jdom.jar
 export CLASSPATH=$(pwd)/bootstrap/lib/jdom.jar
 export JDOMCLASS=$CLASSPATH
-./bootstrap.sh --prefix=$(pwd)/home  --settings=%{maven_settings_file}
+sh -x ./bootstrap.sh --prefix=$(pwd)/home  --settings=%{maven_settings_file}
 unset CLASSPATH
 
 cd - # cd %{name} }}}
