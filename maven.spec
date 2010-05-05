@@ -133,6 +133,7 @@ BuildRequires:	java-xmlunit
 BuildRequires:	java-xom
 %{buildrequires_jdk}
 BuildRequires:	jpackage-utils >= 0:1.7.2
+BuildRequires:	maven-common-poms
 BuildRequires:	rpmbuild(macros) >= 1.557
 BuildRequires:	sed >= 4.0
 %if %{with itests}
@@ -168,6 +169,7 @@ Requires:	java-xalan >= 2.6.0
 Requires:	java-xerces >= 2.7.1
 Requires:	java-xmlunit
 Requires:	java-xom
+Requires:	maven-common-poms
 Requires(post):	java-commons-cli >= 1.0
 Requires(post):	java-commons-lang >= 2.1
 Requires(post):	java-commons-logging >= 1.0.4
@@ -206,7 +208,6 @@ BuildRequires:	checkstyle4-optional >= 4.1
 BuildRequires:	classworlds >= 1.1
 #BuildRequires:	jmock >= 1.0.1
 BuildRequires:	jline >= 0.8.1
-BuildRequires:	maven2-common-poms >= 1.0-5
 BuildRequires:	maven-jxr >= 1.0-2
 BuildRequires:	maven-wagon >= 1.0-0.1.b2
 BuildRequires:	maven-doxia >= 1.0-0.a9
@@ -280,7 +281,6 @@ Requires(post):	classworlds >= 1.1
 Requires:	jaxen >= 1.1
 #Requires:	jmock >= 1.0.1
 Requires:	jline >= 0.8.1
-Requires:	maven2-common-poms >= 1.0-5
 Requires:	maven-jxr >= 1.0
 Requires:	maven-wagon >= 1.0-0.1.b2
 Requires(post):	maven-wagon >= 1.0-0.1.b2
