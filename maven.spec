@@ -101,6 +101,9 @@ Patch18:	%{name}-plugins-jpprepolayout.patch
 Patch19:	%{name}-plugins-disableenforcer.patch
 Patch20:	%{name}-commons-cli-1.1.patch
 
+# Patches added by PLD
+Patch100:	%{name}-no-easymock.patch
+
 ### PLDIZED DEPENDENCIES {{{
 ### BRs {{{
 BuildRequires:	ant >= 1.6.5
@@ -108,6 +111,7 @@ BuildRequires:	ant-junit
 BuildRequires:	antlr >= 2.7.4
 BuildRequires:	ant-nodeps
 BuildRequires:	java-bsh >= 1.3.0
+BuildRequires:	java-classworlds >= 1.1
 BuildRequires:	java-commons-beanutils >= 1.7.0
 BuildRequires:	java-commons-cli >= 1.0
 BuildRequires:	java-commons-collections >= 3.1
@@ -147,6 +151,7 @@ BuildRequires:	saxon
 Requires:	ant >= 1.6.5
 Requires:	antlr >= 2.7.4
 Requires:	java-bsh >= 1.3.0
+Requires:	java-classworlds >= 1.
 Requires:	java-commons-beanutils >= 1.7.0
 Requires:	java-commons-cli >= 1.0
 Requires:	java-commons-collections >= 3.1
@@ -170,6 +175,7 @@ Requires:	java-xerces >= 2.7.1
 Requires:	java-xmlunit
 Requires:	java-xom
 Requires:	maven-common-poms
+Requires(post):	java-classworlds >= 1.1
 Requires(post):	java-commons-cli >= 1.0
 Requires(post):	java-commons-lang >= 2.1
 Requires(post):	java-commons-logging >= 1.0.4
@@ -205,7 +211,6 @@ BuildRequires:	aqute-bndlib
 #BuildRequires:	cglib >= 2.1.0
 BuildRequires:	checkstyle4 >= 4.1
 BuildRequires:	checkstyle4-optional >= 4.1
-BuildRequires:	classworlds >= 1.1
 #BuildRequires:	jmock >= 1.0.1
 BuildRequires:	jline >= 0.8.1
 BuildRequires:	maven-jxr >= 1.0-2
@@ -275,8 +280,6 @@ BuildRequires:	plexus-resources
 Requires:	aqute-bndlib
 #Requires:	cglib >= 2.1.0
 Requires:	checkstyle4 >= 4.1
-Requires:	classworlds >= 1.
-Requires(post):	classworlds >= 1.1
 #Requires:	tomcat5-parent
 Requires:	jaxen >= 1.1
 #Requires:	jmock >= 1.0.1
@@ -1040,6 +1043,10 @@ sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository
 mkdir -p m2_repo/repository/JPP/maven2/default_poms
 cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven-empty-dep.pom
 cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
+
+# Patches added by PLD
+find -name pom.xml -o -name '*.pom' | xargs sed -i 's#<version>1\.2_Java1\.3</version>#<version>1.2</version>#g'
+%patch100 -p1
 ### }}}
 
 ### build {{{
