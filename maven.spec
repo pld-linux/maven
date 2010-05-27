@@ -1,6 +1,7 @@
 # TODO:
 # - cleanups in lib directory -- replace jar files
 #   with package dependencies
+# I work on following TODOs in JPACKAGE branch:
 # - use source package
 # - patch for --local-repository: http://codehaus01a.managed.contegix.com/browse/MNG-939
 # - jpp sync http://www.jpackage.org/cgi-bin/viewvc.cgi/rpms/free/maven2/?root=jpackage&pathrev=JPACKAGE-1_7
@@ -8,12 +9,12 @@
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
-Version:	2.0.10
+Version:	2.2.1
 Release:	1
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/maven/binaries/apache-%{name}-%{version}-bin.tar.bz2
-# Source0-md5:	244b216dedd433d5277e72193dffc70e
+# Source0-md5:	c581a15cb0001d9b771ad6df7c8156f8
 URL:		http://maven.apache.org/
 Requires:	jdk
 BuildArch:	noarch
