@@ -110,6 +110,7 @@ BuildRequires:	ant >= 1.6.5
 BuildRequires:	ant-junit
 BuildRequires:	antlr >= 2.7.4
 BuildRequires:	ant-nodeps
+BuildRequires:	java(servlet)
 BuildRequires:	java-bsh >= 1.3.0
 BuildRequires:	java-classworlds >= 1.1
 BuildRequires:	java-commons-beanutils >= 1.7.0
@@ -131,6 +132,7 @@ BuildRequires:	java-oro >= 2.0.8
 BuildRequires:	java-plexus-utils >= 1.2
 BuildRequires:	java-qdox >= 1.5
 BuildRequires:	java-rhino >= 1.5
+BuildRequires:	java-velocity >= 1.4
 BuildRequires:	java-xalan >= 2.6.0
 BuildRequires:	java-xerces >= 2.7.1
 BuildRequires:	java-xmlunit
@@ -150,6 +152,7 @@ BuildRequires:	saxon
 ### Rs {{{
 Requires:	ant >= 1.6.5
 Requires:	antlr >= 2.7.4
+Requires:	java(servlet)
 Requires:	java-bsh >= 1.3.0
 Requires:	java-classworlds >= 1.
 Requires:	java-commons-beanutils >= 1.7.0
@@ -187,18 +190,10 @@ Requires(postun):	jpackage-utils >= 0:1.7.2
 ### }}}
 ### END OF PLDIZED DEPENDENCIES }}}
 
-### DEPENDENCIES NOT PACKAGED FOR PLD {{{
-BuildRequires:	java-velocity >= 1.4
-Requires:		velocity >= 1.4
-### }}}
-
 ### DEPENDENCIES THAT NEEDS INVESTIGATION {{{
 # Is java(mail) enough?
 BuildRequires:	glassfish-javamail
 Requires:		glassfish-javamail
-# java(servlet)?
-BuildRequires:	tomcat5-servlet-2.4-api
-Requires:		tomcat5-servlet-2.4-api
 # C library??? Or some java bindings?
 BuildRequires:	xmlrpc
 Requires:		xmlrpc
