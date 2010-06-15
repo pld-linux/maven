@@ -132,6 +132,7 @@ BuildRequires:	java-oro >= 2.0.8
 BuildRequires:	java-plexus-utils >= 1.2
 BuildRequires:	java-qdox >= 1.5
 BuildRequires:	java-rhino >= 1.5
+BuildRequires:	java-saxpath
 BuildRequires:	java-velocity >= 1.4
 BuildRequires:	java-xalan >= 2.6.0
 BuildRequires:	java-xerces >= 2.7.1
@@ -173,6 +174,7 @@ Requires:	java-oro >= 2.0.8
 Requires:	java-plexus-utils >= 1.2
 Requires:	java-qdox >= 1.5
 Requires:	java-rhino >= 1.5
+Requires:	java-saxpath
 Requires:	java-xalan >= 2.6.0
 Requires:	java-xerces >= 2.7.1
 Requires:	java-xmlunit
@@ -221,7 +223,6 @@ BuildRequires:	plexus-i18n >= 1.0
 BuildRequires:	plexus-interactivity >= 1.0
 BuildRequires:	plexus-velocity >= 1.1.2
 BuildRequires:	pmd >= 3.6
-BuildRequires:	saxpath
 
 %if %{without bootstrap}
 BuildRequires:	%{name} = %{version}
@@ -411,7 +412,6 @@ Requires:		maven-shared-test-tools
 Requires:	jmock >= 1.0.1
 Requires:	java-jdom >= 1.0
 Requires:	java-jaxen >= 1.1
-Requires:		saxpath
 Requires:	java-junit >= 3.8.2
 
 %description    plugin-assembly
@@ -576,7 +576,6 @@ Requires:	plexus-archiver >= 1.0
 Requires:	jmock >= 1.0.1
 Requires:	java-jdom >= 1.0
 Requires:	java-jaxen >= 1.1
-Requires:		saxpath
 Requires:	plexus-interactivity >= 1.0
 Requires:		maven-shared-plugin-testing-tools
 Requires:		maven-shared-test-tools
