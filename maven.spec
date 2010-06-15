@@ -1036,7 +1036,7 @@ sed -i -e "s|__EXTERNAL_REPO_PLACEHOLDER__|file://%{_datadir}/%{name}/repository
 
 # Copy the empty dependency jar/pom in place
 mkdir -p m2_repo/repository/JPP/maven2/default_poms
-cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven-empty-dep.pom
+cp -p %{SOURCE13} m2_repo/repository/JPP/maven2/default_poms/JPP.maven2-empty-dep.pom
 cp -p %{SOURCE14} m2_repo/repository/JPP/maven2/empty-dep.jar
 
 # Patches added by PLD
