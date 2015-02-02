@@ -9,12 +9,12 @@
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
-Version:	3.0.5
+Version:	3.2.5
 Release:	1
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	http://www.apache.org/dist/maven/maven-3/%{version}/binaries/apache-%{name}-%{version}-bin.tar.gz
-# Source0-md5:	94c51f0dd139b4b8549204d0605a5859
+# Source0-md5:	b2d88f02bd3a08a9df1f0b0126ebd8dc
 URL:		http://maven.apache.org/
 Requires:	jdk
 BuildArch:	noarch
@@ -62,7 +62,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc NOTICE.txt
 %attr(755,root,root) %{_bindir}/mvn
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/bin
