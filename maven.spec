@@ -9,12 +9,12 @@
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
-Version:	3.6.3
+Version:	3.8.1
 Release:	1
 License:	Apache
 Group:		Development/Languages/Java
-Source0:	http://www.apache.org/dist/maven/maven-3/%{version}/binaries/apache-%{name}-%{version}-bin.tar.gz
-# Source0-md5:	9792c717f5845d952907d5144b8253c3
+Source0:	https://www.apache.org/dist/maven/maven-3/%{version}/binaries/apache-%{name}-%{version}-bin.tar.gz
+# Source0-md5:	90197f18ed9036a1709ff0e09558c083
 URL:		http://maven.apache.org/
 Requires:	jdk >= 1.7
 ExclusiveArch:	%{ix86} %{x8664}
