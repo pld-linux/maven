@@ -9,12 +9,12 @@
 Summary:	Java project management and project comprehension tool
 Summary(pl.UTF-8):	Narzędzie do zarządzania projektami Javy ułatwiające ich zrozumienie
 Name:		maven
-Version:	3.8.1
-Release:	2
+Version:	3.8.2
+Release:	1
 License:	Apache
 Group:		Development/Languages/Java
 Source0:	https://www.apache.org/dist/maven/maven-3/%{version}/binaries/apache-%{name}-%{version}-bin.tar.gz
-# Source0-md5:	90197f18ed9036a1709ff0e09558c083
+# Source0-md5:	497c4da2bc4999e308bbdc8bda893a07
 URL:		http://maven.apache.org/
 Requires:	jdk >= 1.7
 ExclusiveArch:	%{ix86} %{x8664}
@@ -58,16 +58,6 @@ install -d $RPM_BUILD_ROOT
 install bin/mvn $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 cp -a bin/m2.conf $RPM_BUILD_ROOT%{_datadir}/%{name}/bin
 cp -a boot conf lib $RPM_BUILD_ROOT%{_datadir}/%{name}
-
-%ifarch %{ix86}
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/lib/jansi-native/linux64
-%endif
-
-%ifarch %{x8664}
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/lib/jansi-native/linux32
-%endif
-
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/lib/jansi-native/{freebsd*,windows*,osx}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
