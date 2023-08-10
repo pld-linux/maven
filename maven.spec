@@ -17,7 +17,7 @@ Source0:	https://www.apache.org/dist/maven/maven-3/%{version}/binaries/apache-%{
 # Source0-md5:	f3fbff830d9a0dc2c6c99a76e27d0c01
 URL:		http://maven.apache.org/
 Requires:	jdk >= 1.8
-ExclusiveArch:	%{ix86} %{x8664}
+ExclusiveArch:	%{ix86} %{x8664} %{arm} aarch64 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_enable_debug_packages	0
